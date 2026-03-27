@@ -64,3 +64,38 @@ O **Numbrix C** foi projetado para oferecer uma experiência mais dinâmica e es
 
 - 📊 **Ranking com progressão por fase**  
   O ranking registra não apenas a pontuação final, mas também a fase máxima alcançada pelo jogador, valorizando a evolução e o desempenho geral na run.
+
+  ## 🔄 Diagrama de Atividades do Sistema
+
+```mermaid
+flowchart TD
+    A([Início]) --> B[Usuário inicia o jogo]
+    B --> C[Sistema carrega configurações da partida]
+    C --> D[Sistema define fase, tentativas e número secreto]
+    D --> E[Usuário informa palpite]
+    E --> F[Sistema compara palpite com o número secreto]
+
+    F --> G{Palpite correto?}
+
+    G -- Não --> H[Sistema informa dica: maior ou menor]
+    H --> I[Sistema reduz tentativas]
+    I --> J{Ainda restam tentativas?}
+
+    J -- Sim --> E
+    J -- Não --> K[Sistema encerra a rodada]
+    K --> L[Sistema registra resultado]
+    L --> M([Fim])
+
+    G -- Sim --> N[Sistema adiciona pontuação]
+    N --> O[Sistema atualiza streak e progresso]
+    O --> P{Ainda há números na fase?}
+
+    P -- Sim --> D
+    P -- Não --> Q[Sistema conclui a fase]
+    Q --> R[Sistema libera recompensa, buff ou evento]
+    R --> S{Avançar para próxima fase?}
+
+    S -- Sim --> D
+    S -- Não --> T[Sistema encerra partida]
+    T --> U[Sistema salva pontuação no ranking]
+    U --> M
