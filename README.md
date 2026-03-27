@@ -30,3 +30,37 @@ O **Numbrix C** se destaca por apresentar elementos que vão além do modelo tra
 - 📈 **análise de desempenho e evolução do jogador**
 
 Com isso, o projeto oferece uma experiência mais completa, interativa e interessante, mantendo a essência do jogo de adivinhação, mas adicionando camadas de estratégia e progressão que aumentam o engajamento do usuário.
+
+## 💡 Funcionalidades
+
+O **Numbrix C** foi projetado para oferecer uma experiência mais dinâmica e estratégica do que um jogo tradicional de adivinhação, incorporando mecânicas que aumentam o desafio, a progressão e o engajamento do jogador ao longo das partidas.
+
+- 🎯 **Sistema de fases progressivas**  
+  Cada fase exige que o jogador acerte múltiplos números para avançar, tornando a progressão mais desafiadora e mantendo o interesse ao longo da run.
+
+- 🔢 **Múltiplos números por rodada**  
+  Em vez de lidar com apenas um único número secreto, o jogador enfrenta uma sequência de desafios dentro da mesma fase, o que torna o jogo menos repetitivo e mais envolvente.
+
+- ⏳ **Sistema de tentativas globais**  
+  O jogador possui uma quantidade limitada de tentativas para concluir toda a fase, precisando gerenciar melhor seus palpites e tomar decisões com mais cuidado.
+
+- 🏆 **Pontuação acumulativa por progresso**  
+  A pontuação aumenta conforme o jogador avança pelas fases, recompensando o desempenho e incentivando a superação de resultados anteriores.
+
+- 🔥 **Multiplicador por sequência (streak)**  
+  Acertos consecutivos aumentam a pontuação obtida, estimulando o jogador a manter consistência e precisão ao longo da partida.
+
+- 🎁 **Escolha estratégica de recompensas**  
+  Ao concluir determinadas fases, o jogador pode escolher entre diferentes benefícios, como mais pontos, hacks ou vantagens para as próximas rodadas.
+
+- 🎲 **Fases especiais e eventos aleatórios**  
+  Algumas partidas podem apresentar variações únicas, tornando cada execução diferente e aumentando a rejogabilidade do sistema.
+
+- ⚡ **Sistema de buffs e hacks táticos**  
+  O jogador pode utilizar recursos especiais para obter vantagens estratégicas, como reduzir intervalos, ganhar informações extras ou melhorar seu desempenho momentaneamente.
+
+- ⚖️ **Modo de risco e recompensa**  
+  O sistema permite que o jogador escolha entre abordagens mais seguras ou mais arriscadas, equilibrando dificuldade e retorno em pontuação.
+
+- 📊 **Ranking com progressão por fase**  
+  O ranking registra não apenas a pontuação final, mas também a fase máxima alcançada pelo jogador, valorizando a evolução e o desempenho geral na run.
