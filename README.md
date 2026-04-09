@@ -64,65 +64,66 @@ O **Numbrix C** foi projetado para oferecer uma experiência mais dinâmica e es
 
 
  ## 🔄 Diagrama de Atividades do Sistema
-
 ```mermaid
 flowchart TD
 
-    Start([Iniciar Aplicação]) --> MenuPrincipal[Menu Principal]
+    %% INÍCIO
+    Inicio((●)) --> Menu[Menu Principal]
 
-    MenuPrincipal -->|Jogar nova partida| Jogar
-    MenuPrincipal -->|Analisar histórico| Analisar
-    MenuPrincipal -->|Sair| Fim([Encerrar Aplicação])
+    %% MENU
+    Menu -->|Jogar nova partida| GerarAlvo
+    Menu -->|Analisar histórico| LerArquivo
+    Menu -->|Sair| Fim((◎))
 
-    %% =======================
-    %% BLOCO JOGAR
-    %% =======================
+    %% =========================
+    %% ATIVIDADE: JOGAR
+    %% =========================
 
-    subgraph Jogar [Jogar Nova Partida]
+    subgraph Jogar [Atividade: Jogar Nova Partida]
 
-        A1[Gerar número alvo (1 a 100)]
-        A2[Receber palpite do usuário]
-        A3[Validar entrada]
-        A4{Entrada válida?}
-        A5[Exibir dica<br/>Muito alto / Muito baixo]
-        A6{Palpite == Alvo?}
-        A7[Exibir resumo da rodada]
-        A8[Salvar no histórico]
+        GerarAlvo[Gerar número aleatório (1–100)]
+        ReceberPalpite[Receber palpite do usuário]
+        ValidarEntrada[Validar tipo e faixa]
+        DecEntrada{Entrada válida?}
+        DecAcerto{Palpite == Alvo?}
+        Dica[Exibir dica<br/>(Muito alto / Muito baixo)]
+        Resumo[Exibir resumo da rodada]
+        Salvar[Salvar dados no histórico]
 
-        A1 --> A2
-        A2 --> A3
-        A3 --> A4
+        GerarAlvo --> ReceberPalpite
+        ReceberPalpite --> ValidarEntrada
+        ValidarEntrada --> DecEntrada
 
-        A4 -- Não --> A2
-        A4 -- Sim --> A6
+        DecEntrada -- Não --> ReceberPalpite
+        DecEntrada -- Sim --> DecAcerto
 
-        A6 -- Não --> A5
-        A5 --> A2
+        DecAcerto -- Não --> Dica
+        Dica --> ReceberPalpite
 
-        A6 -- Sim --> A7
-        A7 --> A8
-
-    end
-
-    Jogar --> MenuPrincipal
-
-    %% =======================
-    %% BLOCO ANALISAR
-    %% =======================
-
-    subgraph Analisar [Analisar Histórico]
-
-        B1[Ler arquivo de sessões]
-        B2[Calcular totais e média]
-        B3[Calcular desvio padrão e viés]
-        B4[Gerar dicas estratégicas]
-        B5[Exibir painel ao jogador]
-
-        B1 --> B2
-        B2 --> B3
-        B3 --> B4
-        B4 --> B5
+        DecAcerto -- Sim --> Resumo
+        Resumo --> Salvar
 
     end
 
-    Analisar --> MenuPrincipal
+    Salvar --> Menu
+
+    %% =========================
+    %% ATIVIDADE: ANALISAR
+    %% =========================
+
+    subgraph Analisar [Atividade: Analisar Histórico]
+
+        LerArquivo[Ler arquivo de sessões]
+        Agregacao[Calcular totais e média]
+        Estatistica[Calcular desvio padrão e viés]
+        Heuristica[Gerar recomendações estratégicas]
+        Exibir[Exibir painel ao jogador]
+
+        LerArquivo --> Agregacao
+        Agregacao --> Estatistica
+        Estatistica --> Heuristica
+        Heuristica --> Exibir
+
+    end
+
+    Exibir --> Menu
