@@ -35,27 +35,6 @@ A equipe do **Numbrix C** foi organizada de forma colaborativa, distribuindo res
 
 ---
 
-## 🎯 Objetivo
-
-O principal objetivo do **Numbrix C** é transformar um jogo simples de adivinhação em uma experiência mais **estratégica, desafiadora e educativa**, incentivando o desenvolvimento do raciocínio lógico e a aplicação prática de conceitos fundamentais da programação em C.
-
-Além de proporcionar diversão ao usuário, o projeto busca demonstrar como uma ideia básica pode ser expandida com mecânicas de progressão, recompensa e tomada de decisão, tornando o jogo mais atrativo e diferenciado.
-
----
-
-## 🚀 Diferenciais
-
-O **Numbrix C** se destaca por apresentar elementos que vão além do modelo tradicional de “acertar um número e encerrar o jogo”. Entre seus principais diferenciais, estão:
-
-- 🎯 **fases progressivas com dificuldade crescente**
-- 🔢 **múltiplos números secretos em uma mesma fase**
-- 🏆 **sistema de pontuação acumulativa**
-- 📊 **ranking local de melhores jogadores**
-- ⚡ **buffs e hacks estratégicos**
-- 📈 **análise de desempenho e evolução do jogador**
-
-Com isso, o projeto oferece uma experiência mais completa, interativa e interessante, mantendo a essência do jogo de adivinhação, mas adicionando camadas de estratégia e progressão que aumentam o engajamento do usuário.
-
 ## 💡 Funcionalidades
 
 O **Numbrix C** foi projetado para oferecer uma experiência mais dinâmica e estratégica do que um jogo tradicional de adivinhação, incorporando mecânicas que aumentam o desafio, a progressão e o engajamento do jogador ao longo das partidas.
