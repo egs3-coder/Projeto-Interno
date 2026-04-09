@@ -67,37 +67,35 @@ O **Numbrix C** foi projetado para oferecer uma experiência mais dinâmica e es
 ```mermaid
 flowchart TD
 
-    %% INÍCIO
-    Inicio((●)) --> Menu[Menu Principal]
+    Inicio((Inicio)) --> Menu[Menu Principal]
 
-    %% MENU
     Menu -->|Jogar nova partida| GerarAlvo
-    Menu -->|Analisar histórico| LerArquivo
-    Menu -->|Sair| Fim((◎))
+    Menu -->|Analisar historico| LerArquivo
+    Menu -->|Sair| Fim((Fim))
 
     %% =========================
     %% ATIVIDADE: JOGAR
     %% =========================
 
-    subgraph Jogar [Atividade: Jogar Nova Partida]
+    subgraph Jogar [Atividade Jogar Nova Partida]
 
-        GerarAlvo[Gerar número aleatório (1–100)]
-        ReceberPalpite[Receber palpite do usuário]
+        GerarAlvo[Gerar numero aleatorio 1 a 100]
+        ReceberPalpite[Receber palpite do usuario]
         ValidarEntrada[Validar tipo e faixa]
-        DecEntrada{Entrada válida?}
-        DecAcerto{Palpite == Alvo?}
-        Dica[Exibir dica<br/>(Muito alto / Muito baixo)]
+        DecEntrada{Entrada valida?}
+        DecAcerto{Palpite igual ao alvo?}
+        Dica[Exibir dica Muito alto ou Muito baixo]
         Resumo[Exibir resumo da rodada]
-        Salvar[Salvar dados no histórico]
+        Salvar[Salvar dados no historico]
 
         GerarAlvo --> ReceberPalpite
         ReceberPalpite --> ValidarEntrada
         ValidarEntrada --> DecEntrada
 
-        DecEntrada -- Não --> ReceberPalpite
+        DecEntrada -- Nao --> ReceberPalpite
         DecEntrada -- Sim --> DecAcerto
 
-        DecAcerto -- Não --> Dica
+        DecAcerto -- Nao --> Dica
         Dica --> ReceberPalpite
 
         DecAcerto -- Sim --> Resumo
@@ -111,12 +109,12 @@ flowchart TD
     %% ATIVIDADE: ANALISAR
     %% =========================
 
-    subgraph Analisar [Atividade: Analisar Histórico]
+    subgraph Analisar [Atividade Analisar Historico]
 
-        LerArquivo[Ler arquivo de sessões]
-        Agregacao[Calcular totais e média]
-        Estatistica[Calcular desvio padrão e viés]
-        Heuristica[Gerar recomendações estratégicas]
+        LerArquivo[Ler arquivo de sessoes]
+        Agregacao[Calcular totais e media]
+        Estatistica[Calcular desvio padrao e vies]
+        Heuristica[Gerar recomendacoes estrategicas]
         Exibir[Exibir painel ao jogador]
 
         LerArquivo --> Agregacao
@@ -127,3 +125,4 @@ flowchart TD
     end
 
     Exibir --> Menu
+```
