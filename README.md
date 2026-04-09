@@ -67,33 +67,62 @@ O **Numbrix C** foi projetado para oferecer uma experiência mais dinâmica e es
 
 ```mermaid
 flowchart TD
-    A([Início]) --> B[Inicia jogo]
-    B --> C[Carrega partida]
-    C --> D[Define fase e número]
-    D --> E[Informa palpite]
-    E --> F[Compara palpite]
 
-    F --> G{Acertou?}
+    Start([Iniciar Aplicação]) --> MenuPrincipal[Menu Principal]
 
-    G -- Não --> H[Mostra dica]
-    H --> I[Reduz tentativas]
-    I --> J{Há tentativas?}
+    MenuPrincipal -->|Jogar nova partida| Jogar
+    MenuPrincipal -->|Analisar histórico| Analisar
+    MenuPrincipal -->|Sair| Fim([Encerrar Aplicação])
 
-    J -- Sim --> E
-    J -- Não --> K[Encerra rodada]
-    K --> L[Registra resultado]
-    L --> M([Fim])
+    %% =======================
+    %% BLOCO JOGAR
+    %% =======================
 
-    G -- Sim --> N[Soma pontos]
-    N --> O[Atualiza progresso]
-    O --> P{Restam números?}
+    subgraph Jogar [Jogar Nova Partida]
 
-    P -- Sim --> D
-    P -- Não --> Q[Conclui fase]
-    Q --> R[Libera recompensa]
-    R --> S{Avançar fase?}
+        A1[Gerar número alvo (1 a 100)]
+        A2[Receber palpite do usuário]
+        A3[Validar entrada]
+        A4{Entrada válida?}
+        A5[Exibir dica<br/>Muito alto / Muito baixo]
+        A6{Palpite == Alvo?}
+        A7[Exibir resumo da rodada]
+        A8[Salvar no histórico]
 
-    S -- Sim --> D
-    S -- Não --> T[Encerra partida]
-    T --> U[Salva no ranking]
-    U --> M
+        A1 --> A2
+        A2 --> A3
+        A3 --> A4
+
+        A4 -- Não --> A2
+        A4 -- Sim --> A6
+
+        A6 -- Não --> A5
+        A5 --> A2
+
+        A6 -- Sim --> A7
+        A7 --> A8
+
+    end
+
+    Jogar --> MenuPrincipal
+
+    %% =======================
+    %% BLOCO ANALISAR
+    %% =======================
+
+    subgraph Analisar [Analisar Histórico]
+
+        B1[Ler arquivo de sessões]
+        B2[Calcular totais e média]
+        B3[Calcular desvio padrão e viés]
+        B4[Gerar dicas estratégicas]
+        B5[Exibir painel ao jogador]
+
+        B1 --> B2
+        B2 --> B3
+        B3 --> B4
+        B4 --> B5
+
+    end
+
+    Analisar --> MenuPrincipal
