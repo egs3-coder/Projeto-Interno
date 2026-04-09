@@ -45,7 +45,7 @@ O **A Saga do Oráculo Numérico** foi projetado para oferecer uma experiência 
 
 ## Tela do Kanban
 
-<img src="Captura de tela 2026-04-09 112910.png" alt="Captura de tela do Numbrix C" width="600">
+<img src="board.png" alt="Captura de tela do Numbrix C" width="600">
 
 ## Ferramentas 
 
