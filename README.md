@@ -12,7 +12,8 @@ O projeto foi pensado para mostrar que, mesmo em um ambiente simples como o term
 
 ## Ferramentas 
 
-🔗 [Trello]([https://trello.com/b/peA1EPFt/projeto-interno)
+🔗 [Trello]([https://trello.com/b/peA1EPFt/projeto-interno])
+
 
 
 ## 👨‍💻 Equipe
