@@ -12,15 +12,6 @@ Prepare-se, Adivinho Escolhido! O destino do reino numérico está em suas mãos
 
 ---
 
-## Ferramentas 
-
-🔗 [Trello](https://trello.com/b/peA1EPFt/projeto-interno)
-
-## Tela do Kanban
-
-<img src="Captura de tela 2026-04-09 112910.png" alt="Captura de tela do Numbrix C" width="600">
-
-
 ## 👨‍💻 Equipe
 
 A equipe do **A Saga do Oráculo Numérico** foi organizada de forma colaborativa, distribuindo responsabilidades entre planejamento, prototipação, desenvolvimento, testes e apoio à documentação do projeto.
@@ -51,6 +42,15 @@ O **A Saga do Oráculo Numérico** foi projetado para oferecer uma experiência 
 - 🏛️🚪 **O Salão Principal**  
 - 📖🏁 **O Epílogo da Jornada**  
 - 🔥⚔️ **A Forja dos Campeões**  
+
+## Tela do Kanban
+
+<img src="Captura de tela 2026-04-09 112910.png" alt="Captura de tela do Numbrix C" width="600">
+
+## Ferramentas 
+
+🔗 [Trello](https://trello.com/b/peA1EPFt/projeto-interno)
+ 
 
 
  ## 🔄 Diagrama de Atividades do Sistema
