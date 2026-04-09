@@ -16,9 +16,9 @@ O projeto foi pensado para mostrar que, mesmo em um ambiente simples como o term
 
 ## Tela do Kanban
 
- [Kanban]((https://github.com/egs3-coder/Projeto-Interno/blob/main/Captura%20de%20tela%202026-04-09%20112910.png)
+images/Captura de tela 2026-04-09 112910.png
 
-Captura de tela 2026-04-09 112910.png
+
 ## 👨‍💻 Equipe
 
 A equipe do **Numbrix C** foi organizada de forma colaborativa, distribuindo responsabilidades entre planejamento, prototipação, desenvolvimento, testes e apoio à documentação do projeto.
