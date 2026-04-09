@@ -16,7 +16,7 @@ O projeto foi pensado para mostrar que, mesmo em um ambiente simples como o term
 
 ## Tela do Kanban
 
- [Kanban](Captura de tela 2026-04-09 112910.png)
+ [Kanban]((https://github.com/egs3-coder/Projeto-Interno/blob/main/Captura%20de%20tela%202026-04-09%20112910.png)
 
 Captura de tela 2026-04-09 112910.png
 ## 👨‍💻 Equipe
