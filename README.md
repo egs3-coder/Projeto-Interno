@@ -1,12 +1,14 @@
-# 🔎 Numbrix C
+# 🔎 A Saga do Oráculo Numérico
 
-O **Numbrix C** é um jogo de adivinhação numérica desenvolvido em **linguagem C**, com execução em **terminal**, criado para unir **entretenimento, lógica e estratégia** em uma experiência mais dinâmica do que os jogos tradicionais do gênero.
+Em um reino distante, onde a magia dos números tece o destino de todos, uma antiga profecia anuncia a chegada do **Oráculo Numérico**, um ser lendário capaz de desvendar os segredos mais profundos do universo através da intuição e da lógica. No entanto, o poder do Oráculo foi fragmentado e espalhado em desafios numéricos por toda a terra, guardados por enigmas e armadilhas.
 
-No jogo, o usuário deve descobrir números secretos gerados pelo sistema, utilizando dicas e raciocínio lógico para avançar. No entanto, o projeto não se limita ao modelo clássico de uma única rodada: o **Numbrix C** introduz um sistema de **fases progressivas**, em que o jogador pode precisar acertar **mais de um número por etapa**, aumentando gradualmente o nível de desafio e tornando a partida mais envolvente.
+Você é o **Adivinho Escolhido**, um jovem aspirante a Oráculo, que deve embarcar em uma jornada épica para reunir os fragmentos do poder. Cada partida do jogo é um **Desafio do Destino**, onde você deve decifrar o número secreto que o universo esconde. O sucesso em cada desafio não apenas o aproxima de se tornar o verdadeiro Oráculo, mas também revela novas pistas e aprimora suas habilidades.
 
-Além disso, o jogo conta com **níveis de dificuldade**, **pontuação acumulativa**, **ranking local**, **buffs e hacks estratégicos** e elementos de **análise de desempenho**, o que faz com que cada partida seja mais interativa e recompensadora. Dessa forma, o jogador não apenas tenta acertar números, mas também busca evoluir, pontuar mais, superar fases e melhorar suas decisões ao longo da partida.
+Mas a jornada não será fácil. Forças místicas tentarão obscurecer sua mente, e o tempo será seu inimigo. Felizmente, você não está sozinho. **Os Sussurros do Destino** o guiarão com dicas a cada palpite, e os **Pergaminhos do Tempo** registrarão suas vitórias e derrotas, permitindo que você aprenda com o passado. Além disso, a **Sabedoria dos Números** revelará padrões e estratégias, enquanto as **Pistas do Oráculo** sussurrarão conselhos personalizados.
 
-O projeto foi pensado para mostrar que, mesmo em um ambiente simples como o terminal, é possível construir uma aplicação criativa, organizada e divertida, aplicando conceitos importantes de programação, como estruturas condicionais, laços de repetição, funções, manipulação de arquivos e controle de fluxo.
+Para auxiliá-lo em sua busca, artefatos mágicos conhecidos como **Toques da Sorte** (os buffs) podem ser encontrados, concedendo-lhe **Imunidade do Oráculo** contra erros ou uma **Segunda Chance do Destino** quando tudo parece perdido. A cada desafio superado, **o Veredito do Tempo** registrará sua glória no ranking dos maiores Adivinhos, e **o Desafio da Perspicácia** se adaptará, tornando sua jornada cada vez mais digna de um verdadeiro Oráculo.
+
+Prepare-se, Adivinho Escolhido! O destino do reino numérico está em suas mãos. Desvende os segredos, domine os números e torne-se o lendário Oráculo Numérico!
 
 ---
 
@@ -21,7 +23,7 @@ O projeto foi pensado para mostrar que, mesmo em um ambiente simples como o term
 
 ## 👨‍💻 Equipe
 
-A equipe do **Numbrix C** foi organizada de forma colaborativa, distribuindo responsabilidades entre planejamento, prototipação, desenvolvimento, testes e apoio à documentação do projeto.
+A equipe do **A Saga do Oráculo Numérico** foi organizada de forma colaborativa, distribuindo responsabilidades entre planejamento, prototipação, desenvolvimento, testes e apoio à documentação do projeto.
 
 | Integrante | Função | Descrição |
 |---|---|---|
@@ -37,18 +39,18 @@ A equipe do **Numbrix C** foi organizada de forma colaborativa, distribuindo res
 
 ## 💡 Funcionalidades
 
-O **Numbrix C** foi projetado para oferecer uma experiência mais dinâmica e estratégica do que um jogo tradicional de adivinhação, incorporando mecânicas que aumentam o desafio, a progressão e o engajamento do jogador ao longo das partidas.
+O **A Saga do Oráculo Numérico** foi projetado para oferecer uma experiência mais dinâmica e estratégica do que um jogo tradicional de adivinhação, incorporando mecânicas que aumentam o desafio, a progressão e o engajamento do jogador ao longo das partidas.
 
-- 🎯 **Geração do Alvo (RNG)**  
-- 🔢 **Loop de Adivinhação e Validação**  
-- ⏳ **Gravação do Histórico de Partidas**  
-- 🏆 **Leitura e Reconstrução do Histórico**  
-- 🔥 **Motor Analítico - Agregação Básica**  
-- 🎁 **Motor Analítico - Variância e Viés**  
-- 🎲 **Geração de Heurísticas Textuais**  
-- ⚡ **Menu Principal e Navegação Modular**  
-- ⚖️ **Resumo Pós-Sessão**  
-- 📊 **Épico: "Além do Console" (Expansão e Multidisciplinaridade)**  
+- 🔢🔮 **Oráculo Numérico**  
+- 🌬️✨ **O Sussurro do Destino**  
+- 📜⏳ **O Pergaminho do Tempo**  
+- 👁️🧠 **O Olhar do Sábio**  
+- 🧮📊 **A Sabedoria dos Números**  
+- 📈⚖️ **A Essência da Variância**  
+- 🧩🔮 **As Pistas do Oráculo**  
+- 🏛️🚪 **O Salão Principal**  
+- 📖🏁 **O Epílogo da Jornada**  
+- 🔥⚔️ **A Forja dos Campeões**  
 
 
  ## 🔄 Diagrama de Atividades do Sistema
