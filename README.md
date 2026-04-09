@@ -14,6 +14,9 @@ O projeto foi pensado para mostrar que, mesmo em um ambiente simples como o term
 
 🔗 [Trello](https://trello.com/b/peA1EPFt/projeto-interno)
 
+## Tela do Kanban
+
+
 
 ## 👨‍💻 Equipe
 
