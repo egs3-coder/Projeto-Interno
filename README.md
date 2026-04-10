@@ -32,7 +32,7 @@ A equipe do **A Saga do Oráculo Numérico** foi organizada de forma colaborativ
 
 O **A Saga do Oráculo Numérico** foi projetado para oferecer uma experiência mais dinâmica e estratégica do que um jogo tradicional de adivinhação, incorporando mecânicas que aumentam o desafio, a progressão e o engajamento do jogador ao longo das partidas.
 
-- 🔢🔮 **Oráculo Numérico**  
+- 🔢🔮 **Geração de Alvo Aleatório**  
 - 🌬️✨ **O Sussurro do Destino**  
 - 📜⏳ **O Pergaminho do Tempo**  
 - 👁️🧠 **O Olhar do Sábio**  
