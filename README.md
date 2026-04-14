@@ -54,65 +54,293 @@ O **A Saga do Oráculo Numérico** foi projetado para oferecer uma experiência 
 
 
  ## 🔄 Diagrama de Atividades do Sistema
+
+## UH1 - Geração de Alvo Aleatório
+
 ```mermaid
 flowchart TD
+    A([Início da partida]) --> B[Inicializar semente com srand]
+    B --> C[Gerar número com rand]
+    C --> D[Aplicar faixa válida de 1 a 100]
+    D --> E[Armazenar número secreto]
+    E --> F([Partida pronta para iniciar])
+```
 
-    Inicio((Inicio)) --> Menu[Menu Principal]
+---
 
-    Menu -->|Jogar nova partida| GerarAlvo
-    Menu -->|Analisar historico| LerArquivo
-    Menu -->|Sair| Fim((Fim))
+## UH2 - Validação de Palpites
 
-    %% =========================
-    %% ATIVIDADE: JOGAR
-    %% =========================
+```mermaid
+flowchart TD
+    A([Início do turno]) --> B[Receber palpite via stdin]
+    B --> C{Entrada é um inteiro válido?}
 
-    subgraph Jogar [Atividade Jogar Nova Partida]
+    C -- Não --> D[Limpar buffer de entrada]
+    D --> E[Informar erro de entrada]
+    E --> B
 
-        GerarAlvo[Gerar numero aleatorio 1 a 100]
-        ReceberPalpite[Receber palpite do usuario]
-        ValidarEntrada[Validar tipo e faixa]
-        DecEntrada{Entrada valida?}
-        DecAcerto{Palpite igual ao alvo?}
-        Dica[Exibir dica Muito alto ou Muito baixo]
-        Resumo[Exibir resumo da rodada]
-        Salvar[Salvar dados no historico]
+    C -- Sim --> F{Palpite está entre 1 e 100?}
+    F -- Não --> G[Informar valor fora da faixa]
+    G --> B
 
-        GerarAlvo --> ReceberPalpite
-        ReceberPalpite --> ValidarEntrada
-        ValidarEntrada --> DecEntrada
+    F -- Sim --> H[Calcular diferença entre palpite e alvo]
+    H --> I{Palpite igual ao alvo?}
 
-        DecEntrada -- Nao --> ReceberPalpite
-        DecEntrada -- Sim --> DecAcerto
+    I -- Sim --> J[Exibir: Acertou]
+    J --> K([Fim do turno])
 
-        DecAcerto -- Nao --> Dica
-        Dica --> ReceberPalpite
+    I -- Não --> L{Palpite menor que o alvo?}
+    L -- Sim --> M[Exibir: Muito baixo]
+    L -- Não --> N[Exibir: Muito alto]
 
-        DecAcerto -- Sim --> Resumo
-        Resumo --> Salvar
+    M --> O{Diferença > 30?}
+    N --> P{Diferença > 30?}
 
-    end
+    O -- Sim --> Q[Feedback visual Frio - Azul]
+    O -- Não --> R{Diferença < 10?}
+    P -- Sim --> Q
+    P -- Não --> S{Diferença < 10?}
 
-    Salvar --> Menu
+    R -- Sim --> T[Feedback visual Quente - Vermelho]
+    R -- Não --> U[Feedback neutro]
+    S -- Sim --> T
+    S -- Não --> U
 
-    %% =========================
-    %% ATIVIDADE: ANALISAR
-    %% =========================
+    Q --> K
+    T --> K
+    U --> K
+```
 
-    subgraph Analisar [Atividade Analisar Historico]
+---
 
-        LerArquivo[Ler arquivo de sessoes]
-        Agregacao[Calcular totais e media]
-        Estatistica[Calcular desvio padrao e vies]
-        Heuristica[Gerar recomendacoes estrategicas]
-        Exibir[Exibir painel ao jogador]
+## UH3 - Registro de Partidas
 
-        LerArquivo --> Agregacao
-        Agregacao --> Estatistica
-        Estatistica --> Heuristica
-        Heuristica --> Exibir
+```mermaid
+flowchart TD
+    A([Fim da partida]) --> B[Coletar dados da sessão]
+    B --> C[Montar linha: timestamp;alvo;tentativas;abaixo;acima;lista_csv]
+    C --> D[Abrir arquivo com fopen]
+    D --> E{Arquivo abriu corretamente?}
 
-    end
+    E -- Não --> F[Exibir erro de gravação]
+    F --> G([Jogo continua normalmente])
 
-    Exibir --> Menu
+    E -- Sim --> H[Gravar linha com fprintf]
+    H --> I[Fechar arquivo]
+    I --> J([Sessão salva])
+```
+
+---
+
+## UH4 - Análise de Histórico
+
+```mermaid
+flowchart TD
+    A([Abrir menu de análise]) --> B[Verificar existência do arquivo de histórico]
+    B --> C{Arquivo existe?}
+
+    C -- Não --> D[Informar ausência de dados]
+    D --> E([Fim da análise])
+
+    C -- Sim --> F[Abrir arquivo]
+    F --> G[Ler linha por linha com fgets]
+    G --> H{Ainda há linha para ler?}
+
+    H -- Sim --> I[Parsear dados da linha]
+    I --> J[Popular estrutura Session]
+    J --> K[Armazenar sessão carregada]
+    K --> G
+
+    H -- Não --> L[Fechar arquivo]
+    L --> M[Disponibilizar dados para métricas e relatórios]
+    M --> E
+```
+
+---
+
+## UH5 - Métricas Básicas
+
+```mermaid
+flowchart TD
+    A([Iniciar cálculo de métricas]) --> B{Há sessões carregadas?}
+
+    B -- Não --> C[Informar que não há sessões para análise]
+    C --> D([Fim])
+
+    B -- Sim --> E[Usar recursão para somar tentativas]
+    E --> F[Usar recursão para obter mínimo]
+    F --> G[Usar recursão para obter máximo]
+    G --> H[Calcular média = soma / total de sessões]
+    H --> I[Identificar melhor sessão]
+    I --> J[Identificar pior sessão]
+    J --> K[Exibir total de sessões]
+    K --> L[Exibir média de tentativas]
+    L --> M[Exibir melhor e pior sessão]
+    M --> D
+```
+
+---
+
+## UH6 - Análise de Performance
+
+```mermaid
+flowchart TD
+    A([Iniciar análise de performance]) --> B{Há histórico disponível?}
+
+    B -- Não --> C[Informar ausência de dados]
+    C --> D([Fim])
+
+    B -- Sim --> E[Calcular média de tentativas]
+    E --> F[Calcular viés baixo = low_count / attempts_count]
+    F --> G[Calcular viés alto = high_count / attempts_count]
+    G --> H[Usar recursão para somar quadrados das diferenças]
+    H --> I[Aplicar sqrt para obter desvio padrão]
+    I --> J[Interpretar consistência do jogador]
+    J --> K[Exibir viés alto e viés baixo]
+    K --> L[Exibir desvio padrão]
+    L --> D
+```
+
+---
+
+## UH7 - Dicas Dinâmicas
+
+```mermaid
+flowchart TD
+    A([Iniciar geração de dicas]) --> B[Carregar histórico e vetor de palpites]
+    B --> C[Analisar primeiros palpites do jogador]
+    C --> D{Tendência inicial muito baixa?}
+
+    D -- Sim --> E[Gerar dica: evitar começar tão baixo]
+    D -- Não --> F{Tendência inicial muito alta?}
+
+    F -- Sim --> G[Gerar dica: evitar começar tão alto]
+    F -- Não --> H[Seguir análise]
+
+    E --> H
+    G --> H
+
+    H --> I[Usar recursão para contar passos]
+    I --> J[Usar recursão para detectar sequência monotônica]
+    J --> K{Estratégia linear ineficiente detectada?}
+
+    K -- Sim --> L[Alertar sobre busca linear / pouca eficiência]
+    K -- Não --> M[Seguir análise]
+
+    L --> M
+    M --> N{Desvio padrão baixo e média alta?}
+
+    N -- Sim --> O[Alertar estratégia repetitiva e pouco eficiente]
+    N -- Não --> P[Seguir análise]
+
+    O --> P
+    P --> Q{Comportamento semelhante à busca binária e poucos chutes?}
+
+    Q -- Sim --> R[Desbloquear badge: Algoritmo Humano]
+    Q -- Não --> S[Sem badge]
+
+    R --> T[Exibir dicas personalizadas]
+    S --> T
+    T --> U([Fim])
+```
+
+---
+
+## UH8 - Navegação do Jogo
+
+```mermaid
+flowchart TD
+    A([Início do programa]) --> B[Exibir menu CLI]
+    B --> C{Escolha do usuário}
+
+    C -- Jogar nova partida --> D[Chamar módulo do jogo]
+    D --> B
+
+    C -- Analisar histórico --> E[Chamar módulo de histórico/análise]
+    E --> B
+
+    C -- Sair --> F([Encerrar programa])
+
+    C -- Opção inválida --> G[Exibir mensagem de opção inválida]
+    G --> B
+```
+
+---
+
+## UH9 - Resumo da Rodada
+
+```mermaid
+flowchart TD
+    A([Jogador acertou o alvo]) --> B[Coletar Data/Hora da sessão]
+    B --> C[Recuperar alvo da rodada]
+    C --> D[Recuperar total de tentativas]
+    D --> E[Recuperar quantidade de palpites altos]
+    E --> F[Recuperar quantidade de palpites baixos]
+    F --> G[Exibir resumo completo da rodada]
+    G --> H{Log foi salvo com sucesso?}
+
+    H -- Sim --> I[Exibir mensagem: Sessão salva com sucesso]
+    H -- Não --> J[Exibir mensagem de erro no salvamento]
+
+    I --> K([Fim])
+    J --> K
+```
+
+---
+
+## UH10 - Expansão de Jogo
+
+```mermaid
+flowchart TD
+    A([Início da partida avançada]) --> B{Modo especial foi ativado?}
+
+    B -- Não --> C[Seguir para modo normal]
+    C --> Z([Fim])
+
+    B -- Sim --> D[Selecionar comportamento do bot]
+    D --> E{Bot linear ou binário?}
+    E -- Linear --> F[Inicializar bot em modo linear]
+    E -- Binário --> G[Inicializar bot em modo binário]
+
+    F --> H[Iniciar temporizador global]
+    G --> H
+
+    H --> I[Inicializar pontuação, penalidades e contador de erros]
+    I --> J([Novo turno])
+
+    J --> K[Receber palpite do jogador]
+    K --> L[Gerar palpite do bot no mesmo turno]
+    L --> M{Jogador quebrou a lógica das dicas anteriores?}
+
+    M -- Sim --> N[Aplicar penalidade de pontuação]
+    M -- Não --> O[Manter pontuação]
+
+    N --> P[Comparar palpite do jogador com o alvo]
+    O --> P
+
+    P --> Q{Jogador acertou?}
+    Q -- Sim --> R[Definir jogador como vencedor]
+    Q -- Não --> S[Comparar palpite do bot com o alvo]
+
+    S --> T{Bot acertou?}
+    T -- Sim --> U[Definir bot como vencedor]
+    T -- Não --> V[Incrementar tentativas incorretas do jogador]
+
+    V --> W{A cada 3 erros do jogador?}
+    W -- Sim --> X[Mutar alvo em +2 ou -2]
+    W -- Não --> Y[Manter alvo atual]
+
+    X --> AA[Garantir alvo entre 1 e 100]
+    Y --> AB[Atualizar tempo e pontuação]
+    AA --> AB
+    AB --> J
+
+    R --> AC[Parar temporizador]
+    U --> AC
+
+    AC --> AD[Calcular pontuação final com base no tempo]
+    AD --> AE[Exibir penalidades aplicadas]
+    AE --> AF[Exibir modo do bot utilizado]
+    AF --> AG[Exibir resultado do duelo]
+    AG --> AH([Fim da sessão avançada])
 ```
