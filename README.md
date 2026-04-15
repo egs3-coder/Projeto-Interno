@@ -26,37 +26,16 @@ A equipe do **Protocolo** foi organizada de forma colaborativa, distribuindo res
 
 # Funcionalidades com Nova Temática
 
-A seguir, apresenta-se a lista de funcionalidades reformulada com nomenclaturas mais imersivas e alinhadas à nova temática do jogo.
-
-## UH1 – Inicialização do Protocolo
-O sistema ativa a sessão e gera o código oculto que dará início ao teste.
-
-## UH2 – Leitura de Resposta Cognitiva
-O jogador insere palpites e recebe feedback imediato do sistema, indicando se sua leitura está acima, abaixo ou próxima do padrão esperado.
-
-## UH3 – Arquivo de Vigilância
-Cada partida concluída é registrada automaticamente como um dossiê de comportamento do jogador.
-
-## UH4 – Reconstrução de Perfil
-O sistema lê os registros anteriores para montar o histórico analítico das sessões já realizadas.
-
-## UH5 – Painel de Evolução
-Exibe o resumo das sessões, média de tentativas, melhor desempenho e pior desempenho do jogador.
-
-## UH6 – Mapa de Tendência Comportamental
-Analisa consistência, viés de resposta, impulsividade e padrão de erro com base nas jogadas anteriores.
-
-## UH7 – Interferência Adaptativa da IA
-Entrega dicas inteligentes, identifica hábitos repetitivos e reconhece padrões eficientes ou ineficientes do jogador.
-
-## UH8 – Central do Sistema
-Menu principal onde o usuário escolhe iniciar nova simulação, acessar análises ou encerrar a execução.
-
-## UH9 – Relatório Pós-Sessão
-Ao final da rodada, o sistema apresenta um diagnóstico completo da performance daquela execução.
-
-## UH10 – Modo Ruptura
-Modo especial com cronômetro, adversário automático, penalidade lógica, mutação do alvo e disputa direta entre humano e máquina.
+- **UH1 – Inicialização do Protocolo**
+- **UH2 – Leitura de Resposta Cognitiva**
+- **UH3 – Arquivo de Vigilância**
+- **UH4 – Reconstrução de Perfil**
+- **UH5 – Painel de Evolução**
+- **UH6 – Mapa de Tendência Comportamental**
+- **UH7 – Interferência Adaptativa da IA**
+- **UH8 – Central do Sistema**
+- **UH9 – Relatório Pós-Sessão**
+- **UH10 – Modo Ruptura**
 
 ---
 
