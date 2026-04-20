@@ -85,123 +85,249 @@ flowchart TD
 
 ```mermaid
 flowchart TD
-    A([Início]) --> B[Iniciar fase]
-    B --> C[Exibir mão]
-    C --> D{Pontuar ou melhorar mão?}
-    D -->|Pontuar| E[Selecionar cartas]
-    D -->|Melhorar| F[Descartar cartas]
+   A([Início]) --> B[Entre fases]
+    B --> C[Exibir pergunta rápida]
+    C --> D[Jogador responde]
+    D --> E{Resposta correta?}
+
+    E -->|Sim| F[Conceder moedas extras]
+    F --> G[Continuar run]
+    G --> H([Fim])
+
+    E -->|Não| I[Exibir dica]
+    I --> J[Reduzir recompensa]
+    J --> K[Reapresentar pergunta]
+    K --> L[Jogador responde novamente]
+    L --> M{Acertou?}
+
+    M -->|Sim| N[Conceder moedas reduzidas]
+    N --> G
+
+    M -->|Não| O[Continuar run sem bônus]
+    O --> H
 ```
 
 ## 4 — BOSS 
 
 ```mermaid
 flowchart TD
-    A([Início]) --> B[Iniciar run]
-    B --> C[Definir meta da fase]
-    C --> D{Meta atingida?}
-    D -->|Sim| E[Próxima fase]
-    D -->|Não| F[Fim da run]
+    A([Início]) --> B[Verificar fase de Boss]
+    B --> C[Exibir Boss e meta elevada]
+    C --> D[Apresentar pergunta difícil]
+    D --> E{Resposta correta?}
+
+    E -->|Sim| F[Evitar ou reduzir penalidade]
+    F --> G[Jogar fase Boss]
+    G --> H{Meta atingida?}
+
+    H -->|Sim| I[Vencer Boss]
+    I --> J[Remover debuff]
+    J --> K[Retornar ao fluxo normal]
+    K --> L([Fim])
+
+    H -->|Não| M[Encerrar run por falha]
+    M --> L
+
+    E -->|Não| N[Ativar debuff]
+    N --> O[Aplicar penalidade]
+    O --> P[Jogar fase Boss com debuff]
+    P --> Q{Meta atingida?}
+
+    Q -->|Sim| I
+    Q -->|Não| M
 ```
 ## 5 — Sistema de Moeda
 
 ```mermaid
 flowchart TD
-    A([Início]) --> B[Iniciar fase]
-    B --> C[Exibir mão]
-    C --> D{Pontuar ou melhorar mão?}
-    D -->|Pontuar| E[Selecionar cartas]
-    D -->|Melhorar| F[Descartar cartas]
+    A([Início]) --> B[Concluir fase ou acertar pergunta]
+    B --> C[Calcular moedas por desempenho]
+    C --> D[Adicionar moedas ao saldo]
+    D --> E[Exibir saldo atual]
+    E --> F{Usar na loja?}
+
+    F -->|Sim| G[Selecionar compra]
+    G --> H[Descontar moedas]
+    H --> I[Atualizar saldo]
+    I --> J([Fim])
+
+    F -->|Não| K[Manter saldo para próxima fase]
+    K --> J
 ```
 
 ## 6 — Sistema de Loja
 
 ```mermaid
 flowchart TD
-    A([Início]) --> B[Iniciar run]
-    B --> C[Definir meta da fase]
-    C --> D{Meta atingida?}
-    D -->|Sim| E[Próxima fase]
-    D -->|Não| F[Fim da run]
+    A([Início]) --> B[Fim da fase]
+    B --> C[Abrir loja]
+    C --> D[Exibir itens: Coringas, Tarot, Pacotes e Cupons]
+    D --> E{Deseja comprar?}
+
+    E -->|Não| F[Fechar loja]
+    F --> G[Ir para próxima fase]
+    G --> H([Fim])
+
+    E -->|Sim| I[Selecionar item]
+    I --> J{Saldo suficiente?}
+
+    J -->|Sim| K[Descontar moedas]
+    K --> L[Adicionar item ou benefício]
+    L --> M{Comprar outro item?}
+    M -->|Sim| D
+    M -->|Não| F
+
+    J -->|Não| N[Informar saldo insuficiente]
+    N --> D
 ```
 ## 7 — Sistema de Pacotes
 
 ```mermaid
 flowchart TD
-    A([Início]) --> B[Iniciar fase]
-    B --> C[Exibir mão]
-    C --> D{Pontuar ou melhorar mão?}
-    D -->|Pontuar| E[Selecionar cartas]
-    D -->|Melhorar| F[Descartar cartas]
+    A([Início]) --> B[Obter ou comprar pacote]
+    B --> C[Abrir pacote]
+    C --> D[Gerar 3 ou 5 opções]
+    D --> E[Exibir opções]
+    E --> F[Jogador escolhe uma ou mais cartas]
+    F --> G[Adicionar cartas ao inventário]
+    G --> H[Atualizar build]
+    H --> I([Fim])
 ```
 
-## 8 — Cartas de Tarot
+## 8 — Coringas
 
 ```mermaid
 flowchart TD
-    A([Início]) --> B[Iniciar run]
-    B --> C[Definir meta da fase]
-    C --> D{Meta atingida?}
-    D -->|Sim| E[Próxima fase]
-    D -->|Não| F[Fim da run]
+A([Início]) --> B[Adquirir Coringa]
+    B --> C{Há slot disponível?}
+
+    C -->|Sim| D[Equipar Coringa]
+    D --> E[Aplicar efeito único]
+    E --> F[Atualizar pontuação e sinergias]
+    F --> G{Deseja vender?}
+
+    G -->|Sim| H[Receber metade do valor]
+    H --> I[Liberar slot]
+    I --> J([Fim])
+
+    G -->|Não| K[Manter Coringa equipado]
+    K --> J
+
+    C -->|Não| L[Escolher substituir ou cancelar]
+    L --> M{Substituir?}
+
+    M -->|Sim| N[Vender Coringa antigo por metade]
+    N --> O[Equipar novo Coringa]
+    O --> P[Aplicar efeito único]
+    P --> Q[Atualizar pontuação e sinergias]
+    Q --> J
+
+    M -->|Não| R[Cancelar troca]
+    R --> J
 ```
-## 9 — Coringas
+## 9 — Cartas de Tarot
 
 ```mermaid
 flowchart TD
-    A([Início]) --> B[Iniciar run]
-    B --> C[Definir meta da fase]
-    C --> D{Meta atingida?}
-    D -->|Sim| E[Próxima fase]
-    D -->|Não| F[Fim da run]
+   A([Início]) --> B[Jogador possui carta de Tarot]
+    B --> C{Usar carta?}
+
+    C -->|Sim| D[Selecionar carta de Tarot]
+    D --> E[Aplicar efeito imediato]
+    E --> F[Consumir carta]
+    F --> G[Atualizar estado da run]
+    G --> H([Fim])
+
+    C -->|Não| I[Continuar run sem usar]
+    I --> H
 ```
 ## 10 — Cupons
 
 ```mermaid
 flowchart TD
-    A([Início]) --> B[Iniciar run]
-    B --> C[Definir meta da fase]
-    C --> D{Meta atingida?}
-    D -->|Sim| E[Próxima fase]
-    D -->|Não| F[Fim da run]
+    A([Início]) --> B[Registrar acertos do quiz]
+    B --> C{Atingiu 2 acertos?}
+
+    C -->|Não| B
+    C -->|Sim| D[Liberar cupom]
+    D --> E[Exibir cupom na loja]
+    E --> F{Cupom adquirido?}
+
+    F -->|Sim| G[Ativar efeito passivo]
+    G --> H[Manter ativo até o fim da run]
+    H --> I([Fim])
+
+    F -->|Não| J[Cupom permanece disponível]
+    J --> I
 ```
 ## 11 — Recompensas de Fase
 
 ```mermaid
 flowchart TD
-    A([Início]) --> B[Iniciar run]
-    B --> C[Definir meta da fase]
-    C --> D{Meta atingida?}
-    D -->|Sim| E[Próxima fase]
-    D -->|Não| F[Fim da run]
+   A([Início]) --> B[Completar fase]
+    B --> C[Conceder moedas]
+    C --> D{Há bônus extra?}
+
+    D -->|Sim| E[Liberar pacote ou bônus]
+    E --> F[Integrar resultado do quiz]
+    F --> G[Desbloquear loja]
+    G --> H[Continuar progressão]
+    H --> I([Fim])
+
+    D -->|Não| G
 ```
 ## 12 — Integração
 
 ```mermaid
 flowchart TD
-    A([Início]) --> B[Iniciar run]
-    B --> C[Definir meta da fase]
-    C --> D{Meta atingida?}
-    D -->|Sim| E[Próxima fase]
-    D -->|Não| F[Fim da run]
+    A([Início]) --> B[Concluir fase]
+    B --> C[Transição rápida]
+    C --> D[Exibir quiz entre fases]
+    D --> E[Calcular recompensa]
+    E --> F[Enviar recompensa para a loja]
+    F --> G[Abrir loja]
+    G --> H{Comprar ou seguir?}
+
+    H -->|Comprar| I[Comprar itens]
+    I --> J[Iniciar próxima fase]
+    J --> K([Fim])
+
+    H -->|Seguir| J
 ```
 
 ## 13 — Feedback Visual
 
 ```mermaid
 flowchart TD
-    A([Início]) --> B[Iniciar run]
-    B --> C[Definir meta da fase]
-    C --> D{Meta atingida?}
-    D -->|Sim| E[Próxima fase]
-    D -->|Não| F[Fim da run]
+    A([Início]) --> B[Ação do jogador ou evento do sistema]
+    B --> C[Atualizar interface]
+    C --> D[Mostrar mãos possíveis e tabela de pontuação]
+    D --> E[Animar pontuação]
+    E --> F[Exibir efeitos de Coringas]
+    F --> G[Exibir feedback do quiz]
+    G --> H[Jogador entende resultado]
+    H --> I[Continuar jogando]
+    I --> J([Fim])
 ```
 ## 14 — Balanceamento
 
 ```mermaid
 flowchart TD
-    A([Início]) --> B[Iniciar run]
-    B --> C[Definir meta da fase]
-    C --> D{Meta atingida?}
-    D -->|Sim| E[Próxima fase]
-    D -->|Não| F[Fim da run]
+   A([Início]) --> B[Iniciar run balanceada]
+    B --> C[Aplicar Coringas como principal fonte de poder]
+    C --> D[Aplicar Tarot como recurso situacional]
+    D --> E[Aplicar Cupons com impacto moderado]
+    E --> F[Usar quiz apenas como vantagem]
+    F --> G{Errou perguntas?}
+
+    G -->|Sim| H[Continuar run com menor vantagem]
+    H --> I[Tomar decisões estratégicas com cartas]
+
+    G -->|Não| J[Ganhar bônus moderado]
+    J --> I
+
+    I --> K{Estratégia é o fator principal?}
+    K -->|Sim| L[Manter jogo justo e evitar bola de neve]
+    L --> M([Fim])
+
 ```
