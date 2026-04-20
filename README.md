@@ -54,21 +54,4 @@ flowchart TD
     T --> U{Ainda há tentativas?}
     U -->|Sim| D
     U -->|Não| Q
-   flowchart TD
-    A([Início]) --> B[Iniciar run]
-    B --> C[Definir meta da fase]
-    C --> D[Iniciar fase]
-    D --> E[Jogador tenta bater a meta]
-    E --> F{Meta atingida?}
-
-    F -->|Sim| G[Conceder progressão]
-    G --> H[Aumentar dificuldade]
-    H --> I[Transição rápida]
-    I --> J{Próxima fase disponível?}
-
-    J -->|Sim| C
-    J -->|Não| K[Finalizar run com vitória]
-    K --> L([Fim])
-
-    F -->|Não| M[Encerrar run por falha]
-    M --> L
+   
