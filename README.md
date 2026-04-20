@@ -30,21 +30,56 @@ A equipe do **Protocolo** foi organizada de forma colaborativa, distribuindo res
 ```mermaid
 flowchart TD
     A([Início]) --> B[Iniciar fase]
-    B --> C[Exibir mão]
+    B --> C[Exibir mão e tentativas]
     C --> D{Pontuar ou melhorar mão?}
+
     D -->|Pontuar| E[Selecionar cartas]
-    D -->|Melhorar| F[Descartar cartas]
+    E --> F[Sistema identifica combinação]
+    F --> G[Calcular pontos base + bônus]
+    G --> H[Exibir pontuação]
+    H --> I[Remover cartas usadas da fase]
+    I --> J[Comprar novas cartas]
+    J --> K[Atualizar mãos e descartes]
+    K --> L{Meta da fase atingida?}
+
+    L -->|Sim| M[Encerrar fase com sucesso]
+    M --> N[Avançar para próxima fase]
+    N --> O([Fim])
+
+    L -->|Não| P{Tentativas acabaram?}
+    P -->|Sim| Q[Encerrar fase por falha]
+    Q --> O
+    P -->|Não| D
+
+    D -->|Melhorar mão| R[Descartar cartas]
+    R --> S[Comprar novas cartas]
+    S --> T[Atualizar descartes]
+    T --> U{Ainda há tentativas?}
+    U -->|Sim| D
+    U -->|Não| Q
 ```
 
 ## 2 — Sistema de Fases
 
 ```mermaid
 flowchart TD
-    A([Início]) --> B[Iniciar run]
+   A([Início]) --> B[Iniciar run]
     B --> C[Definir meta da fase]
-    C --> D{Meta atingida?}
-    D -->|Sim| E[Próxima fase]
-    D -->|Não| F[Fim da run]
+    C --> D[Iniciar fase]
+    D --> E[Jogador tenta bater a meta]
+    E --> F{Meta atingida?}
+
+    F -->|Sim| G[Conceder progressão]
+    G --> H[Aumentar dificuldade]
+    H --> I[Transição rápida]
+    I --> J{Próxima fase disponível?}
+
+    J -->|Sim| C
+    J -->|Não| K[Finalizar run com vitória]
+    K --> L([Fim])
+
+    F -->|Não| M[Encerrar run por falha]
+    M --> L
 ```
 ## 3 — Sistema de Perguntas
 
