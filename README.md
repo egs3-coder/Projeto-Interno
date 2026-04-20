@@ -22,5 +22,53 @@ A equipe do **Protocolo** foi organizada de forma colaborativa, distribuindo res
 ## Ferramentas 
 
 🔗 [Trello](https://trello.com/b/peA1EPFt/projeto-interno)
- 
 
+### Diagrama de Atividade
+```mermaid
+flowchart TD
+    A([Início]) --> B[Iniciar fase]
+    B --> C[Exibir mão e tentativas]
+    C --> D{Pontuar ou melhorar mão?}
+
+    D -->|Pontuar| E[Selecionar cartas]
+    E --> F[Sistema identifica combinação]
+    F --> G[Calcular pontos base + bônus]
+    G --> H[Exibir pontuação]
+    H --> I[Remover cartas usadas da fase]
+    I --> J[Comprar novas cartas]
+    J --> K[Atualizar mãos e descartes]
+    K --> L{Meta da fase atingida?}
+
+    L -->|Sim| M[Encerrar fase com sucesso]
+    M --> N[Avançar para próxima fase]
+    N --> O([Fim])
+
+    L -->|Não| P{Tentativas acabaram?}
+    P -->|Sim| Q[Encerrar fase por falha]
+    Q --> O
+    P -->|Não| D
+
+    D -->|Melhorar mão| R[Descartar cartas]
+    R --> S[Comprar novas cartas]
+    S --> T[Atualizar descartes]
+    T --> U{Ainda há tentativas?}
+    U -->|Sim| D
+    U -->|Não| Q
+   flowchart TD
+    A([Início]) --> B[Iniciar run]
+    B --> C[Definir meta da fase]
+    C --> D[Iniciar fase]
+    D --> E[Jogador tenta bater a meta]
+    E --> F{Meta atingida?}
+
+    F -->|Sim| G[Conceder progressão]
+    G --> H[Aumentar dificuldade]
+    H --> I[Transição rápida]
+    I --> J{Próxima fase disponível?}
+
+    J -->|Sim| C
+    J -->|Não| K[Finalizar run com vitória]
+    K --> L([Fim])
+
+    F -->|Não| M[Encerrar run por falha]
+    M --> L
