@@ -8,9 +8,9 @@ A proposta do jogo é oferecer uma experiência envolvente e lúdica, em que est
 
 ---
 
-## Tela do Kanban
+## Backlog
 
-<img src="metadecklogo.png" alt="Captura de tela do Numbrix C" width="600">
+<img src="Backlog.png" alt="Captura de tela do Numbrix C" width="600">
 
 --- 
 ## Ferramentas 
