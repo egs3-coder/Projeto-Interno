@@ -7,13 +7,15 @@ O **MetaDeck** é um jogo de cartas estratégico em que o jogador avança por fa
 A proposta do jogo é oferecer uma experiência envolvente e lúdica, em que estratégia, atenção e criatividade caminham juntas. Com uma atmosfera vibrante e desafios progressivos, o **MetaDeck** estimula o jogador a pensar antes de agir, explorar diferentes possibilidades e buscar a melhor forma de seguir avançando.
 
 ---
-
 ## Backlog
 
 <img src="Backlog.png" alt="Captura de tela do MetaDeck" width="600">
 
+<br><br><br>
 
-<img src="UH.png" alt="Captura de tela do MetaDeck" width="600">
+<p align="center">
+  <img src="UH.png" alt="Captura de tela do MetaDeck" width="600">
+</p>
 
 --- 
 ## Ferramentas 
