@@ -10,9 +10,10 @@ A proposta do jogo é oferecer uma experiência envolvente e lúdica, em que est
 
 ## Backlog
 
-<img src="Backlog.png" alt="Captura de tela do Numbrix C" width="600">
+<img src="Backlog.png" alt="Captura de tela do MetaDeck" width="600">
 
-<img src="UH.png" alt="Captura de tela do Numbrix C" width="600">
+
+<img src="UH.png" alt="Captura de tela do MetaDeck" width="600">
 
 --- 
 ## Ferramentas 
