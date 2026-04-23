@@ -357,7 +357,7 @@ flowchart TD
 ```
 ---
 
-## 👨‍💻 Equipe
+## Equipe
 
 A equipe do **MetaDeck** foi organizada de forma colaborativa, distribuindo responsabilidades entre planejamento, prototipação, desenvolvimento, testes e apoio à documentação do projeto.
 
