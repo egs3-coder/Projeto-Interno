@@ -48,16 +48,17 @@ A proposta do jogo é oferecer uma experiência envolvente e lúdica, em que est
 
 A equipe do **Protocolo** foi organizada de forma colaborativa, distribuindo responsabilidades entre planejamento, prototipação, desenvolvimento, testes e apoio à documentação do projeto.
 
-| Integrante | Função | Descrição |
-|---|---|---|
-| **Ewerton Guilherme da Silva** | **Product Owner / Desenvolvedor Back-end** | Responsável pela organização das ideias principais do projeto, definição das histórias de usuário e apoio na implementação das regras centrais do jogo, como fases, lógica de progressão e estrutura geral do sistema. |
-| **Lauan Gonçalves dos Santos** | **Scrum Master** | Responsável pela organização visual do projeto, protótipos e representação das interfaces e fluxos do jogo, ajudando a planejar a experiência do usuário e a apresentação visual das telas e diagramas. |
-| **Davi Magno Campelo do Nascimento** | **Desenvolvedor Front-end** | Responsável pela construção das interações visíveis ao jogador no terminal, incluindo menus, mensagens da partida, exibição de pontuação, feedbacks e organização da navegação do sistema. |
-| **Aquiles Pereira dos Santos** | **Testes / QA** | Responsável pela validação das funcionalidades do jogo, identificação de erros e verificação do comportamento esperado das fases, pontuação, ranking e demais mecânicas implementadas. |
-| **João Ricardo Alves de Brito** | **Desenvolvedor Back-end** | Responsável pelo apoio na lógica interna do sistema, manipulação de dados do jogo, controle de ranking, armazenamento de informações e funcionamento das regras principais da aplicação. |
-| **Mateus Valerino Barros de Santana** | **Desenvolvedor Front-end** | Responsável pelo apoio na construção das telas em terminal, organização da exibição das informações ao jogador e melhoria da experiência durante a execução das fases e eventos do jogo. |
-| **Lucas Aprígio dos Santos** | **Desenvolvedor Back-end** | Responsável pelo apoio na implementação das funcionalidades internas do sistema, contribuindo com a lógica das partidas, manipulação de arquivos e estrutura de suporte ao funcionamento do jogo.
+> **Observação:** salve as fotos na pasta `imagens/equipe/` dentro do repositório para os caminhos abaixo funcionarem corretamente.
 
+| Foto | Integrante | Função | Descrição |
+|---|---|---|---|
+| <img src="./imagens/equipe/ewerton.jpg" width="110" alt="Foto de Ewerton Guilherme da Silva"> | **Ewerton Guilherme da Silva** | **[Função atual]** | Atuação no planejamento do projeto, organização das ideias principais e contribuição nas decisões relacionadas à estrutura e desenvolvimento do sistema. |
+| <img src="./imagens/equipe/lauan.jpg" width="110" alt="Foto de Lauan Gonçalves dos Santos"> | **Lauan Gonçalves dos Santos** | **[Função atual]** | Responsável pelo apoio à organização visual do projeto, prototipação das telas e representação dos fluxos e interfaces do jogo. |
+| <img src="./imagens/equipe/davi.jpg" width="110" alt="Foto de Davi Magno Campelo do Nascimento"> | **Davi Magno Campelo do Nascimento** | **[Função atual]** | Contribuiu com a construção das interações visíveis ao jogador, organização dos menus, mensagens e navegação do sistema. |
+| <img src="./imagens/equipe/aquiles-placeholder.jpg" width="110" alt="Foto de Aquiles Pereira dos Santos - adicionar depois"> | **Aquiles Pereira dos Santos** | **[Função atual]** | Responsável pela validação das funcionalidades, testes do sistema e verificação do comportamento esperado das mecânicas implementadas. |
+| <img src="./imagens/equipe/joao.jpg" width="110" alt="Foto de João Ricardo Alves de Brito"> | **João Ricardo Alves de Brito** | **[Função atual]** | Atuação no apoio à lógica interna da aplicação, organização de dados, regras do sistema e funcionamento das principais mecânicas. |
+| <img src="./imagens/equipe/mateus.jpg" width="110" alt="Foto de Mateus Valerino Barros de Santana"> | **Mateus Valerino Barros de Santana** | **[Função atual]** | Contribuiu com a construção das telas, apresentação das informações ao jogador e melhoria da experiência durante a execução do jogo. |
+| <img src="./imagens/equipe/lucas.jpg" width="110" alt="Foto de Lucas Aprígio dos Santos"> | **Lucas Aprígio dos Santos** | **[Função atual]** | Apoio na implementação das funcionalidades internas do sistema, estrutura de suporte da aplicação e organização do funcionamento geral do projeto. |
 ---
 
 ### Diagrama de Atividade
