@@ -400,7 +400,7 @@ A equipe do **MetaDeck** foi organizada de forma colaborativa, distribuindo resp
     </tr>
     <tr>
       <td align="center">
-        <img src="./aquiles-placeholder.jpeg" width="100" height="100" alt="Foto de Aquiles Pereira dos Santos - adicionar depois">
+        <img src="./IMG-20260423-WA0142.jpg" width="100" height="100" alt="Foto de Aquiles Pereira dos Santos - adicionar depois">
       </td>
       <td><strong>Aquiles Pereira dos Santos</strong></td>
       <td><strong>Testes / QA</strong></td>
