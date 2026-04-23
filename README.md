@@ -18,7 +18,7 @@ A proposta do jogo é oferecer uma experiência envolvente e lúdica, em que est
 </p>
 
 --- 
-## Ferramentas 
+## Ferramentas Utilizadas
 
 🔗 [Trello](https://trello.com/b/peA1EPFt/projeto-interno)
 
