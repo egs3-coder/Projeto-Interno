@@ -48,16 +48,76 @@ A proposta do jogo é oferecer uma experiência envolvente e lúdica, em que est
 
 A equipe do **MetaDeck** foi organizada de forma colaborativa, distribuindo responsabilidades entre planejamento, prototipação, desenvolvimento, testes e apoio à documentação do projeto.
 
-| Foto | Integrante | Função | Descrição |
-|---|---|---|---|
-| <img src="./ewerton.jpeg" width="110" alt="Foto de Ewerton Guilherme da Silva"> | **Ewerton Guilherme da Silva** | **Desenvolvedor Back-end** | Atuação no planejamento do projeto, organização das ideias principais e contribuição nas decisões relacionadas à estrutura e desenvolvimento do sistema. |
-| <img src="./lauan.jpeg" width="110" alt="Foto de Lauan Gonçalves dos Santos"> | **Lauan Gonçalves dos Santos** | **Scrum Master** | Responsável pelo apoio à organização visual do projeto, prototipação das telas e representação dos fluxos e interfaces do jogo. |
-| <img src="./davi.jpeg" width="110" alt="Foto de Davi Magno Campelo do Nascimento"> | **Davi Magno Campelo do Nascimento** | **Desenvolvedor Front-end** | Contribuiu com a construção das interações visíveis ao jogador, organização dos menus, mensagens e navegação do sistema. |
-| <img src="./aquiles-placeholder.jpeg" width="110" alt="Foto de Aquiles Pereira dos Santos - adicionar depois"> | **Aquiles Pereira dos Santos** | **Testes / QA** | Responsável pela validação das funcionalidades, testes do sistema e verificação do comportamento esperado das mecânicas implementadas. |
-| <img src="./joao.jpeg" width="110" alt="Foto de João Ricardo Alves de Brito"> | **João Ricardo Alves de Brito** | **Product Owner** | Atuação no apoio à lógica interna da aplicação, organização de dados, regras do sistema e funcionamento das principais mecânicas. |
-| <img src="./mateus.jpeg" width="110" alt="Foto de Mateus Valerino Barros de Santana"> | **Mateus Valerino Barros de Santana** | **Desenvolvedor Front-end** | Contribuiu com a construção das telas, apresentação das informações ao jogador e melhoria da experiência durante a execução do jogo. |
-| <img src="./lucas.jpeg" width="110" alt="Foto de Lucas Aprígio dos Santos"> | **Lucas Aprígio dos Santos** | **Desenvolvedor Back-end** | Apoio na implementação das funcionalidades internas do sistema, estrutura de suporte da aplicação e organização do funcionamento geral do projeto. |
+<h2>👨‍💻 Equipe</h2>
 
+<table>
+  <thead>
+    <tr>
+      <th>Foto</th>
+      <th>Integrante</th>
+      <th>Função</th>
+      <th>Descrição</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td align="center">
+        <img src="./ewerton.jpeg" width="100" height="100" alt="Foto de Ewerton Guilherme da Silva">
+      </td>
+      <td><strong>Ewerton Guilherme da Silva</strong></td>
+      <td><strong>Desenvolvedor Back-end</strong></td>
+      <td>Atuação no planejamento do projeto, organização das ideias principais e contribuição nas decisões relacionadas à estrutura e desenvolvimento do sistema.</td>
+    </tr>
+    <tr>
+      <td align="center">
+        <img src="./lauan.jpeg" width="100" height="100" alt="Foto de Lauan Gonçalves dos Santos">
+      </td>
+      <td><strong>Lauan Gonçalves dos Santos</strong></td>
+      <td><strong>Scrum Master</strong></td>
+      <td>Responsável pelo apoio à organização visual do projeto, prototipação das telas e representação dos fluxos e interfaces do jogo.</td>
+    </tr>
+    <tr>
+      <td align="center">
+        <img src="./davi.jpeg" width="100" height="100" alt="Foto de Davi Magno Campelo do Nascimento">
+      </td>
+      <td><strong>Davi Magno Campelo do Nascimento</strong></td>
+      <td><strong>Desenvolvedor Front-end</strong></td>
+      <td>Contribuiu com a construção das interações visíveis ao jogador, organização dos menus, mensagens e navegação do sistema.</td>
+    </tr>
+    <tr>
+      <td align="center">
+        <img src="./aquiles-placeholder.jpeg" width="100" height="100" alt="Foto de Aquiles Pereira dos Santos - adicionar depois">
+      </td>
+      <td><strong>Aquiles Pereira dos Santos</strong></td>
+      <td><strong>Testes / QA</strong></td>
+      <td>Responsável pela validação das funcionalidades, testes do sistema e verificação do comportamento esperado das mecânicas implementadas.</td>
+    </tr>
+    <tr>
+      <td align="center">
+        <img src="./joao.jpeg" width="100" height="100" alt="Foto de João Ricardo Alves de Brito">
+      </td>
+      <td><strong>João Ricardo Alves de Brito</strong></td>
+      <td><strong>Product Owner</strong></td>
+      <td>Atuação no apoio à lógica interna da aplicação, organização de dados, regras do sistema e funcionamento das principais mecânicas.</td>
+    </tr>
+    <tr>
+      <td align="center">
+        <img src="./mateus.jpeg" width="100" height="100" alt="Foto de Mateus Valerino Barros de Santana">
+      </td>
+      <td><strong>Mateus Valerino Barros de Santana</strong></td>
+      <td><strong>Desenvolvedor Front-end</strong></td>
+      <td>Contribuiu com a construção das telas, apresentação das informações ao jogador e melhoria da experiência durante a execução do jogo.</td>
+    </tr>
+    <tr>
+      <td align="center">
+        <img src="./lucas.jpeg" width="100" height="100" alt="Foto de Lucas Aprígio dos Santos">
+      </td>
+      <td><strong>Lucas Aprígio dos Santos</strong></td>
+      <td><strong>Desenvolvedor Back-end</strong></td>
+      <td>Apoio na implementação das funcionalidades internas do sistema, estrutura de suporte da aplicação e organização do funcionamento geral do projeto.</td>
+    </tr>
+  </tbody>
+</table>
 ---
 
 ### Diagrama de Atividade
