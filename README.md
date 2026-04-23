@@ -52,7 +52,7 @@ A equipe do **Protocolo** foi organizada de forma colaborativa, distribuindo res
 
 | Foto | Integrante | Função | Descrição |
 |---|---|---|---|
-| <img src="./imagens/equipe/ewerton.jpg" width="110" alt="Foto de Ewerton Guilherme da Silva"> | **Ewerton Guilherme da Silva** | **[Função atual]** | Atuação no planejamento do projeto, organização das ideias principais e contribuição nas decisões relacionadas à estrutura e desenvolvimento do sistema. |
+| <img src="./imagens/equipe/ewerton.jpeg" width="110" alt="Foto de Ewerton Guilherme da Silva"> | **Ewerton Guilherme da Silva** | **[Função atual]** | Atuação no planejamento do projeto, organização das ideias principais e contribuição nas decisões relacionadas à estrutura e desenvolvimento do sistema. |
 | <img src="./imagens/equipe/lauan.jpg" width="110" alt="Foto de Lauan Gonçalves dos Santos"> | **Lauan Gonçalves dos Santos** | **[Função atual]** | Responsável pelo apoio à organização visual do projeto, prototipação das telas e representação dos fluxos e interfaces do jogo. |
 | <img src="./imagens/equipe/davi.jpg" width="110" alt="Foto de Davi Magno Campelo do Nascimento"> | **Davi Magno Campelo do Nascimento** | **[Função atual]** | Contribuiu com a construção das interações visíveis ao jogador, organização dos menus, mensagens e navegação do sistema. |
 | <img src="./imagens/equipe/aquiles-placeholder.jpg" width="110" alt="Foto de Aquiles Pereira dos Santos - adicionar depois"> | **Aquiles Pereira dos Santos** | **[Função atual]** | Responsável pela validação das funcionalidades, testes do sistema e verificação do comportamento esperado das mecânicas implementadas. |
