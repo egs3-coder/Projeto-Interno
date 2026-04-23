@@ -50,13 +50,14 @@ A equipe do **MetaDeck** foi organizada de forma colaborativa, distribuindo resp
 
 | Foto | Integrante | Função | Descrição |
 |---|---|---|---|
-| <img src="./imagens/equipe/ewerton.jpeg" width="110" alt="Foto de Ewerton Guilherme da Silva"> | **Ewerton Guilherme da Silva** | **[Desenvolvedor Back-end]** | Atuação no planejamento do projeto, organização das ideias principais e contribuição nas decisões relacionadas à estrutura e desenvolvimento do sistema. |
-| <img src="./imagens/equipe/lauan.jpeg" width="110" alt="Foto de Lauan Gonçalves dos Santos"> | **Lauan Gonçalves dos Santos** | **[Scrum Master]** | Responsável pelo apoio à organização visual do projeto, prototipação das telas e representação dos fluxos e interfaces do jogo. |
-| <img src="./imagens/equipe/davi.jpeg" width="110" alt="Foto de Davi Magno Campelo do Nascimento"> | **Davi Magno Campelo do Nascimento** | **[Desenvolvedor Front-end]** | Contribuiu com a construção das interações visíveis ao jogador, organização dos menus, mensagens e navegação do sistema. |
-| <img src="./imagens/equipe/aquiles-placeholder.jpeg" width="110" alt="Foto de Aquiles Pereira dos Santos - adicionar depois"> | **Aquiles Pereira dos Santos** | **[Testes / QA]** | Responsável pela validação das funcionalidades, testes do sistema e verificação do comportamento esperado das mecânicas implementadas. |
-| <img src="./imagens/equipe/joao.jpeg" width="110" alt="Foto de João Ricardo Alves de Brito"> | **João Ricardo Alves de Brito** | **[Product Owner]** | Atuação no apoio à lógica interna da aplicação, organização de dados, regras do sistema e funcionamento das principais mecânicas. |
-| <img src="./imagens/equipe/mateus.jpeg" width="110" alt="Foto de Mateus Valerino Barros de Santana"> | **Mateus Valerino Barros de Santana** | **[Desenvolvedor Front-end]** | Contribuiu com a construção das telas, apresentação das informações ao jogador e melhoria da experiência durante a execução do jogo. |
-| <img src="./imagens/equipe/lucas.jpeg" width="110" alt="Foto de Lucas Aprígio dos Santos"> | **Lucas Aprígio dos Santos** | **[Desenvolvedor Back-end]** | Apoio na implementação das funcionalidades internas do sistema, estrutura de suporte da aplicação e organização do funcionamento geral do projeto. |
+| <img src="./ewerton.jpeg" width="110" alt="Foto de Ewerton Guilherme da Silva"> | **Ewerton Guilherme da Silva** | **Desenvolvedor Back-end** | Atuação no planejamento do projeto, organização das ideias principais e contribuição nas decisões relacionadas à estrutura e desenvolvimento do sistema. |
+| <img src="./lauan.jpeg" width="110" alt="Foto de Lauan Gonçalves dos Santos"> | **Lauan Gonçalves dos Santos** | **Scrum Master** | Responsável pelo apoio à organização visual do projeto, prototipação das telas e representação dos fluxos e interfaces do jogo. |
+| <img src="./davi.jpeg" width="110" alt="Foto de Davi Magno Campelo do Nascimento"> | **Davi Magno Campelo do Nascimento** | **Desenvolvedor Front-end** | Contribuiu com a construção das interações visíveis ao jogador, organização dos menus, mensagens e navegação do sistema. |
+| <img src="./aquiles-placeholder.jpeg" width="110" alt="Foto de Aquiles Pereira dos Santos - adicionar depois"> | **Aquiles Pereira dos Santos** | **Testes / QA** | Responsável pela validação das funcionalidades, testes do sistema e verificação do comportamento esperado das mecânicas implementadas. |
+| <img src="./joao.jpeg" width="110" alt="Foto de João Ricardo Alves de Brito"> | **João Ricardo Alves de Brito** | **Product Owner** | Atuação no apoio à lógica interna da aplicação, organização de dados, regras do sistema e funcionamento das principais mecânicas. |
+| <img src="./mateus.jpeg" width="110" alt="Foto de Mateus Valerino Barros de Santana"> | **Mateus Valerino Barros de Santana** | **Desenvolvedor Front-end** | Contribuiu com a construção das telas, apresentação das informações ao jogador e melhoria da experiência durante a execução do jogo. |
+| <img src="./lucas.jpeg" width="110" alt="Foto de Lucas Aprígio dos Santos"> | **Lucas Aprígio dos Santos** | **Desenvolvedor Back-end** | Apoio na implementação das funcionalidades internas do sistema, estrutura de suporte da aplicação e organização do funcionamento geral do projeto. |
+
 ---
 
 ### Diagrama de Atividade
