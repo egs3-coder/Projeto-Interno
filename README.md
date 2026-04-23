@@ -48,8 +48,6 @@ A proposta do jogo é oferecer uma experiência envolvente e lúdica, em que est
 
 A equipe do **MetaDeck** foi organizada de forma colaborativa, distribuindo responsabilidades entre planejamento, prototipação, desenvolvimento, testes e apoio à documentação do projeto.
 
-<h2>👨‍💻 Equipe</h2>
-
 <table>
   <thead>
     <tr>
@@ -118,6 +116,7 @@ A equipe do **MetaDeck** foi organizada de forma colaborativa, distribuindo resp
     </tr>
   </tbody>
 </table>
+
 ---
 
 ### Diagrama de Atividade
