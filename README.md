@@ -40,7 +40,8 @@ A proposta do jogo é oferecer uma experiência envolvente e lúdica, em que est
 --- 
 ## Ferramentas Utilizadas
 
-🔗 [Trello](https://trello.com/b/peA1EPFt/projeto-interno)
+🔗 [Trello](https://trello.com/b/peA1EPFt/projeto-interno)  
+🎨 [Figma](https://www.figma.com/design/ni9lD5vNeYUJGzGCVwKJI0/MetaDeck?node-id=0-1&t=eL88baV89WgyTCQP-1)
 
 ---
 
