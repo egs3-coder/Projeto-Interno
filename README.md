@@ -21,9 +21,7 @@ A proposta do jogo é oferecer uma experiência envolvente e lúdica, em que est
 - **Cartas de Tarot**
 - **Cupons**
 - **Recompensas de Fase**
-- **Integração**
 - **Feedback Visual**
-- **Balanceamento**
 
 ---
 
@@ -304,26 +302,8 @@ flowchart TD
 
     D -->|Não| G
 ```
-## 12 — Integração
 
-```mermaid
-flowchart TD
-    A([Início]) --> B[Concluir fase]
-    B --> C[Transição rápida]
-    C --> D[Exibir quiz entre fases]
-    D --> E[Calcular recompensa]
-    E --> F[Enviar recompensa para a loja]
-    F --> G[Abrir loja]
-    G --> H{Comprar ou seguir?}
-
-    H -->|Comprar| I[Comprar itens]
-    I --> J[Iniciar próxima fase]
-    J --> K([Fim])
-
-    H -->|Seguir| J
-```
-
-## 13 — Feedback Visual
+## 12 — Feedback Visual
 
 ```mermaid
 flowchart TD
@@ -336,28 +316,6 @@ flowchart TD
     G --> H[Jogador entende resultado]
     H --> I[Continuar jogando]
     I --> J([Fim])
-```
-## 14 — Balanceamento
-
-```mermaid
-flowchart TD
-   A([Início]) --> B[Iniciar run balanceada]
-    B --> C[Aplicar Coringas como principal fonte de poder]
-    C --> D[Aplicar Tarot como recurso situacional]
-    D --> E[Aplicar Cupons com impacto moderado]
-    E --> F[Usar quiz apenas como vantagem]
-    F --> G{Errou perguntas?}
-
-    G -->|Sim| H[Continuar run com menor vantagem]
-    H --> I[Tomar decisões estratégicas com cartas]
-
-    G -->|Não| J[Ganhar bônus moderado]
-    J --> I
-
-    I --> K{Estratégia é o fator principal?}
-    K -->|Sim| L[Manter jogo justo e evitar bola de neve]
-    L --> M([Fim])
-
 ```
 ---
 
