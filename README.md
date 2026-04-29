@@ -317,7 +317,6 @@ flowchart TD
     H --> I[Continuar jogando]
     I --> J([Fim])
 ```
----
 
 ## Equipe
 
