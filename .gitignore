@@ -1,0 +1,4 @@
+build/
+*.exe
+history.txt
+.DS_Store
