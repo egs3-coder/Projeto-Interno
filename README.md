@@ -27,12 +27,12 @@ A proposta do jogo é oferecer uma experiência envolvente e lúdica, em que est
 
 ## Backlog
 
-<img src="../Projeto-Interno/assets/Backlog.png" alt="Captura de tela do MetaDeck" width="600">
+<img src="assets/Backlog.png" alt="Captura de tela do MetaDeck" width="600">
 
 <br><br><br>
 
 <p align="center">
-  <img src="../Projeto-Interno/assets/UH.png" alt="Captura de tela do MetaDeck" width="600">
+  <img src="assets/UH.png" alt="Captura de tela do MetaDeck" width="600">
 </p>
 
 --- 
@@ -333,7 +333,7 @@ A equipe do **MetaDeck** foi organizada de forma colaborativa, distribuindo resp
   <tbody>
     <tr>
       <td align="center">
-        <img src="../Projeto-Interno/assets/ewerton.jpeg" width="100" height="100" alt="Foto de Ewerton Guilherme da Silva">
+        <img src="assets/ewerton.jpeg" width="100" height="100" alt="Foto de Ewerton Guilherme da Silva">
       </td>
       <td><strong>Ewerton Guilherme da Silva</strong></td>
       <td><strong>Desenvolvedor Back-end</strong></td>
@@ -341,7 +341,7 @@ A equipe do **MetaDeck** foi organizada de forma colaborativa, distribuindo resp
     </tr>
     <tr>
       <td align="center">
-        <img src="../Projeto-Interno/assets/lauan.jpeg" width="100" height="100" alt="Foto de Lauan Gonçalves dos Santos">
+        <img src="assets/lauan.jpeg" width="100" height="100" alt="Foto de Lauan Gonçalves dos Santos">
       </td>
       <td><strong>Lauan Gonçalves dos Santos</strong></td>
       <td><strong>Scrum Master</strong></td>
@@ -349,7 +349,7 @@ A equipe do **MetaDeck** foi organizada de forma colaborativa, distribuindo resp
     </tr>
     <tr>
       <td align="center">
-        <img src="../Projeto-Interno/assets/davi.jpeg" width="100" height="100" alt="Foto de Davi Magno Campelo do Nascimento">
+        <img src="assets/davi.jpeg" width="100" height="100" alt="Foto de Davi Magno Campelo do Nascimento">
       </td>
       <td><strong>Davi Magno Campelo do Nascimento</strong></td>
       <td><strong>Desenvolvedor Front-end</strong></td>
@@ -357,7 +357,7 @@ A equipe do **MetaDeck** foi organizada de forma colaborativa, distribuindo resp
     </tr>
     <tr>
       <td align="center">
-        <img src="../Projeto-Interno/assets/IMG-20260423-WA0142.jpg" width="100" height="100" alt="Foto de Aquiles Pereira dos Santos - adicionar depois">
+        <img src="assets/IMG-20260423-WA0142.jpg" width="100" height="100" alt="Foto de Aquiles Pereira dos Santos - adicionar depois">
       </td>
       <td><strong>Aquiles Pereira dos Santos</strong></td>
       <td><strong>Testes / QA</strong></td>
@@ -365,7 +365,7 @@ A equipe do **MetaDeck** foi organizada de forma colaborativa, distribuindo resp
     </tr>
     <tr>
       <td align="center">
-        <img src="../Projeto-Interno/assets/joao.jpeg" width="100" height="100" alt="Foto de João Ricardo Alves de Brito">
+        <img src="assets/joao.jpeg" width="100" height="100" alt="Foto de João Ricardo Alves de Brito">
       </td>
       <td><strong>João Ricardo Alves de Brito</strong></td>
       <td><strong>Product Owner</strong></td>
@@ -373,7 +373,7 @@ A equipe do **MetaDeck** foi organizada de forma colaborativa, distribuindo resp
     </tr>
     <tr>
       <td align="center">
-        <img src="../Projeto-Interno/assets/mateus.jpeg" width="100" height="100" alt="Foto de Mateus Valerino Barros de Santana">
+        <img src="assets/mateus.jpeg" width="100" height="100" alt="Foto de Mateus Valerino Barros de Santana">
       </td>
       <td><strong>Mateus Valerino Barros de Santana</strong></td>
       <td><strong>Desenvolvedor Front-end</strong></td>
@@ -381,7 +381,7 @@ A equipe do **MetaDeck** foi organizada de forma colaborativa, distribuindo resp
     </tr>
     <tr>
       <td align="center">
-        <img src="../Projeto-Interno/assets/lucas.jpeg" width="100" height="100" alt="Foto de Lucas Aprígio dos Santos">
+        <img src="assets/lucas.jpeg" width="100" height="100" alt="Foto de Lucas Aprígio dos Santos">
       </td>
       <td><strong>Lucas Aprígio dos Santos</strong></td>
       <td><strong>Desenvolvedor Back-end</strong></td>
