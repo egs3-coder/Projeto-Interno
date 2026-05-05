@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="../Projeto-Interno/assets/metadecklogo.png/" alt="Logo do MetaDeck" width="500">
+  <img src="/Projeto-Interno/assets/metadecklogo.png/" alt="Logo do MetaDeck" width="500">
 </p>
 
 O **MetaDeck** é um jogo de cartas estratégico em que o jogador avança por fases cada vez mais desafiadoras, usando combinações, escolhas táticas e adaptação para superar metas de pontuação. Durante a partida, cada decisão influencia diretamente o desempenho, tornando cada rodada única e dinâmica.
