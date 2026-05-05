@@ -302,7 +302,6 @@ flowchart TD
 
     D -->|Não| G
 ```
-
 ## 12 — Feedback Visual
 
 ```mermaid
@@ -317,7 +316,7 @@ flowchart TD
     H --> I[Continuar jogando]
     I --> J([Fim])
 ```
-
+---
 ## Equipe
 
 A equipe do **MetaDeck** foi organizada de forma colaborativa, distribuindo responsabilidades entre planejamento, prototipação, desenvolvimento, testes e apoio à documentação do projeto.
