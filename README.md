@@ -29,12 +29,6 @@ A proposta do jogo é oferecer uma experiência envolvente e lúdica, em que est
 
 <img src="assets/Backlog.png" alt="Captura de tela do MetaDeck" width="600">
 
-<br><br><br>
-
-<p align="center">
-  <img src="assets/UH.png" alt="Captura de tela do MetaDeck" width="600">
-</p>
-
 --- 
 ## Ferramentas Utilizadas
 
@@ -51,7 +45,7 @@ A proposta do jogo é oferecer uma experiência envolvente e lúdica, em que est
 
 ### Diagrama de Atividade
 
-🎨 [Figma](https://www.figma.com/board/oRGYxgpozYA9ofm71KWhNC/Diagrama-de-atividades?node-id=0-1&t=cdALj8wPUNesLKAL-1)
+🔗 [Diagrama](https://www.figma.com/board/oRGYxgpozYA9ofm71KWhNC/Diagrama-de-atividades?node-id=0-1&t=cdALj8wPUNesLKAL-1)
 
 ---
 
