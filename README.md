@@ -24,6 +24,11 @@ A proposta do jogo é oferecer uma experiência envolvente e lúdica, em que est
 - **Feedback Visual**
 
 ---
+## Relatorio
+
+[Documentação do Projeto](https://docs.google.com/document/d/1QuwzkYMZ4sQCR2ggyGRRT0ve8KE0VRTHym0jKqX2Nnk/edit?usp=sharing)
+
+---
 
 ## Backlog
 
