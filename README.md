@@ -54,6 +54,12 @@ A proposta do jogo é oferecer uma experiência envolvente e lúdica, em que est
 
 ---
 
+## Issue/bug tracker
+
+[Issue/Bug Tracker](https://github.com/egs3-coder/Projeto-Interno/issues)
+
+---
+
 ## Programação em Par Experimentada
 
 A equipe utilizou programação par a par para desenvolver, revisar e testar funcionalidades importantes do projeto. A prática ajudou na organização do código, na troca de conhecimento entre os integrantes e na identificação de erros durante o desenvolvimento.
