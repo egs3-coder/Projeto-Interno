@@ -54,6 +54,21 @@ A proposta do jogo é oferecer uma experiência envolvente e lúdica, em que est
 
 ---
 
+## Programação em Par Experimentada
+
+A equipe utilizou programação par a par para desenvolver, revisar e testar funcionalidades importantes do projeto. A prática ajudou na organização do código, na troca de conhecimento entre os integrantes e na identificação de erros durante o desenvolvimento.
+
+Durante o trabalho em pares, as atividades foram divididas da seguinte forma:
+
+- Um par atuou na lógica interna do jogo, trabalhando na estrutura das rodadas, regras principais e funcionamento das mecânicas do sistema.
+- Um par ficou responsável pela interface e experiência do jogador, ajustando telas, menus, mensagens, organização visual e apresentação das informações durante a partida.
+- Um par trabalhou na validação das funcionalidades, realizando testes manuais, verificando o comportamento esperado das mecânicas e registrando possíveis bugs ou melhorias.
+- Outro par apoiou a organização do projeto, documentação, prototipação e revisão das funcionalidades implementadas.
+
+Com essa prática, enquanto um integrante escrevia ou ajustava o código, o outro acompanhava a lógica, revisava as alterações e sugeria melhorias. Isso contribuiu para um desenvolvimento mais colaborativo, com maior qualidade nas funcionalidades e melhor alinhamento entre as partes do projeto.
+
+---
+
 ## Equipe
 
 A equipe do **MetaDeck** foi organizada de forma colaborativa, distribuindo responsabilidades entre planejamento, prototipação, desenvolvimento, testes e apoio à documentação do projeto.
