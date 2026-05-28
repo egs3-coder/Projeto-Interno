@@ -32,7 +32,7 @@ A proposta do jogo é oferecer uma experiência envolvente e lúdica, em que est
 
 ## Backlog
 
-<img src="meta.png" alt="Captura de tela do MetaDeck" width="600">
+<img src="Captura de tela 2026-05-28 195859.png" alt="Captura de tela do MetaDeck" width="600">
 
 --- 
 ## Ferramentas Utilizadas
