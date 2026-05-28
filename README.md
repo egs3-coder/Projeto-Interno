@@ -44,7 +44,7 @@ A proposta do jogo é oferecer uma experiência envolvente e lúdica, em que est
 
 ## Demonstração do Projeto
 
-[🎥 Demonstração do Projeto](https://drive.google.com/file/d/13AJscFJPLU1kD3o7pkONpn4DUUwXMx6R/view?usp=sharing)
+[🎥 Demonstração do Projeto](https://drive.google.com/file/d/15oD4ilm6bAYJCUN9YIHtGHEEcQMHdxNu/view?usp=drive_link)
 
 ---
 
