@@ -20,7 +20,7 @@
 #define MAX_PENDING_MARKS 12
 #define MAX_QUIZ_LOG 64
 #define GUI_ASSET_PATH_CAP 256
-#define GUI_JOKER_TEXTURE_COUNT (JOKER_PI_CACHE + 1)
+#define GUI_JOKER_TEXTURE_COUNT (JOKER_RED_CARD + 1)
 #define GUI_TAROT_TEXTURE_COUNT (TAROT_JUDGEMENT + 1)
 #define GUI_COUPON_TEXTURE_COUNT (COUPON_HONE_PLUS + 1)
 #define GUI_EDITION_TEXTURE_COUNT (EDITION_NEGATIVE + 1)
@@ -239,8 +239,6 @@ static void update_temp_jokers_after_phase(PlayerBuild *build);
 static void apply_hand_overrides(PhaseState *phase, HandEval *eval, int count);
 static Color rgb(int r, int g, int b);
 static Rectangle Rf(float x, float y, float w, float h);
-static JokerEdition random_edition_gui(const AppState *app);
-static int edition_extra_cost(JokerEdition edition);
 
 typedef struct {
     int best_hand_score;
@@ -287,6 +285,11 @@ struct AppState {
     int hovered_card;
     int selected_joker_index;
     int selected_tarot_index;
+    int dragging_card_index;
+    int dragging_joker_index;
+    int drag_started;
+    Vector2 drag_start;
+    Vector2 drag_offset;
     bool selected[HAND_SIZE];
     float select_anim[HAND_SIZE];
     float hover_anim[HAND_SIZE];
@@ -365,6 +368,8 @@ static void unlock_collection_boss(AppState *app, int phase_number);
 static void unlock_collection_tarot(AppState *app, TarotType tarot);
 
 static AssetPack *g_assets = NULL;
+static Rectangle g_render_view = {0};
+static float g_render_scale = 1.0f;
 
 static const HandGrowth HAND_GROWTH[MAX_HAND_LEVEL_TRACK] = {
     {6, 1, 4},
@@ -384,6 +389,27 @@ static Color rgb(int r, int g, int b) {
 
 static Rectangle Rf(float x, float y, float w, float h) {
     return (Rectangle){x, y, w, h};
+}
+
+static void update_render_layout(void) {
+    float sw = (float)GetScreenWidth();
+    float sh = (float)GetScreenHeight();
+    float scale_x = sw / (float)SCREEN_W;
+    float scale_y = sh / (float)SCREEN_H;
+    g_render_scale = scale_x < scale_y ? scale_x : scale_y;
+    if (g_render_scale <= 0.0f) g_render_scale = 1.0f;
+    g_render_view.width = (float)SCREEN_W * g_render_scale;
+    g_render_view.height = (float)SCREEN_H * g_render_scale;
+    g_render_view.x = (sw - g_render_view.width) * 0.5f;
+    g_render_view.y = (sh - g_render_view.height) * 0.5f;
+}
+
+static Vector2 virtual_mouse(void) {
+    Vector2 mouse = GetMousePosition();
+    return (Vector2){
+        (mouse.x - g_render_view.x) / g_render_scale,
+        (mouse.y - g_render_view.y) / g_render_scale
+    };
 }
 
 static int max_int(int a, int b) {
@@ -462,13 +488,14 @@ static int joker_sheet_index(JokerType joker) {
         case JOKER_LOVELY: return 3;
         case JOKER_WRATHFUL: return 4;
         case JOKER_ASTUTE: return 5;
-        case JOKER_MIRROR_QUIZ: return 118;
+        case JOKER_MIRROR_QUIZ: return 130;
         case JOKER_BOSS_SHIELD: return 144;
         case JOKER_CRYPTID_RELAY: return 136;
-        case JOKER_COSMOS_PRISM: return 65;
+        case JOKER_COSMOS_PRISM: return 136;
         case JOKER_LUCKY_JIMBO: return 86;
         case JOKER_FAMILIAR_WAGE: return 105;
         case JOKER_PI_CACHE: return 134;
+        case JOKER_RED_CARD: return 118;
         default: return 0;
     }
 }
@@ -517,14 +544,14 @@ static Rectangle tarot_sheet_src(TarotType tarot) {
 
 static int coupon_sheet_index(CouponType coupon) {
     switch (coupon) {
-        case COUPON_CLEARANCE: return 3;
-        case COUPON_CLEARANCE_PLUS: return 4;
-        case COUPON_GRABBER: return 13;
-        case COUPON_GRABBER_PLUS: return 14;
-        case COUPON_ORACLE: return 17;
-        case COUPON_ORACLE_PLUS: return 18;
+        case COUPON_CLEARANCE: return 4;
+        case COUPON_CLEARANCE_PLUS: return 13;
+        case COUPON_GRABBER: return 6;
+        case COUPON_GRABBER_PLUS: return 15;
+        case COUPON_ORACLE: return 23;
+        case COUPON_ORACLE_PLUS: return 32;
         case COUPON_HONE: return 5;
-        case COUPON_HONE_PLUS: return 6;
+        case COUPON_HONE_PLUS: return 14;
         default: return 0;
     }
 }
@@ -532,6 +559,22 @@ static int coupon_sheet_index(CouponType coupon) {
 static Rectangle coupon_sheet_src(CouponType coupon) {
     int index = coupon_sheet_index(coupon) - 1;
     return sheet_rect(index % 9, index / 9, 142.0f, 190.0f);
+}
+
+static Rectangle pack_sheet_src(PackKind kind) {
+    int index;
+    switch (kind) {
+        case PACK_BUFFOON_3_1: index = 33; break;
+        case PACK_BUFFOON_5_1: index = 35; break;
+        case PACK_BUFFOON_5_2: index = 36; break;
+        case PACK_ARCANA_3_1: index = 1; break;
+        case PACK_ARCANA_5_1: index = 9; break;
+        case PACK_ARCANA_5_2: index = 11; break;
+        default: index = 0; break;
+    }
+    if (index <= 0) return Rf(0, 0, 0, 0);
+    index--;
+    return sheet_rect(index % 4, index / 4, 142.0f, 190.0f);
 }
 
 static int texture_can_cover(Texture2D texture, Rectangle src) {
@@ -627,7 +670,7 @@ static void draw_edition_badge(Rectangle box, JokerEdition edition) {
 }
 
 static int collection_total_jokers(void) {
-    return JOKER_PI_CACHE;
+    return JOKER_RED_CARD;
 }
 
 static int collection_total_coupons(void) {
@@ -819,32 +862,6 @@ static void apply_skip_reward(AppState *app) {
     }
 }
 
-static const char *joker_rarity_name(JokerType type) {
-    switch (type) {
-        case JOKER_FOUR:
-        case JOKER_CRYPTID_RELAY:
-        case JOKER_COSMOS_PRISM:
-        case JOKER_LUCKY_JIMBO:
-        case JOKER_BOSS_SHIELD:
-        case JOKER_NOBLE_LINEAGE:
-        case JOKER_MIRROR_QUIZ:
-            return "Raro";
-        case JOKER_THREE:
-        case JOKER_STRAIGHT:
-        case JOKER_FLUSH:
-        case JOKER_ROYAL_COUNCIL:
-        case JOKER_THRONE:
-        case JOKER_OCCULT_LIBRARY:
-        case JOKER_RITUAL_TABLE:
-        case JOKER_STENCIL:
-        case JOKER_PI_CACHE:
-        case JOKER_ARCANE_MINOR:
-            return "Incomum";
-        default:
-            return "Comum";
-    }
-}
-
 static int blind_kind_from_phase(int phase_number) {
     return (phase_number - 1) % 3;
 }
@@ -1007,6 +1024,7 @@ static const char *joker_desc(JokerType type) {
         case JOKER_LUCKY_JIMBO: return "Lucky Cat simplificado: sempre que Sorte ativa, este Coringa cresce junto no xmult.";
         case JOKER_FAMILIAR_WAGE: return "Swashbuckler economico: pares e trincas tambem trazem moedas no contracheque.";
         case JOKER_PI_CACHE: return "Satellite arcano: usar consumiveis alimenta um mult extra estavel para a build.";
+        case JOKER_RED_CARD: return "Comeca com +0 Mult. Sempre que voce ignora um pacote aberto, ganha +3 Mult permanente.";
         default: return "Coringa de suporte.";
     }
 }
@@ -1202,7 +1220,7 @@ static void draw_panel(Rectangle box, Color fill, Color outline) {
 }
 
 static bool hover(Rectangle box) {
-    return CheckCollisionPointRec(GetMousePosition(), box);
+    return CheckCollisionPointRec(virtual_mouse(), box);
 }
 
 static bool clicked(Rectangle box) {
@@ -1224,6 +1242,57 @@ static void draw_multiline(const char *text, int x, int y, int size, Color color
             line[cursor++] = *p;
         }
     }
+}
+
+static int draw_wrapped_text(const char *text, Rectangle box, int size, int line_gap, Color color, int draw) {
+    char word[160];
+    char line[512];
+    int word_len = 0;
+    int line_len = 0;
+    int lines = 0;
+    int max_lines = (int)(box.height / (float)(size + line_gap));
+
+    if (!text || size <= 0) return 0;
+    if (max_lines < 1) max_lines = 1;
+    line[0] = '\0';
+
+    for (const char *p = text;; p++) {
+        int flush_word = (*p == ' ' || *p == '\n' || *p == '\0');
+        if (!flush_word) {
+            if (word_len < (int)sizeof(word) - 1) word[word_len++] = *p;
+        }
+        if (flush_word) {
+            int candidate_width;
+            word[word_len] = '\0';
+            if (word_len > 0) {
+                char candidate[640];
+                if (line_len > 0) snprintf(candidate, sizeof(candidate), "%s %s", line, word);
+                else snprintf(candidate, sizeof(candidate), "%s", word);
+                candidate_width = MeasureText(candidate, size);
+                if (line_len > 0 && candidate_width > box.width) {
+                    if (draw && lines < max_lines) DrawText(line, (int)box.x, (int)(box.y + lines * (size + line_gap)), size, color);
+                    lines++;
+                    snprintf(line, sizeof(line), "%s", word);
+                    line_len = (int)strlen(line);
+                } else {
+                    snprintf(line, sizeof(line), "%s", candidate);
+                    line_len = (int)strlen(line);
+                }
+                word_len = 0;
+            }
+            if (*p == '\n' || *p == '\0') {
+                if (line_len > 0 || *p == '\n') {
+                    if (draw && lines < max_lines) DrawText(line, (int)box.x, (int)(box.y + lines * (size + line_gap)), size, color);
+                    lines++;
+                    line[0] = '\0';
+                    line_len = 0;
+                }
+            }
+            if (*p == '\0') break;
+        }
+    }
+
+    return lines;
 }
 
 static void set_status(AppState *app, const char *fmt, ...) {
@@ -1621,6 +1690,7 @@ static PlayOutcome calculate_outcome_internal(AppState *app, Card selected[], in
                 }
                 break;
             case JOKER_PI_CACHE: if (phase->tarot_used_this_phase) { mult += 8; if (trace) { trace->joker_hits[i]++; trace->counter_hits[1]++; } } break;
+            case JOKER_RED_CARD: if (joker->value > 0) { mult += joker->value; if (trace) { trace->joker_hits[i]++; trace->counter_hits[1]++; } } break;
             default: break;
         }
 
@@ -1776,26 +1846,6 @@ static void update_master_card(AppState *app, int master_index, Card card) {
     }
 }
 
-static JokerType random_joker_gui(void) {
-    JokerType common[] = {JOKER_FLAT, JOKER_PAIR, JOKER_TWO_PAIR, JOKER_COIN_PAIR, JOKER_COIN_FLUSH, JOKER_POPCORN, JOKER_COFFEE, JOKER_ROYAL_KING, JOKER_GREEDY, JOKER_LOVELY};
-    JokerType uncommon[] = {JOKER_THREE, JOKER_STRAIGHT, JOKER_FLUSH, JOKER_COIN_THREE, JOKER_COIN_ROYAL, JOKER_LUNCHBOX, JOKER_OCCULT_LIBRARY, JOKER_RITUAL_TABLE, JOKER_STENCIL, JOKER_MIRROR_QUIZ};
-    JokerType rare[] = {JOKER_FOUR, JOKER_BOSS_SHIELD, JOKER_CRYPTID_RELAY, JOKER_COSMOS_PRISM, JOKER_LUCKY_JIMBO, JOKER_NOBLE_LINEAGE};
-    int roll = rand() % 100;
-    if (roll < 65) return common[rand() % (int)(sizeof(common) / sizeof(common[0]))];
-    if (roll < 90) return uncommon[rand() % (int)(sizeof(uncommon) / sizeof(uncommon[0]))];
-    return rare[rand() % (int)(sizeof(rare) / sizeof(rare[0]))];
-}
-
-static JokerType random_rare_joker_gui(void) {
-    JokerType rare[] = {JOKER_FOUR, JOKER_BOSS_SHIELD, JOKER_CRYPTID_RELAY, JOKER_COSMOS_PRISM, JOKER_LUCKY_JIMBO, JOKER_NOBLE_LINEAGE};
-    return rare[rand() % (int)(sizeof(rare) / sizeof(rare[0]))];
-}
-
-static JokerType random_legendary_joker_gui(void) {
-    JokerType legendary[] = {JOKER_NOBLE_LINEAGE, JOKER_BOSS_SHIELD, JOKER_CRYPTID_RELAY, JOKER_COSMOS_PRISM};
-    return legendary[rand() % (int)(sizeof(legendary) / sizeof(legendary[0]))];
-}
-
 static TarotType random_tarot_gui(void) {
     TarotType common[] = {TAROT_MAGICIAN, TAROT_EMPRESS, TAROT_HIEROPHANT, TAROT_LOVERS, TAROT_STAR, TAROT_MOON, TAROT_SUN, TAROT_WORLD, TAROT_STRENGTH};
     TarotType uncommon[] = {TAROT_FOOL, TAROT_HIGH_PRIESTESS, TAROT_EMPEROR, TAROT_WHEEL, TAROT_HERMIT, TAROT_TEMPERANCE, TAROT_CHARIOT, TAROT_HANGED_MAN};
@@ -1815,66 +1865,6 @@ static TarotType random_arcana_pack_tarot_gui(void) {
     return random_tarot_gui();
 }
 
-static JokerEdition random_edition_gui(const AppState *app) {
-    int roll = rand() % 1000;
-    int ante = app ? ((app->phase_number - 1) / 3) + 1 : 1;
-    int hone = app ? app->build.coupon_levels[3] : 0;
-    int foil = ante < 4 ? 90 : 100;
-    int chrome = ante < 4 ? 40 : 45;
-    int prismatic = ante < 4 ? 10 : 15;
-    int negative = 18;
-
-    if (hone >= 1) {
-        foil += 30;
-        chrome += 20;
-        prismatic += 5;
-        negative += 4;
-    }
-    if (hone >= 2) {
-        foil += 30;
-        chrome += 20;
-        prismatic += 5;
-        negative += 4;
-    }
-
-    if (roll < foil) return EDITION_FOIL;
-    roll -= foil;
-    if (roll < chrome) return EDITION_CHROME;
-    roll -= chrome;
-    if (roll < prismatic) return EDITION_PRISMATIC;
-    roll -= prismatic;
-    if (roll < negative) return EDITION_NEGATIVE;
-    return EDITION_NONE;
-}
-
-static int coupon_discount_percent(const PlayerBuild *build) {
-    if (build->coupon_levels[0] >= 2) return 50;
-    if (build->coupon_levels[0] >= 1) return 75;
-    return 100;
-}
-
-static int apply_discount(int price, const PlayerBuild *build) {
-    int adjusted = (price * coupon_discount_percent(build)) / 100;
-    return adjusted < 1 ? 1 : adjusted;
-}
-
-static int joker_base_price(JokerType type) {
-    const char *rarity = joker_rarity_name(type);
-    if (strcmp(rarity, "Raro") == 0) return 8;
-    if (strcmp(rarity, "Incomum") == 0) return 6;
-    return 4;
-}
-
-static int edition_extra_cost(JokerEdition edition) {
-    switch (edition) {
-        case EDITION_FOIL: return 2;
-        case EDITION_CHROME: return 3;
-        case EDITION_PRISMATIC:
-        case EDITION_NEGATIVE: return 5;
-        default: return 0;
-    }
-}
-
 static void init_offer(Offer *offer) {
     memset(offer, 0, sizeof(*offer));
 }
@@ -1882,9 +1872,9 @@ static void init_offer(Offer *offer) {
 static void fill_joker_offer(AppState *app, Offer *offer, JokerEdition forced_edition) {
     init_offer(offer);
     offer->type = OFFER_JOKER;
-    offer->joker = random_joker_gui();
-    offer->edition = forced_edition != EDITION_NONE ? forced_edition : random_edition_gui(app);
-    offer->price = apply_discount(joker_base_price(offer->joker) + edition_extra_cost(offer->edition), &app->build);
+    offer->joker = random_shop_joker();
+    offer->edition = forced_edition != EDITION_NONE ? forced_edition : random_shop_edition(&app->build, app->phase_number);
+    offer->price = shop_discounted_price(joker_base_price(offer->joker) + joker_edition_extra_cost(offer->edition), &app->build);
     unlock_collection_joker(app, offer->joker);
     if (offer->edition != EDITION_NONE) unlock_collection_mark(app, offer->edition);
 }
@@ -1893,7 +1883,7 @@ static void fill_tarot_offer(AppState *app, Offer *offer) {
     init_offer(offer);
     offer->type = OFFER_TAROT;
     offer->tarot = random_tarot_gui();
-    offer->price = apply_discount(3, &app->build);
+    offer->price = shop_discounted_price(3, &app->build);
     unlock_collection_tarot(app, offer->tarot);
 }
 
@@ -1966,10 +1956,10 @@ static void set_pack_choices(AppState *app, PackKind kind) {
             JokerType joker;
             app->pack.choices[i].type = OFFER_JOKER;
             do {
-                joker = random_joker_gui();
+                joker = random_shop_joker();
             } while (pack_has_joker_offer(&app->pack, joker));
             app->pack.choices[i].joker = joker;
-            app->pack.choices[i].edition = app->pending_mark_count > 0 ? pop_pending_mark(app) : random_edition_gui(app);
+            app->pack.choices[i].edition = app->pending_mark_count > 0 ? pop_pending_mark(app) : random_shop_edition(&app->build, app->phase_number);
             unlock_collection_joker(app, joker);
             if (app->pack.choices[i].edition != EDITION_NONE) unlock_collection_mark(app, app->pack.choices[i].edition);
         } else {
@@ -2098,7 +2088,7 @@ static void apply_non_target_tarot(AppState *app, TarotType tarot, int from_inve
         app->build.coins += gain;
         set_status(app, "Temperanca concedeu +%d moedas.", gain);
     } else if (tarot == TAROT_JUDGEMENT) {
-        JokerType joker = random_joker_gui();
+        JokerType joker = random_shop_joker();
         unlock_collection_joker(app, joker);
         if (build_add_joker(&app->build, joker)) {
             set_status(app, "Julgamento criou um novo Coringa.");
@@ -2106,7 +2096,7 @@ static void apply_non_target_tarot(AppState *app, TarotType tarot, int from_inve
     } else if (tarot == TAROT_AURA) {
         apply_random_free_edition_local(app);
     } else if (tarot == TAROT_WRAITH) {
-        JokerType joker = random_rare_joker_gui();
+        JokerType joker = random_rare_joker();
         int tax = min_int(app->build.coins, 6);
         unlock_collection_joker(app, joker);
         app->build.coins -= tax;
@@ -2130,7 +2120,7 @@ static void apply_non_target_tarot(AppState *app, TarotType tarot, int from_inve
             set_status(app, "Ankh duplicou %s e cobrou um sacrificio da colecao.", joker_name(copy->type));
         }
     } else if (tarot == TAROT_SOUL) {
-        JokerType joker = random_legendary_joker_gui();
+        JokerType joker = random_legendary_joker();
         unlock_collection_joker(app, joker);
         if (build_add_joker(&app->build, joker)) set_status(app, "The Soul trouxe %s para a run.", joker_name(joker));
         else set_status(app, "The Soul encontrou um Coringa lendario, mas faltou espaco.");
@@ -2320,13 +2310,15 @@ static void setup_reward_screen(AppState *app, ScreenId next_screen, QuizMode qu
 
 static void phase_cleared(AppState *app) {
     int joker_bonus = (has_joker(&app->build, JOKER_COIN_BOSS) && app->phase.boss) ? 5 : 0;
+    ScreenId next_screen = app->phase_number >= MAX_PHASES ? SCREEN_END : app->phase.boss ? SCREEN_SHOP : SCREEN_QUIZ;
+    QuizMode next_quiz = app->phase.boss ? QUIZ_BOSS : QUIZ_POST_PHASE;
     if (app->phase.hands_played_this_phase > 0) app->ante_played_blinds++;
     for (int i = 0; i < app->build.joker_count; i++) {
         JokerType type = app->build.jokers[i].type;
         if (type > JOKER_NONE && type < GUI_JOKER_TEXTURE_COUNT) app->stats.joker_use_counts[type]++;
     }
     update_temp_jokers_after_phase(&app->build);
-    setup_reward_screen(app, app->phase.boss ? SCREEN_SHOP : SCREEN_QUIZ, app->phase.boss ? QUIZ_BOSS : QUIZ_POST_PHASE, joker_bonus);
+    setup_reward_screen(app, next_screen, next_quiz, joker_bonus);
     if (app->phase.boss) {
         snprintf(app->stats.defeated_by, sizeof(app->stats.defeated_by), "%s", blind_boss_name_from_phase(app->phase_number));
     }
@@ -2437,6 +2429,8 @@ static void continue_after_reward(AppState *app) {
     } else if (app->reward.next_screen == SCREEN_SHOP) {
         build_shop(app);
         app->screen = SCREEN_SHOP;
+    } else if (app->reward.next_screen == SCREEN_END) {
+        finish_run(app, 1);
     }
 }
 
@@ -2461,6 +2455,9 @@ static void start_run(AppState *app) {
     app->pending_failed_question = 0;
     app->pending_quiz_log_index = -1;
     app->current_quiz_log_index = -1;
+    app->dragging_card_index = -1;
+    app->dragging_joker_index = -1;
+    app->drag_started = 0;
     app->current_ante = 0;
     app->ante_played_blinds = 0;
     app->ante_correct_questions = 0;
@@ -2866,14 +2863,11 @@ static void buy_offer(AppState *app, Offer *offer) {
     }
 
     if (offer->type == OFFER_JOKER) {
-        if (!build_add_joker(&app->build, offer->joker)) {
+        if (!build_add_joker_offer(&app->build, offer->joker, offer->edition, offer->price)) {
             set_status(app, "Sem espaco para Coringa.");
             return;
         }
         app->build.coins -= offer->price;
-        app->build.jokers[app->build.joker_count - 1].edition = offer->edition;
-        app->build.jokers[app->build.joker_count - 1].sell_value = max_int(1, offer->price / 2);
-        if (offer->edition == EDITION_NEGATIVE) app->build.joker_capacity++;
         unlock_collection_joker(app, offer->joker);
         if (offer->edition != EDITION_NONE) unlock_collection_mark(app, offer->edition);
         if (offer->edition != EDITION_NONE) set_status(app, "Comprado: %s com marca %s.", joker_name(offer->joker), gui_edition_name(offer->edition));
@@ -2943,10 +2937,7 @@ static void reroll_shop(AppState *app) {
 static void sell_selected_joker(AppState *app) {
     int idx = app->selected_joker_index;
     if (idx < 0 || idx >= app->build.joker_count) return;
-    app->build.coins += app->build.jokers[idx].sell_value;
-    if (app->build.jokers[idx].edition == EDITION_NEGATIVE) app->build.joker_capacity--;
-    app->build.jokers[idx].active = 0;
-    compact_jokers(&app->build);
+    build_sell_joker(&app->build, idx);
     app->selected_joker_index = -1;
     set_status(app, "Coringa vendido.");
 }
@@ -2958,10 +2949,7 @@ static void choose_pack_offer(AppState *app, int idx) {
     if (offer->sold) return;
 
     if (offer->type == OFFER_JOKER) {
-        if (build_add_joker(&app->build, offer->joker)) {
-            app->build.jokers[app->build.joker_count - 1].edition = offer->edition;
-            app->build.jokers[app->build.joker_count - 1].sell_value = max_int(1, joker_base_price(offer->joker) / 2);
-            if (offer->edition == EDITION_NEGATIVE) app->build.joker_capacity++;
+        if (build_add_joker_offer(&app->build, offer->joker, offer->edition, joker_base_price(offer->joker))) {
             app->stats.cards_bought++;
             unlock_collection_joker(app, offer->joker);
             if (offer->edition != EDITION_NONE) unlock_collection_mark(app, offer->edition);
@@ -2987,6 +2975,22 @@ static void choose_pack_offer(AppState *app, int idx) {
     }
 }
 
+static void ignore_open_pack(AppState *app) {
+    int boosted = 0;
+    for (int i = 0; i < app->build.joker_count; i++) {
+        if (app->build.jokers[i].type == JOKER_RED_CARD && app->build.jokers[i].active) {
+            app->build.jokers[i].value += 3;
+            queue_pulse(&app->joker_pulses[i], 2);
+            boosted++;
+        }
+    }
+
+    app->pack.active = 0;
+    app->screen = SCREEN_SHOP;
+    if (boosted > 0) set_status(app, "Pacote ignorado. Cartao Vermelho ganhou +3 Mult.");
+    else set_status(app, "Pacote ignorado.");
+}
+
 static Rectangle card_rect(int index, int total, float anim_up, float hover_scale) {
     float spacing = 90.0f;
     float start = 595.0f;
@@ -3002,8 +3006,113 @@ static Rectangle joker_rect(int idx) {
     return Rf(430.0f + idx * 112.0f, 68.0f, 96.0f, 132.0f);
 }
 
+static Rectangle joker_rect_for_count(int idx, int total, int selected_idx) {
+    float card_w = idx == selected_idx ? 110.0f : 96.0f;
+    float card_h = idx == selected_idx ? 148.0f : 132.0f;
+    float container_x = 454.0f;
+    float container_w = 850.0f;
+    float spacing = 112.0f;
+    float x;
+    float y = idx == selected_idx ? 54.0f : 68.0f;
+
+    if (total > 1) {
+        float fit_spacing = (container_w - 96.0f) / (float)(total - 1);
+        if (fit_spacing < spacing) spacing = fit_spacing;
+        if (spacing < 38.0f) spacing = 38.0f;
+    }
+
+    x = container_x + idx * spacing;
+    if (selected_idx >= 0 && total > 7) {
+        if (idx < selected_idx) x -= 8.0f;
+        else if (idx > selected_idx) x += 18.0f;
+    }
+    if (idx == selected_idx) x -= 7.0f;
+
+    return Rf(x, y, card_w, card_h);
+}
+
+static Rectangle joker_hit_rect_for_count(int idx, int total, int selected_idx) {
+    Rectangle box = joker_rect_for_count(idx, total, selected_idx);
+    if (total > 1 && idx < total - 1 && idx != selected_idx) {
+        Rectangle next = joker_rect_for_count(idx + 1, total, selected_idx);
+        float visible = next.x - box.x;
+        if (visible > 24.0f && visible < box.width) box.width = visible;
+    }
+    return box;
+}
+
 static Rectangle tarot_rect(int idx) {
     return Rf(1320.0f + idx * 112.0f, 68.0f, 96.0f, 138.0f);
+}
+
+static void move_card_in_hand(AppState *app, int from, int to) {
+    Card card;
+    int source;
+    int selected;
+    float select_anim;
+    float hover_anim;
+    PulseAnim pulse;
+
+    if (from < 0 || from >= app->hand_count || to < 0 || to >= app->hand_count || from == to) return;
+
+    card = app->hand[from];
+    source = app->hand_sources[from];
+    selected = app->selected[from];
+    select_anim = app->select_anim[from];
+    hover_anim = app->hover_anim[from];
+    pulse = app->hand_pulses[from];
+
+    if (from < to) {
+        for (int i = from; i < to; i++) {
+            app->hand[i] = app->hand[i + 1];
+            app->hand_sources[i] = app->hand_sources[i + 1];
+            app->selected[i] = app->selected[i + 1];
+            app->select_anim[i] = app->select_anim[i + 1];
+            app->hover_anim[i] = app->hover_anim[i + 1];
+            app->hand_pulses[i] = app->hand_pulses[i + 1];
+        }
+    } else {
+        for (int i = from; i > to; i--) {
+            app->hand[i] = app->hand[i - 1];
+            app->hand_sources[i] = app->hand_sources[i - 1];
+            app->selected[i] = app->selected[i - 1];
+            app->select_anim[i] = app->select_anim[i - 1];
+            app->hover_anim[i] = app->hover_anim[i - 1];
+            app->hand_pulses[i] = app->hand_pulses[i - 1];
+        }
+    }
+
+    app->hand[to] = card;
+    app->hand_sources[to] = source;
+    app->selected[to] = selected;
+    app->select_anim[to] = select_anim;
+    app->hover_anim[to] = hover_anim;
+    app->hand_pulses[to] = pulse;
+}
+
+static void move_joker_in_build(AppState *app, int from, int to) {
+    JokerInstance joker;
+    PulseAnim pulse;
+
+    if (from < 0 || from >= app->build.joker_count || to < 0 || to >= app->build.joker_count || from == to) return;
+
+    joker = app->build.jokers[from];
+    pulse = app->joker_pulses[from];
+    if (from < to) {
+        for (int i = from; i < to; i++) {
+            app->build.jokers[i] = app->build.jokers[i + 1];
+            app->joker_pulses[i] = app->joker_pulses[i + 1];
+        }
+    } else {
+        for (int i = from; i > to; i--) {
+            app->build.jokers[i] = app->build.jokers[i - 1];
+            app->joker_pulses[i] = app->joker_pulses[i - 1];
+        }
+    }
+
+    app->build.jokers[to] = joker;
+    app->joker_pulses[to] = pulse;
+    app->selected_joker_index = to;
 }
 
 static Color suit_color(int suit) {
@@ -3172,7 +3281,7 @@ static void draw_pack_visual(PackKind kind, Rectangle box) {
         return;
     }
     if (g_assets && kind >= 0) {
-        Rectangle src = sheet_rect(kind % 4, kind / 4, 142.0f, 190.0f);
+        Rectangle src = pack_sheet_src(kind);
         if (texture_can_cover(g_assets->pack_sheet, src)) {
             draw_panel(box, rgb(125, 84, 58), rgb(88, 58, 39));
             draw_texture_region_fit(g_assets->pack_sheet, src, Rf(box.x + 4, box.y + 4, box.width - 8, box.height - 8), WHITE);
@@ -3356,31 +3465,33 @@ static void draw_sidebar(const AppState *app) {
     draw_panel(scale_rect_center(Rf(60, 626, 300, 70), pulse_scale(&app->counter_pulses[3], 0.06f)), Fade(BLACK, 0.92f), WHITE);
     DrawText(TextFormat("$%d", app->build.coins), 144, 640, 48, rgb(239, 245, 64));
 
-    draw_panel(Rf(60, 718, 142, 108), rgb(239, 245, 64), WHITE);
-    DrawText("Info", 106, 746, 28, BLACK);
-    DrawText("tentativa", 78, 782, 18, BLACK);
-    draw_panel(Rf(218, 718, 142, 108), Fade(BLACK, 0.92f), WHITE);
-    DrawText("Aposta", 246, 738, 20, WHITE);
-    DrawText(TextFormat("%d/8", ante), 258, 768, 30, rgb(239, 245, 64));
-    DrawText(TextFormat("Rodada %d", blind), 232, 796, 18, WHITE);
+    draw_panel(Rf(60, 718, 94, 108), rgb(239, 245, 64), WHITE);
+    DrawText("Info", 82, 744, 24, BLACK);
+    DrawText("run", 88, 778, 18, BLACK);
+    draw_panel(Rf(164, 718, 94, 108), Fade(BLACK, 0.92f), WHITE);
+    DrawText("Aposta", 174, 738, 17, WHITE);
+    DrawText(TextFormat("%d/8", ante), 184, 766, 28, rgb(239, 245, 64));
+    DrawText(TextFormat("R%d", blind), 198, 796, 18, WHITE);
+    draw_panel(Rf(266, 718, 94, 108), rgb(214, 82, 83), WHITE);
+    DrawText("Menu", 284, 746, 22, WHITE);
+    DrawText("principal", 276, 780, 14, WHITE);
 }
 
 static void draw_status_bar(const AppState *app) {
     draw_panel(Rf(432, 828, 1128, 44), Fade(rgb(28, 36, 44), 0.90f), rgb(74, 84, 94));
-    DrawText(app->status, 452, 838, 20, WHITE);
+    draw_wrapped_text(app->status, Rf(452, 838, 1088, 24), 20, 4, WHITE, 1);
 }
 
 static void draw_tooltip_box(const AppState *app) {
     if (app->tooltip[0] == '\0') return;
-    Vector2 mouse = GetMousePosition();
-    int lines = 1;
-    for (const char *p = app->tooltip; *p; p++) if (*p == '\n') lines++;
+    Vector2 mouse = virtual_mouse();
+    int lines = draw_wrapped_text(app->tooltip, Rf(0, 0, 328, 360), 18, 4, rgb(38, 42, 50), 0);
     {
-        Rectangle box = Rf(mouse.x + 16, mouse.y + 12, 356, 52 + (lines - 1) * 20);
+        Rectangle box = Rf(mouse.x + 16, mouse.y + 12, 356, 30 + lines * 22);
         if (box.x + box.width > SCREEN_W - 20) box.x = mouse.x - box.width - 16;
         if (box.y + box.height > SCREEN_H - 20) box.y = SCREEN_H - box.height - 20;
         draw_panel(box, Fade(WHITE, 0.985f), rgb(88, 96, 106));
-        draw_multiline(app->tooltip, (int)box.x + 14, (int)box.y + 10, 18, rgb(38, 42, 50));
+        draw_wrapped_text(app->tooltip, Rf(box.x + 14, box.y + 10, box.width - 28, box.height - 18), 18, 4, rgb(38, 42, 50), 1);
     }
 }
 
@@ -3882,7 +3993,8 @@ static void draw_round_preview_screen(AppState *app) {
 
     draw_panel(Rf(818, 312, 592, 330), Fade(BLACK, 0.9f), WHITE);
     DrawText(app->phase.boss ? blind_boss_name_from_phase(app->phase_number) : "Atalho da rodada", 850, 342, 34, WHITE);
-    DrawText(app->phase.boss ? blind_boss_desc_from_phase(app->phase_number) : "Voce pode entrar na fase normalmente ou tentar uma pergunta dificil para pular esta blind e garantir a marca mostrada ao lado na proxima oferta de Coringa.", 850, 402, 24, WHITE);
+    draw_wrapped_text(app->phase.boss ? blind_boss_desc_from_phase(app->phase_number) : "Voce pode entrar na fase normalmente ou tentar uma pergunta dificil para pular esta blind e garantir a marca mostrada ao lado na proxima oferta de Coringa.",
+                      Rf(850, 402, 520, 94), 24, 6, WHITE, 1);
     draw_button(Rf(848, 534, 244, 76), app->phase.boss ? "Entrar no chefe" : "Jogar fase", rgb(96, 48, 255), 32);
     draw_button(Rf(1114, 534, 244, 76), app->phase.boss ? "Sem atalho" : "Pular por quiz", app->phase.boss ? Fade(BLACK, 0.9f) : rgb(239, 245, 64), 28);
     draw_button(Rf(122, 668, 220, 58), "Voltar ao menu", Fade(BLACK, 0.9f), 24);
@@ -3935,15 +4047,11 @@ static void handle_play_input(AppState *app) {
     if (clicked(Rf(920, 748, 170, 62))) sort_hand(app, 0);
     if (clicked(Rf(920, 818, 170, 40))) sort_hand(app, 1);
     if (clicked(Rf(1110, 748, 220, 62))) discard_selected_cards(app);
-    if (clicked(Rf(60, 718, 142, 108))) open_run_info(app, SCREEN_PLAY);
+    if (clicked(Rf(60, 718, 94, 108))) open_run_info(app, SCREEN_PLAY);
+    if (clicked(Rf(266, 718, 94, 108))) app->screen = SCREEN_TITLE;
 }
 
 static void draw_play_screen(AppState *app) {
-    Rectangle chips_box;
-    Rectangle mult_box;
-    Rectangle xmult_box;
-    Rectangle coin_box;
-
     update_all_pulses(app);
     handle_play_input(app);
     rebuild_selection_preview(app);
@@ -3951,23 +4059,6 @@ static void draw_play_screen(AppState *app) {
     draw_background();
     draw_sidebar(app);
     draw_panel(Rf(428, 40, 1134, 778), Fade(BLACK, 0.84f), WHITE);
-
-    chips_box = scale_rect_center(Rf(560, 74, 170, 74), pulse_scale(&app->counter_pulses[0], 0.08f));
-    mult_box = scale_rect_center(Rf(752, 74, 170, 74), pulse_scale(&app->counter_pulses[1], 0.08f));
-    xmult_box = scale_rect_center(Rf(944, 74, 170, 74), pulse_scale(&app->counter_pulses[2], 0.08f));
-    coin_box = scale_rect_center(Rf(1136, 74, 170, 74), pulse_scale(&app->counter_pulses[3], 0.08f));
-    draw_panel(chips_box, rgb(255, 63, 80), WHITE);
-    draw_panel(mult_box, rgb(74, 152, 243), WHITE);
-    draw_panel(xmult_box, rgb(96, 48, 255), WHITE);
-    draw_panel(coin_box, Fade(BLACK, 0.9f), WHITE);
-    DrawText("CHIPS", 590, 84, 18, WHITE);
-    DrawText("MULT", 790, 84, 18, WHITE);
-    DrawText("XMULT", 972, 84, 18, WHITE);
-    DrawText("MOEDAS", 1168, 84, 18, rgb(239, 245, 64));
-    DrawText(TextFormat("%d", app->preview.valid ? (int)(app->preview.chips + 0.5) : 0), 600, 110, 28, WHITE);
-    DrawText(TextFormat("x%d", app->preview.valid ? (int)(app->preview.mult + 0.5) : 0), 802, 110, 28, WHITE);
-    DrawText(TextFormat("x%.1f", app->preview.valid ? app->preview.xmult : 1.0f), 980, 110, 28, WHITE);
-    DrawText(TextFormat("+$%d", app->preview.valid ? app->preview.coins : 0), 1190, 110, 28, app->preview.valid && app->preview.coins > 0 ? rgb(239, 245, 64) : WHITE);
 
     DrawText(TextFormat("%d/%d", app->build.joker_count, app->build.joker_capacity), 436, 218, 24, Fade(WHITE, 0.82f));
     DrawText(TextFormat("%d/%d", app->build.tarot_count, app->build.tarot_capacity), 1460, 218, 24, Fade(WHITE, 0.82f));
@@ -4142,8 +4233,7 @@ static void handle_pack_input(AppState *app) {
         }
     }
     if (clicked(Rf(716, 770, 170, 54))) {
-        app->pack.active = 0;
-        app->screen = SCREEN_SHOP;
+        ignore_open_pack(app);
     }
 }
 
@@ -4286,9 +4376,11 @@ static void draw_end_screen(AppState *app) {
     DrawText(TextFormat("Acerto quiz: %.0f%%", total_quiz ? (100.0 * app->stats.quiz_correct_answers / total_quiz) : 0.0), 1272, 316, 20, WHITE);
     DrawText(TextFormat("Chutes min/max: %d/%d", min_choice, max_choice), 1272, 348, 20, WHITE);
     DrawText(TextFormat("Desvio escolhas: %.1f", spread_choice), 1272, 380, 20, WHITE);
-    DrawText(TextFormat("Coringa fav.: %s", favorite_joker > 0 ? joker_name((JokerType)favorite_joker) : "Nenhum"), 1272, 424, 18, WHITE);
-    DrawText(TextFormat("Tarot fav.: %s", favorite_tarot > 0 ? tarot_display_name((TarotType)favorite_tarot) : "Nenhum"), 1272, 470, 18, WHITE);
-    draw_multiline(run_strategy_hint(app), 1272, 520, 17, rgb(239, 245, 64));
+    draw_wrapped_text(TextFormat("Coringa fav.: %s", favorite_joker > 0 ? joker_name((JokerType)favorite_joker) : "Nenhum"),
+                      Rf(1272, 424, 236, 42), 18, 4, WHITE, 1);
+    draw_wrapped_text(TextFormat("Tarot fav.: %s", favorite_tarot > 0 ? tarot_display_name((TarotType)favorite_tarot) : "Nenhum"),
+                      Rf(1272, 470, 236, 42), 18, 4, WHITE, 1);
+    draw_wrapped_text(run_strategy_hint(app), Rf(1272, 520, 236, 52), 17, 4, rgb(239, 245, 64), 1);
     draw_panel(Rf(382, 112, 860, 676), Fade(rgb(28, 35, 44), 0.97f), app->run_won ? rgb(58, 167, 129) : rgb(214, 82, 83));
     DrawText(app->run_won ? "RUN CONCLUIDA" : "FIM DE JOGO", 552, 148, 70, app->run_won ? rgb(86, 220, 158) : rgb(239, 82, 82));
 
@@ -4297,7 +4389,8 @@ static void draw_end_screen(AppState *app) {
 
     draw_panel(Rf(480, 258, 670, 54), rgb(214, 217, 226), rgb(54, 60, 68));
     DrawText("Jogador / Modalidade", 520, 272, 24, rgb(40, 44, 50));
-    DrawText(TextFormat("%s | %s", app->active_player, player_modality_name_from_mask(app->question_mask)), 810, 272, 22, rgb(239, 82, 82));
+    draw_wrapped_text(TextFormat("%s | %s", app->active_player, player_modality_name_from_mask(app->question_mask)),
+                      Rf(810, 272, 324, 28), 22, 2, rgb(239, 82, 82), 1);
 
     draw_panel(Rf(480, 324, 670, 54), rgb(214, 217, 226), rgb(54, 60, 68));
     DrawText("Pontuacao Total", 520, 338, 24, rgb(40, 44, 50));
@@ -4313,7 +4406,7 @@ static void draw_end_screen(AppState *app) {
     draw_panel(Rf(480, 458, 304, 54), rgb(214, 217, 226), rgb(54, 60, 68));
     draw_panel(Rf(846, 458, 304, 54), rgb(214, 217, 226), rgb(54, 60, 68));
     DrawText("Mao Mais Jogada", 510, 472, 24, rgb(40, 44, 50));
-    DrawText(TextFormat("%s (%d)", hand_type_name(most_played), most_played_count), 638, 472, 22, rgb(239, 82, 82));
+    draw_wrapped_text(TextFormat("%s (%d)", hand_type_name(most_played), most_played_count), Rf(638, 472, 132, 28), 22, 2, rgb(239, 82, 82), 1);
     DrawText("Rodada", 878, 472, 24, rgb(40, 44, 50));
     DrawText(TextFormat("%d", blind_kind_from_phase(app->phase_number) + 1), 1080, 472, 24, rgb(239, 185, 68));
 
@@ -4322,7 +4415,7 @@ static void draw_end_screen(AppState *app) {
     DrawText("Maos Jogadas", 510, 538, 24, rgb(40, 44, 50));
     DrawText(TextFormat("%d", app->stats.hands_played), 700, 538, 24, rgb(58, 167, 129));
     DrawText("Derrotado por", 878, 538, 24, rgb(40, 44, 50));
-    DrawText(app->stats.defeated_by[0] ? app->stats.defeated_by : "Nenhum", 1006, 538, 22, rgb(40, 44, 50));
+    draw_wrapped_text(app->stats.defeated_by[0] ? app->stats.defeated_by : "Nenhum", Rf(1006, 538, 128, 28), 22, 2, rgb(40, 44, 50), 1);
 
     draw_panel(Rf(480, 590, 304, 54), rgb(214, 217, 226), rgb(54, 60, 68));
     draw_panel(Rf(846, 590, 304, 54), rgb(214, 217, 226), rgb(54, 60, 68));
@@ -4334,7 +4427,7 @@ static void draw_end_screen(AppState *app) {
     } else {
         snprintf(podium_text, sizeof(podium_text), "Sem ranking salvo ainda");
     }
-    DrawText(podium_text, 706, 604, 22, rgb(18, 108, 212));
+    draw_wrapped_text(podium_text, Rf(706, 604, 72, 28), 22, 2, rgb(18, 108, 212), 1);
     DrawText("Packs Abertos", 878, 604, 24, rgb(40, 44, 50));
     DrawText(TextFormat("%d", app->stats.packs_opened), 1066, 604, 24, rgb(18, 108, 212));
 
@@ -4360,15 +4453,29 @@ static void draw_end_screen(AppState *app) {
 }
 
 int main(void) {
+    int monitor;
+    int monitor_width;
+    int monitor_height;
+    RenderTexture2D render_target;
     srand((unsigned int)time(NULL));
+    SetConfigFlags(FLAG_WINDOW_RESIZABLE | FLAG_VSYNC_HINT);
     InitWindow(SCREEN_W, SCREEN_H, "Balatro Academico - GUI integrada");
+    monitor = GetCurrentMonitor();
+    monitor_width = GetMonitorWidth(monitor);
+    monitor_height = GetMonitorHeight(monitor);
+    SetWindowSize(monitor_width, monitor_height);
+    SetWindowPosition(0, 0);
+    SetWindowState(FLAG_WINDOW_MAXIMIZED);
     SetTargetFPS(60);
+    render_target = LoadRenderTexture(SCREEN_W, SCREEN_H);
 
     AppState app;
     memset(&app, 0, sizeof(app));
     app.screen = SCREEN_TITLE;
     app.selected_joker_index = -1;
     app.selected_tarot_index = -1;
+    app.dragging_card_index = -1;
+    app.dragging_joker_index = -1;
     app.profile_focus = 1;
     app.history_focus = 1;
     app.leaderboard_mode = LEADERBOARD_MATEMATICOS;
@@ -4385,7 +4492,9 @@ int main(void) {
 
     while (!WindowShouldClose()) {
         app.tooltip[0] = '\0';
-        BeginDrawing();
+        update_render_layout();
+        BeginTextureMode(render_target);
+        ClearBackground(BLACK);
         switch (app.screen) {
             case SCREEN_TITLE:
                 draw_title_screen(&app);
@@ -4431,10 +4540,21 @@ int main(void) {
                 break;
         }
         draw_tooltip_box(&app);
+        EndTextureMode();
+
+        BeginDrawing();
+        ClearBackground(BLACK);
+        DrawTexturePro(render_target.texture,
+                       Rf(0, 0, (float)SCREEN_W, (float)-SCREEN_H),
+                       g_render_view,
+                       (Vector2){0, 0},
+                       0.0f,
+                       WHITE);
         EndDrawing();
     }
 
     unload_asset_pack(&app.assets);
+    UnloadRenderTexture(render_target);
     CloseWindow();
     return 0;
 }

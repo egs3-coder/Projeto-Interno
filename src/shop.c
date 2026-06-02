@@ -1,64 +1,35 @@
 #include "shop.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
+
+typedef enum {
+    RARITY_COMMON = 0,
+    RARITY_UNCOMMON,
+    RARITY_RARE
+} JokerRarity;
+
+typedef enum {
+    SHOP_SLOT_EMPTY = 0,
+    SHOP_SLOT_JOKER,
+    SHOP_SLOT_TAROT
+} ShopSlotKind;
 
 typedef struct {
-    JokerType type;
-    CardRarity rarity;
-    int base_price;
-    int base_sell;
-    const char *name;
-    const char *description;
-} JokerDef;
+    ShopSlotKind kind;
+    JokerType joker;
+    JokerEdition edition;
+    TarotType tarot;
+    int price;
+} ShopSlot;
 
 typedef struct {
-    TarotType type;
-    CardRarity rarity;
-    int usage_mask;
-    int min_targets;
-    int max_targets;
-    const char *name;
-    const char *description;
-} TarotDef;
-
-static const JokerDef JOKER_DEFS[] = {
-    {JOKER_NONE, RARITY_COMMON, 0, 0, "Nenhum", ""},
-    {JOKER_FLAT, RARITY_COMMON, 20, 12, "Coringa Base", "+24 pontos em toda mao pontuada."},
-    {JOKER_PAIR, RARITY_COMMON, 22, 13, "Coringa dos Pares", "+60 pontos em Par, Dois Pares e Full House."},
-    {JOKER_FLUSH, RARITY_UNCOMMON, 28, 16, "Coringa do Naipe", "x1.5 em Flush e Straight Flush."},
-    {JOKER_STRAIGHT, RARITY_UNCOMMON, 27, 15, "Coringa da Sequencia", "x1.4 em Sequencia e Straight Flush."},
-    {JOKER_ECONOMY, RARITY_UNCOMMON, 26, 15, "Coringa Economico", "+$1 na recompensa da fase e +1 no teto de juros."},
-    {JOKER_PRISM, RARITY_RARE, 34, 20, "Coringa Prismatico", "+25 pontos por carta de naipe coringa jogada."},
-    {JOKER_ROYAL, RARITY_LEGENDARY, 44, 25, "Coringa Real", "+15 pontos para cada A, J, Q ou K jogado."}
-};
-
-static const TarotDef TAROT_DEFS[] = {
-    {TAROT_NONE, RARITY_COMMON, 0, 0, 0, "Nenhum", ""},
-    {TAROT_PERSISTENCE, RARITY_COMMON, TAROT_CTX_PHASE, 0, 0, "Persistencia", "+1 mao nesta fase."},
-    {TAROT_FORCE, RARITY_COMMON, TAROT_CTX_PHASE, 0, 0, "Forca", "+90 pontos na proxima jogada."},
-    {TAROT_TEMPERANCE, RARITY_UNCOMMON, TAROT_CTX_ANYTIME | TAROT_CTX_PHASE | TAROT_CTX_PACK, 0, 0, "Temperanca", "Receba o valor total de venda dos seus Coringas."},
-    {TAROT_HERMIT, RARITY_UNCOMMON, TAROT_CTX_ANYTIME | TAROT_CTX_PHASE | TAROT_CTX_PACK, 0, 0, "Eremita", "Duplique suas moedas atuais, ate +20."},
-    {TAROT_STAR, RARITY_COMMON, TAROT_CTX_PHASE | TAROT_CTX_PACK, 1, 3, "Estrela", "Converta ate 3 cartas selecionadas para Ouros."},
-    {TAROT_MOON, RARITY_COMMON, TAROT_CTX_PHASE | TAROT_CTX_PACK, 1, 3, "Lua", "Converta ate 3 cartas selecionadas para Paus."},
-    {TAROT_SUN, RARITY_COMMON, TAROT_CTX_PHASE | TAROT_CTX_PACK, 1, 3, "Sol", "Converta ate 3 cartas selecionadas para Copas."},
-    {TAROT_WORLD, RARITY_COMMON, TAROT_CTX_PHASE | TAROT_CTX_PACK, 1, 3, "Mundo", "Converta ate 3 cartas selecionadas para Espadas."},
-    {TAROT_STRENGTH, RARITY_UNCOMMON, TAROT_CTX_PHASE | TAROT_CTX_PACK, 1, 2, "Forca Maior", "Aumente em +1 o valor de ate 2 cartas."},
-    {TAROT_DEATH, RARITY_RARE, TAROT_CTX_PHASE | TAROT_CTX_PACK, 2, 2, "Morte", "Converta a carta da esquerda na carta da direita."},
-    {TAROT_WILD, RARITY_UNCOMMON, TAROT_CTX_PHASE | TAROT_CTX_PACK, 1, 1, "Amantes", "A carta selecionada passa a contar como qualquer naipe."},
-    {TAROT_SEAL, RARITY_RARE, TAROT_CTX_PHASE | TAROT_CTX_PACK, 1, 1, "Oraculo", "Aplique um selo aleatorio a 1 carta selecionada."},
-    {TAROT_ECHO, RARITY_RARE, TAROT_CTX_PHASE | TAROT_CTX_PACK, 1, 1, "Eco Astral", "Crie uma copia da carta selecionada no seu baralho."}
-};
-
-static const JokerDef *joker_def(JokerType type) {
-    if (type < 0 || type > JOKER_ROYAL) return &JOKER_DEFS[0];
-    return &JOKER_DEFS[type];
-}
-
-static const TarotDef *tarot_def(TarotType type) {
-    if (type < 0 || type > TAROT_ECHO) return &TAROT_DEFS[0];
-    return &TAROT_DEFS[type];
-}
+    ShopSlot slots[2];
+    CouponType coupon;
+    int coupon_available;
+    int pack_available;
+    int pack_cost;
+    int reroll_cost;
+} ShopState;
 
 static int read_menu_choice(void) {
     char line[64];
@@ -67,618 +38,750 @@ static int read_menu_choice(void) {
     return atoi(line);
 }
 
-static int min_int(int a, int b) {
-    return a < b ? a : b;
+static int coupon_family_from_type(CouponType type) {
+    return (int)type / 2;
 }
 
-static CardRarity roll_rarity(void) {
-    int roll = rand() % 100;
-    if (roll < 57) return RARITY_COMMON;
-    if (roll < 84) return RARITY_UNCOMMON;
-    if (roll < 97) return RARITY_RARE;
-    return RARITY_LEGENDARY;
+static int coupon_level_from_type(CouponType type) {
+    return ((int)type % 2) == 0 ? 1 : 2;
 }
 
-static EditionType roll_edition(void) {
-    int roll = rand() % 100;
-    if (roll < 70) return EDITION_NONE;
-    if (roll < 83) return EDITION_FOIL;
-    if (roll < 94) return EDITION_HOLOGRAPHIC;
-    if (roll < 99) return EDITION_POLYCHROME;
-    return EDITION_NEGATIVE;
+static int max_int(int a, int b) {
+    return a > b ? a : b;
 }
 
-static JokerType choose_joker_from_rarity(CardRarity rarity) {
-    JokerType pool[8];
-    int count = 0;
-    for (int i = 1; i <= JOKER_ROYAL; i++) {
-        if (JOKER_DEFS[i].rarity == rarity) {
-            pool[count++] = (JokerType)i;
-        }
-    }
-    if (count == 0) return JOKER_FLAT;
-    return pool[rand() % count];
-}
+static void init_joker_instance(JokerInstance *joker, JokerType type) {
+    joker->type = type;
+    joker->edition = EDITION_NONE;
+    joker->active = 1;
+    joker->value = 0;
+    joker->counter = 0;
+    joker->sell_value = 1;
 
-static TarotType choose_tarot_from_filter(int pack_only) {
-    TarotType pool[32];
-    int count = 0;
-    for (int i = 1; i <= TAROT_ECHO; i++) {
-        const TarotDef *def = &TAROT_DEFS[i];
-        if (pack_only && !(def->usage_mask & TAROT_CTX_PACK) && !(def->usage_mask & TAROT_CTX_ANYTIME)) continue;
-        if (!pack_only && (def->type == TAROT_NONE)) continue;
-        pool[count++] = (TarotType)i;
-    }
-    if (count == 0) return TAROT_TEMPERANCE;
-    return pool[rand() % count];
-}
-
-static int edition_price_bonus(EditionType edition) {
-    switch (edition) {
-        case EDITION_FOIL: return 4;
-        case EDITION_HOLOGRAPHIC: return 5;
-        case EDITION_POLYCHROME: return 8;
-        case EDITION_NEGATIVE: return 10;
-        default: return 0;
-    }
-}
-
-static int edition_sell_bonus(EditionType edition) {
-    switch (edition) {
-        case EDITION_FOIL: return 3;
-        case EDITION_HOLOGRAPHIC: return 4;
-        case EDITION_POLYCHROME: return 6;
-        case EDITION_NEGATIVE: return 7;
-        default: return 0;
-    }
-}
-
-static int tarot_is_allowed(TarotType type, int context_mask) {
-    const TarotDef *def = tarot_def(type);
-    if (context_mask == TAROT_CTX_ANYTIME) {
-        return (def->usage_mask & TAROT_CTX_ANYTIME) != 0;
-    }
-    if (context_mask == TAROT_CTX_PHASE) {
-        return (def->usage_mask & TAROT_CTX_PHASE) != 0 || (def->usage_mask & TAROT_CTX_ANYTIME) != 0;
-    }
-    if (context_mask == TAROT_CTX_PACK) {
-        return (def->usage_mask & TAROT_CTX_PACK) != 0 || (def->usage_mask & TAROT_CTX_ANYTIME) != 0;
-    }
-    return 0;
-}
-
-static void print_card_pool(Card *cards[], int count) {
-    for (int i = 0; i < count; i++) {
-        printf("[%d] ", i + 1);
-        print_card(cards[i]);
-        printf("\n");
-    }
-}
-
-static int read_target_indices(int out[], int min_targets, int max_targets, int available) {
-    char line[256];
-    while (1) {
-        printf("Selecione entre %d e %d carta(s) pelo indice, ou 0 para cancelar: ", min_targets, max_targets);
-        if (!fgets(line, sizeof(line), stdin)) return 0;
-        if (line[0] == '0') return 0;
-        int count = parse_indices(line, out, max_targets, available);
-        if (count >= min_targets && count <= max_targets) return count;
-        printf("Selecao invalida.\n");
-    }
-}
-
-static void sample_cards_from_deck(PlayerBuild *build, Card *out[], int *count) {
-    int indices[MAX_DECK_CARDS];
-    int sample_count = min_int(build->deck_size, PACK_PREVIEW_SIZE);
-    for (int i = 0; i < build->deck_size; i++) indices[i] = i;
-    for (int i = build->deck_size - 1; i > 0; i--) {
-        int j = rand() % (i + 1);
-        int tmp = indices[i];
-        indices[i] = indices[j];
-        indices[j] = tmp;
-    }
-    for (int i = 0; i < sample_count; i++) {
-        out[i] = &build->deck_cards[indices[i]];
-    }
-    *count = sample_count;
-}
-
-static SealType random_seal(void) {
-    int roll = rand() % 4;
-    switch (roll) {
-        case 0: return SEAL_GOLD;
-        case 1: return SEAL_RED;
-        case 2: return SEAL_BLUE;
-        default: return SEAL_PURPLE;
-    }
-}
-
-static int add_tarot_to_inventory(PlayerBuild *build, TarotType tarot) {
-    if (build->tarot_count >= MAX_TAROTS) {
-        printf("Inventario de Tarot cheio.\n");
-        return 0;
-    }
-    build->tarot_inventory[build->tarot_count++] = tarot;
-    register_discovery_tarot(build, tarot);
-    return 1;
-}
-
-static int add_joker_to_inventory(PlayerBuild *build, OwnedJoker joker) {
-    if (build->joker_count >= MAX_JOKERS) {
-        printf("Limite de Coringas atingido.\n");
-        return 0;
-    }
-    build->jokers[build->joker_count++] = joker;
-    register_discovery_joker(build, joker.type);
-    return 1;
-}
-
-static int apply_tarot_effect(PlayerBuild *build, TarotType type, Card *targets[], int target_count, TarotPhaseHook *hook) {
     switch (type) {
-        case TAROT_PERSISTENCE:
-            if (!hook || !hook->hands_left) return 0;
-            *hook->hands_left += 1;
-            printf("Persistencia usada: +1 mao nesta fase.\n");
-            return 1;
-        case TAROT_FORCE:
-            if (!hook || !hook->next_play_bonus) return 0;
-            *hook->next_play_bonus += 90;
-            printf("Forca usada: +90 pontos na proxima jogada.\n");
-            return 1;
-        case TAROT_TEMPERANCE: {
-            int reward = 0;
-            for (int i = 0; i < build->joker_count; i++) reward += joker_sell_value(&build->jokers[i]);
-            build->coins += reward;
-            printf("Temperanca usada: +%d moedas com base no valor de venda dos seus Coringas.\n", reward);
-            return 1;
-        }
-        case TAROT_HERMIT: {
-            int reward = build->coins;
-            if (reward > 20) reward = 20;
-            build->coins += reward;
-            printf("Eremita usado: +%d moedas.\n", reward);
-            return 1;
-        }
-        case TAROT_STAR:
-            for (int i = 0; i < target_count; i++) targets[i]->suit = SUIT_OUROS;
-            printf("Estrela usada: cartas convertidas para Ouros.\n");
-            return 1;
-        case TAROT_MOON:
-            for (int i = 0; i < target_count; i++) targets[i]->suit = SUIT_PAUS;
-            printf("Lua usada: cartas convertidas para Paus.\n");
-            return 1;
-        case TAROT_SUN:
-            for (int i = 0; i < target_count; i++) targets[i]->suit = SUIT_COPAS;
-            printf("Sol usado: cartas convertidas para Copas.\n");
-            return 1;
-        case TAROT_WORLD:
-            for (int i = 0; i < target_count; i++) targets[i]->suit = SUIT_ESPADAS;
-            printf("Mundo usado: cartas convertidas para Espadas.\n");
-            return 1;
-        case TAROT_STRENGTH:
-            for (int i = 0; i < target_count; i++) {
-                if (targets[i]->rank < 13) targets[i]->rank++;
-            }
-            printf("Forca Maior usada: cartas fortalecidas.\n");
-            return 1;
-        case TAROT_DEATH:
-            if (target_count != 2) return 0;
-            *targets[0] = *targets[1];
-            printf("Morte usada: a carta da esquerda virou a carta da direita.\n");
-            return 1;
-        case TAROT_WILD:
-            if (target_count != 1) return 0;
-            targets[0]->wild_suit = 1;
-            printf("Amantes usado: a carta agora vale como qualquer naipe.\n");
-            return 1;
-        case TAROT_SEAL:
-            if (target_count != 1) return 0;
-            targets[0]->seal = random_seal();
-            printf("Oraculo usado: %s aplicado.\n", seal_name(targets[0]->seal));
-            return 1;
-        case TAROT_ECHO:
-            if (target_count != 1) return 0;
-            if (build->deck_size >= MAX_DECK_CARDS) {
-                printf("Seu baralho ja esta no limite.\n");
-                return 0;
-            }
-            build->deck_cards[build->deck_size++] = *targets[0];
-            printf("Eco Astral usado: uma copia da carta foi adicionada ao baralho.\n");
-            return 1;
+        case JOKER_POPCORN:
+            joker->value = 24;
+            break;
+        case JOKER_ICE_CREAM:
+            joker->value = 80;
+            break;
+        case JOKER_CAVENDISH:
+            joker->value = 14;
+            break;
+        case JOKER_COFFEE:
+            joker->counter = 3;
+            break;
+        case JOKER_LUNCHBOX:
+            joker->counter = 3;
+            joker->value = 45;
+            break;
+        case JOKER_RED_CARD:
+            joker->value = 0;
+            break;
+        default:
+            break;
+    }
+}
+
+static JokerRarity joker_rarity(JokerType type) {
+    switch (type) {
+        case JOKER_FOUR:
+        case JOKER_CRYPTID_RELAY:
+        case JOKER_COSMOS_PRISM:
+        case JOKER_LUCKY_JIMBO:
+        case JOKER_BOSS_SHIELD:
+        case JOKER_NOBLE_LINEAGE:
+        case JOKER_MIRROR_QUIZ:
+            return RARITY_RARE;
+        case JOKER_THREE:
+        case JOKER_STRAIGHT:
+        case JOKER_FLUSH:
+        case JOKER_ROYAL_COUNCIL:
+        case JOKER_THRONE:
+        case JOKER_OCCULT_LIBRARY:
+        case JOKER_RITUAL_TABLE:
+        case JOKER_STENCIL:
+        case JOKER_PI_CACHE:
+        case JOKER_RED_CARD:
+        case JOKER_ARCANE_MINOR:
+            return RARITY_UNCOMMON;
+        default:
+            return RARITY_COMMON;
+    }
+}
+
+static int rarity_price(JokerRarity rarity) {
+    switch (rarity) {
+        case RARITY_COMMON:
+            return 1 + rand() % 6;
+        case RARITY_UNCOMMON:
+            return 4 + rand() % 5;
+        case RARITY_RARE:
+            return 7 + rand() % 4;
+        default:
+            return 4;
+    }
+}
+
+const char *joker_rarity_name(JokerType type) {
+    switch (joker_rarity(type)) {
+        case RARITY_RARE:
+            return "Raro";
+        case RARITY_UNCOMMON:
+            return "Incomum";
+        default:
+            return "Comum";
+    }
+}
+
+int joker_base_price(JokerType type) {
+    switch (joker_rarity(type)) {
+        case RARITY_RARE:
+            return 8;
+        case RARITY_UNCOMMON:
+            return 6;
+        default:
+            return 4;
+    }
+}
+
+int joker_edition_extra_cost(JokerEdition edition) {
+    switch (edition) {
+        case EDITION_FOIL:
+            return 2;
+        case EDITION_CHROME:
+            return 3;
+        case EDITION_PRISMATIC:
+        case EDITION_NEGATIVE:
+            return 5;
         default:
             return 0;
     }
 }
 
-static int resolve_tarot(PlayerBuild *build, TarotType tarot, int context_mask, Card *cards[], int card_count, TarotPhaseHook *hook) {
-    const TarotDef *def = tarot_def(tarot);
-    if (!tarot_is_allowed(tarot, context_mask)) {
-        printf("Esse Tarot nao pode ser usado neste momento.\n");
-        return 0;
-    }
+int shop_discounted_price(int base_cost, const PlayerBuild *build) {
+    int numerator = 100;
+    if (build->coupon_levels[0] >= 2) numerator = 50;
+    else if (build->coupon_levels[0] >= 1) numerator = 75;
 
-    if (def->max_targets <= 0) {
-        if (apply_tarot_effect(build, tarot, NULL, 0, hook)) {
-            build->stats.tarots_used++;
-            return 1;
-        }
-        printf("Esse Tarot exige uma fase ativa para ser usado.\n");
-        return 0;
-    }
-
-    if (!cards || card_count <= 0) {
-        printf("Nao ha cartas disponiveis para esse Tarot agora.\n");
-        return 0;
-    }
-
-    printf("\nCartas disponiveis para %s:\n", tarot_name(tarot));
-    print_card_pool(cards, card_count);
-
-    int indices[3];
-    int target_count = read_target_indices(indices, def->min_targets, def->max_targets, card_count);
-    if (target_count <= 0) {
-        printf("Uso do Tarot cancelado.\n");
-        return 0;
-    }
-
-    Card *targets[3];
-    for (int i = 0; i < target_count; i++) {
-        targets[i] = cards[indices[i]];
-    }
-
-    if (apply_tarot_effect(build, tarot, targets, target_count, hook)) {
-        build->stats.tarots_used++;
-        return 1;
-    }
-
-    printf("Nao foi possivel resolver esse Tarot.\n");
-    return 0;
+    int result = (base_cost * numerator) / 100;
+    if (result < 1) result = 1;
+    return result;
 }
 
-static void print_joker_offer(const OwnedJoker *joker, int index) {
-    printf("%d) %s | %s | %s\n", index, joker_name(joker->type),
-           rarity_name(joker->rarity), edition_name(joker->edition));
-    printf("   %s\n", joker_description(joker->type));
+JokerType random_rare_joker(void) {
+    JokerType rare[] = {
+        JOKER_FOUR,
+        JOKER_BOSS_SHIELD,
+        JOKER_CRYPTID_RELAY,
+        JOKER_COSMOS_PRISM,
+        JOKER_LUCKY_JIMBO,
+        JOKER_NOBLE_LINEAGE
+    };
+    return rare[rand() % (int)(sizeof(rare) / sizeof(rare[0]))];
 }
 
-static void buy_joker(PlayerBuild *build, OwnedJoker joker, int cost) {
-    if (build->coins < cost) {
-        printf("Moedas insuficientes.\n");
-        return;
-    }
-    if (!add_joker_to_inventory(build, joker)) return;
-    build->coins -= cost;
-    build->stats.cards_bought++;
-    printf("Comprado: %s (%s, %s)\n", joker_name(joker.type),
-           rarity_name(joker.rarity), edition_name(joker.edition));
+JokerType random_legendary_joker(void) {
+    JokerType legendary[] = {
+        JOKER_NOBLE_LINEAGE,
+        JOKER_BOSS_SHIELD,
+        JOKER_CRYPTID_RELAY,
+        JOKER_COSMOS_PRISM
+    };
+    return legendary[rand() % (int)(sizeof(legendary) / sizeof(legendary[0]))];
 }
 
-static void buy_tarot(PlayerBuild *build, TarotType tarot, int cost) {
-    if (build->coins < cost) {
-        printf("Moedas insuficientes.\n");
-        return;
-    }
-    if (!add_tarot_to_inventory(build, tarot)) return;
-    build->coins -= cost;
-    build->stats.cards_bought++;
-    printf("Comprado: %s\n", tarot_name(tarot));
+TarotType random_arcana_pack_tarot(void) {
+    int roll = rand() % 100;
+    if (roll < 5) return TAROT_SOUL;
+    if (roll < 10) return TAROT_ANKH;
+    if (roll < 16) return TAROT_WRAITH;
+    if (roll < 24) return TAROT_AURA;
+    return random_tarot();
 }
 
-static void sell_joker(PlayerBuild *build) {
-    if (build->joker_count <= 0) {
-        printf("Voce nao possui Coringas para vender.\n");
-        return;
+JokerEdition random_shop_edition(const PlayerBuild *build, int phase_number) {
+    int roll = rand() % 1000;
+    int ante = ((phase_number - 1) / 3) + 1;
+    int hone = build ? build->coupon_levels[3] : 0;
+    int foil;
+    int chrome;
+    int prismatic;
+    int negative = 18;
+
+    if (ante < 1) ante = 1;
+    foil = ante < 4 ? 90 : 100;
+    chrome = ante < 4 ? 40 : 45;
+    prismatic = ante < 4 ? 10 : 15;
+
+    if (hone >= 1) {
+        foil += 30;
+        chrome += 20;
+        prismatic += 5;
+        negative += 4;
+    }
+    if (hone >= 2) {
+        foil += 30;
+        chrome += 20;
+        prismatic += 5;
+        negative += 4;
     }
 
-    printf("\nEscolha o Coringa para inspecionar e vender:\n");
-    for (int i = 0; i < build->joker_count; i++) {
-        printf("%d) %s | %s | %s\n", i + 1, joker_name(build->jokers[i].type),
-               rarity_name(build->jokers[i].rarity), edition_name(build->jokers[i].edition));
-    }
-    printf("0) Cancelar\n");
-    int choice = read_menu_choice();
-    if (choice <= 0 || choice > build->joker_count) return;
-
-    int idx = choice - 1;
-    int value = joker_sell_value(&build->jokers[idx]);
-    printf("%s vale %d moedas. Vender?\n", joker_name(build->jokers[idx].type), value);
-    printf("1) Sim\n0) Nao\n");
-    int confirm = read_menu_choice();
-    if (confirm != 1) return;
-
-    build->coins += value;
-    printf("Vendido: %s por %d moedas.\n", joker_name(build->jokers[idx].type), value);
-    for (int i = idx; i < build->joker_count - 1; i++) {
-        build->jokers[i] = build->jokers[i + 1];
-    }
-    build->joker_count--;
+    if (roll < foil) return EDITION_FOIL;
+    roll -= foil;
+    if (roll < chrome) return EDITION_CHROME;
+    roll -= chrome;
+    if (roll < prismatic) return EDITION_PRISMATIC;
+    roll -= prismatic;
+    if (roll < negative) return EDITION_NEGATIVE;
+    return EDITION_NONE;
 }
 
-static void open_joker_pack(PlayerBuild *build, int option_count, int picks, int cost) {
-    if (build->coins < cost) {
-        printf("Moedas insuficientes para este pacote.\n");
-        return;
+static JokerEdition roll_shop_edition(const PlayerBuild *build) {
+    int hone = build->coupon_levels[3];
+    int roll = rand() % 100;
+
+    if (hone >= 2) {
+        if (roll < 24) return EDITION_FOIL;
+        if (roll < 42) return EDITION_CHROME;
+        if (roll < 54) return EDITION_PRISMATIC;
+        if (roll < 62) return EDITION_NEGATIVE;
+        return EDITION_NONE;
     }
-    if (build->joker_count >= MAX_JOKERS) {
-        printf("Sem espaco para novos Coringas.\n");
-        return;
-    }
-
-    OwnedJoker options[5];
-    int taken[5] = {0};
-    for (int i = 0; i < option_count; i++) options[i] = roll_random_joker();
-
-    build->coins -= cost;
-    build->stats.packs_opened++;
-
-    int picks_left = min_int(picks, MAX_JOKERS - build->joker_count);
-    while (picks_left > 0) {
-        printf("\nPacote de Coringas aberto: escolha %d carta(s).\n", picks_left);
-        for (int i = 0; i < option_count; i++) {
-            if (!taken[i]) print_joker_offer(&options[i], i + 1);
-        }
-        printf("0) Encerrar selecao\n");
-        int choice = read_menu_choice();
-        if (choice == 0) break;
-        if (choice < 1 || choice > option_count || taken[choice - 1]) {
-            printf("Opcao invalida.\n");
-            continue;
-        }
-        if (add_joker_to_inventory(build, options[choice - 1])) {
-            taken[choice - 1] = 1;
-            build->stats.cards_bought++;
-            picks_left--;
-            printf("Selecionado: %s\n", joker_name(options[choice - 1].type));
-        }
-    }
-}
-
-static void open_tarot_pack(PlayerBuild *build, int option_count, int picks, int cost) {
-    if (build->coins < cost) {
-        printf("Moedas insuficientes para este pacote.\n");
-        return;
+    if (hone >= 1) {
+        if (roll < 16) return EDITION_FOIL;
+        if (roll < 27) return EDITION_CHROME;
+        if (roll < 34) return EDITION_PRISMATIC;
+        if (roll < 38) return EDITION_NEGATIVE;
+        return EDITION_NONE;
     }
 
-    TarotType options[5];
-    int taken[5] = {0};
-    for (int i = 0; i < option_count; i++) options[i] = random_tarot_for_pack();
-
-    Card *preview[PACK_PREVIEW_SIZE];
-    int preview_count = 0;
-    sample_cards_from_deck(build, preview, &preview_count);
-
-    build->coins -= cost;
-    build->stats.packs_opened++;
-
-    printf("\nPacote de Tarot aberto. Estas cartas foram puxadas do seu baralho para uso imediato:\n");
-    print_card_pool(preview, preview_count);
-
-    int picks_left = picks;
-    while (picks_left > 0) {
-        printf("\nEscolha %d Tarot(s) para resolver agora.\n", picks_left);
-        for (int i = 0; i < option_count; i++) {
-            if (taken[i]) continue;
-            printf("%d) %s | %s\n", i + 1, tarot_name(options[i]), rarity_name(tarot_def(options[i])->rarity));
-            printf("   %s\n", tarot_description(options[i]));
-        }
-        printf("0) Encerrar selecao\n");
-
-        int choice = read_menu_choice();
-        if (choice == 0) break;
-        if (choice < 1 || choice > option_count || taken[choice - 1]) {
-            printf("Opcao invalida.\n");
-            continue;
-        }
-
-        if (resolve_tarot(build, options[choice - 1], TAROT_CTX_PACK, preview, preview_count, NULL)) {
-            taken[choice - 1] = 1;
-            build->stats.cards_bought++;
-            picks_left--;
-        }
-    }
+    if (roll < 4) return EDITION_FOIL;
+    if (roll < 7) return EDITION_CHROME;
+    if (roll < 9) return EDITION_PRISMATIC;
+    if (roll < 10) return EDITION_NEGATIVE;
+    return EDITION_NONE;
 }
 
 void build_init(PlayerBuild *build) {
-    memset(build, 0, sizeof(*build));
-    build->coins = 25;
-    build_standard_deck(build->deck_cards, &build->deck_size);
-}
+    build->coins = 4;
+    build->quiz_hits = 0;
+    build->quiz_streak = 0;
+    build->coupon_tokens = 0;
+    build->tarot_capacity = 2;
+    build->joker_capacity = BASE_JOKER_SLOTS;
+    build->pending_editions = 0;
+    build->question_rewards_taken = 0;
+    build->joker_count = 0;
+    build->tarot_count = 0;
+    build->coupon_count = 0;
+    build->last_used_tarot = TAROT_NONE;
 
-const char *rarity_name(CardRarity rarity) {
-    switch (rarity) {
-        case RARITY_COMMON: return "Comum";
-        case RARITY_UNCOMMON: return "Incomum";
-        case RARITY_RARE: return "Raro";
-        case RARITY_LEGENDARY: return "Lendario";
-        default: return "Desconhecido";
-    }
-}
-
-const char *edition_name(EditionType edition) {
-    switch (edition) {
-        case EDITION_FOIL: return "Foil";
-        case EDITION_HOLOGRAPHIC: return "Holografico";
-        case EDITION_POLYCHROME: return "Policromado";
-        case EDITION_NEGATIVE: return "Negativo";
-        default: return "Base";
+    for (int i = 0; i < COUPON_FAMILY_COUNT; i++) build->coupon_levels[i] = 0;
+    for (int i = 0; i < MAX_JOKERS; i++) init_joker_instance(&build->jokers[i], JOKER_NONE);
+    for (int i = 0; i < MAX_TAROTS; i++) build->tarot_inventory[i] = TAROT_NONE;
+    for (int i = 0; i < MAX_COUPONS; i++) build->coupons[i] = COUPON_CLEARANCE;
+    for (int i = 0; i < MAX_HAND_LEVEL_TRACK; i++) {
+        build->hand_levels[i] = 1;
+        build->hand_progress[i] = 0;
     }
 }
 
 const char *joker_name(JokerType type) {
-    return joker_def(type)->name;
+    switch (type) {
+        case JOKER_FLAT: return "Joker";
+        case JOKER_PAIR: return "Jolly Joker";
+        case JOKER_TWO_PAIR: return "Spare Trousers";
+        case JOKER_THREE: return "Zany Joker";
+        case JOKER_FOUR: return "The Trio";
+        case JOKER_STRAIGHT: return "Mad Joker";
+        case JOKER_FLUSH: return "Crazy Joker";
+        case JOKER_COIN_PAIR: return "Business Card";
+        case JOKER_COIN_FLUSH: return "Golden Joker";
+        case JOKER_COIN_THREE: return "Delayed Gratification";
+        case JOKER_COIN_ROYAL: return "Reserved Parking";
+        case JOKER_COIN_LOW: return "Mail-In Rebate";
+        case JOKER_COIN_BOSS: return "Matador";
+        case JOKER_POPCORN: return "Popcorn";
+        case JOKER_ICE_CREAM: return "Ice Cream";
+        case JOKER_CAVENDISH: return "Cavendish";
+        case JOKER_COFFEE: return "Diet Cola";
+        case JOKER_LUNCHBOX: return "Turtle Bean";
+        case JOKER_MARKER: return "Flash Card";
+        case JOKER_ROYAL_KING: return "Baron";
+        case JOKER_ROYAL_QUEEN: return "Shoot the Moon";
+        case JOKER_ROYAL_JACK: return "Hit the Road";
+        case JOKER_ROYAL_COUNCIL: return "Triboulet";
+        case JOKER_THRONE: return "Photograph";
+        case JOKER_NOBLE_LINEAGE: return "Canio";
+        case JOKER_ARCANE_MINOR: return "Cartomancer";
+        case JOKER_SIXTH_SENSE: return "Sixth Sense";
+        case JOKER_OCCULT_LIBRARY: return "Fortune Teller";
+        case JOKER_RITUAL_TABLE: return "Superposition";
+        case JOKER_ECHO_ARCANO: return "Astronomer";
+        case JOKER_STENCIL: return "Joker Stencil";
+        case JOKER_GREEDY: return "Greedy Joker";
+        case JOKER_LOVELY: return "Lusty Joker";
+        case JOKER_WRATHFUL: return "Wrathful Joker";
+        case JOKER_ASTUTE: return "Gluttonous Joker";
+        case JOKER_MIRROR_QUIZ: return "Blueprint";
+        case JOKER_BOSS_SHIELD: return "Chicot";
+        case JOKER_CRYPTID_RELAY: return "Driver's License";
+        case JOKER_COSMOS_PRISM: return "Hologram";
+        case JOKER_LUCKY_JIMBO: return "Lucky Cat";
+        case JOKER_FAMILIAR_WAGE: return "Swashbuckler";
+        case JOKER_PI_CACHE: return "Satellite";
+        case JOKER_RED_CARD: return "Cartao Vermelho";
+        default: return "Nenhum";
+    }
 }
 
-const char *joker_description(JokerType type) {
-    return joker_def(type)->description;
+const char *joker_edition_name(JokerEdition edition) {
+    switch (edition) {
+        case EDITION_FOIL: return "Foil";
+        case EDITION_CHROME: return "Cromado";
+        case EDITION_PRISMATIC: return "Prismatico";
+        case EDITION_NEGATIVE: return "Negative";
+        default: return "Normal";
+    }
 }
 
 const char *tarot_name(TarotType type) {
-    return tarot_def(type)->name;
-}
-
-const char *tarot_description(TarotType type) {
-    return tarot_def(type)->description;
-}
-
-const char *hand_type_name(HandType type) {
     switch (type) {
-        case HAND_PAIR: return "Par";
-        case HAND_TWO_PAIR: return "Dois pares";
-        case HAND_THREE: return "Trinca";
-        case HAND_STRAIGHT: return "Sequencia";
-        case HAND_FLUSH: return "Flush";
-        case HAND_FULL_HOUSE: return "Full House";
-        case HAND_FOUR: return "Quadra";
-        case HAND_STRAIGHT_FLUSH: return "Straight Flush";
-        default: return "Carta alta";
+        case TAROT_FOOL: return "O Louco";
+        case TAROT_MAGICIAN: return "O Mago";
+        case TAROT_HIGH_PRIESTESS: return "A Sacerdotisa";
+        case TAROT_EMPRESS: return "A Imperatriz";
+        case TAROT_EMPEROR: return "O Imperador";
+        case TAROT_HIEROPHANT: return "O Hierofante";
+        case TAROT_LOVERS: return "Os Enamorados";
+        case TAROT_CHARIOT: return "O Carro";
+        case TAROT_JUSTICE: return "A Justica";
+        case TAROT_HERMIT: return "O Eremita";
+        case TAROT_WHEEL: return "Roda da Fortuna";
+        case TAROT_STRENGTH: return "A Forca";
+        case TAROT_HANGED_MAN: return "O Enforcado";
+        case TAROT_DEATH: return "A Morte";
+        case TAROT_TEMPERANCE: return "Temperanca";
+        case TAROT_DEVIL: return "O Diabo";
+        case TAROT_TOWER: return "A Torre";
+        case TAROT_STAR: return "A Estrela";
+        case TAROT_MOON: return "A Lua";
+        case TAROT_SUN: return "O Sol";
+        case TAROT_WORLD: return "O Mundo";
+        case TAROT_JUDGEMENT: return "Julgamento";
+        case TAROT_AURA: return "Aura";
+        case TAROT_WRAITH: return "Wraith";
+        case TAROT_ANKH: return "Ankh";
+        case TAROT_SOUL: return "The Soul";
+        default: return "Nenhum";
     }
 }
 
-int joker_sell_value(const OwnedJoker *joker) {
-    const JokerDef *def = joker_def(joker->type);
-    return def->base_sell + edition_sell_bonus(joker->edition);
-}
-
-void register_discovery_joker(PlayerBuild *build, JokerType type) {
-    if (type <= JOKER_NONE || type > JOKER_ROYAL) return;
-    if (!build->seen_jokers[type]) {
-        build->seen_jokers[type] = 1;
-        build->stats.discoveries++;
+const char *coupon_name(CouponType type) {
+    switch (type) {
+        case COUPON_CLEARANCE: return "Clearance Sale";
+        case COUPON_CLEARANCE_PLUS: return "Liquidation";
+        case COUPON_GRABBER: return "Grabber";
+        case COUPON_GRABBER_PLUS: return "Nacho Tong";
+        case COUPON_ORACLE: return "Tarot Merchant";
+        case COUPON_ORACLE_PLUS: return "Tarot Tycoon";
+        case COUPON_HONE: return "Hone";
+        case COUPON_HONE_PLUS: return "Glow Up";
+        default: return "Cupom";
     }
 }
 
-void register_discovery_tarot(PlayerBuild *build, TarotType type) {
-    if (type <= TAROT_NONE || type > TAROT_ECHO) return;
-    if (!build->seen_tarots[type]) {
-        build->seen_tarots[type] = 1;
-        build->stats.discoveries++;
+JokerType random_joker(void) {
+    return (JokerType)(1 + rand() % JOKER_RED_CARD);
+}
+
+JokerType random_shop_joker(void) {
+    JokerType common[] = {
+        JOKER_FLAT, JOKER_PAIR, JOKER_TWO_PAIR, JOKER_COIN_PAIR, JOKER_COIN_FLUSH,
+        JOKER_POPCORN, JOKER_COFFEE, JOKER_ROYAL_KING, JOKER_GREEDY, JOKER_LOVELY
+    };
+    JokerType uncommon[] = {
+        JOKER_THREE, JOKER_STRAIGHT, JOKER_FLUSH, JOKER_COIN_THREE, JOKER_COIN_ROYAL,
+        JOKER_LUNCHBOX, JOKER_OCCULT_LIBRARY, JOKER_RITUAL_TABLE, JOKER_STENCIL,
+        JOKER_MIRROR_QUIZ, JOKER_RED_CARD
+    };
+    JokerType rare[] = {
+        JOKER_FOUR, JOKER_BOSS_SHIELD, JOKER_CRYPTID_RELAY, JOKER_COSMOS_PRISM,
+        JOKER_LUCKY_JIMBO, JOKER_NOBLE_LINEAGE
+    };
+    int roll = rand() % 100;
+
+    if (roll < 65) return common[rand() % (int)(sizeof(common) / sizeof(common[0]))];
+    if (roll < 90) return uncommon[rand() % (int)(sizeof(uncommon) / sizeof(uncommon[0]))];
+    return rare[rand() % (int)(sizeof(rare) / sizeof(rare[0]))];
+}
+
+TarotType random_tarot(void) {
+    return (TarotType)(1 + rand() % TAROT_JUDGEMENT);
+}
+
+CouponType random_coupon_offer(const PlayerBuild *build) {
+    int family = rand() % COUPON_FAMILY_COUNT;
+    int level = build->coupon_levels[family];
+    if (level <= 0) return (CouponType)(family * 2);
+    if (level == 1) return (CouponType)(family * 2 + 1);
+    return (CouponType)(family * 2 + (rand() % 2));
+}
+
+int build_add_joker(PlayerBuild *build, JokerType type) {
+    if (build->joker_count >= build->joker_capacity || build->joker_count >= MAX_JOKERS) return 0;
+    init_joker_instance(&build->jokers[build->joker_count], type);
+    build->jokers[build->joker_count].sell_value = 2;
+    build->joker_count++;
+    while (build->pending_editions > 0) {
+        apply_random_free_edition(build);
+        build->pending_editions--;
     }
+    return 1;
 }
 
-OwnedJoker roll_random_joker(void) {
-    CardRarity rarity = roll_rarity();
-    JokerType type = choose_joker_from_rarity(rarity);
-    OwnedJoker joker;
-    joker.type = type;
-    joker.rarity = rarity;
-    joker.edition = roll_edition();
-    return joker;
+int build_add_joker_offer(PlayerBuild *build, JokerType type, JokerEdition edition, int price) {
+    JokerInstance *joker;
+    JokerEdition previous_edition;
+
+    if (build->joker_count >= MAX_JOKERS) return 0;
+    if (build->joker_count >= build->joker_capacity && edition != EDITION_NEGATIVE) return 0;
+
+    init_joker_instance(&build->jokers[build->joker_count], type);
+    build->jokers[build->joker_count].sell_value = 2;
+    build->joker_count++;
+    while (build->pending_editions > 0) {
+        apply_random_free_edition(build);
+        build->pending_editions--;
+    }
+    joker = &build->jokers[build->joker_count - 1];
+    previous_edition = joker->edition;
+    if (previous_edition == EDITION_NEGATIVE && edition != EDITION_NEGATIVE) build->joker_capacity--;
+    if (previous_edition != EDITION_NEGATIVE && edition == EDITION_NEGATIVE) build->joker_capacity++;
+    joker->edition = edition;
+    joker->sell_value = max_int(1, price / 2);
+    return 1;
 }
 
-TarotType random_tarot_general(void) {
-    return choose_tarot_from_filter(0);
+int build_add_tarot(PlayerBuild *build, TarotType type) {
+    if (build->tarot_count >= build->tarot_capacity || build->tarot_count >= MAX_TAROTS) return 0;
+    build->tarot_inventory[build->tarot_count++] = type;
+    return 1;
 }
 
-TarotType random_tarot_for_pack(void) {
-    return choose_tarot_from_filter(1);
+int build_add_coupon(PlayerBuild *build, CouponType type) {
+    int family = coupon_family_from_type(type);
+    int level = coupon_level_from_type(type);
+    if (build->coupon_levels[family] >= level) return 0;
+    if (build->coupon_count >= MAX_COUPONS) return 0;
+    build->coupons[build->coupon_count++] = type;
+    build->coupon_levels[family] = level;
+    if (type == COUPON_ORACLE_PLUS) build->tarot_capacity += 2;
+    else if (type == COUPON_ORACLE) build->tarot_capacity += 1;
+    return 1;
+}
+
+int build_sell_joker(PlayerBuild *build, int index) {
+    int sell_price;
+
+    if (index < 0 || index >= build->joker_count) return 0;
+
+    sell_price = build->jokers[index].sell_value;
+    if (build->jokers[index].edition == EDITION_NEGATIVE) build->joker_capacity--;
+    build->jokers[index].active = 0;
+    compact_jokers(build);
+    build->coins += sell_price;
+
+    return sell_price;
+}
+
+void compact_jokers(PlayerBuild *build) {
+    int write = 0;
+    int negatives = 0;
+    for (int i = 0; i < build->joker_count; i++) {
+        if (!build->jokers[i].active || build->jokers[i].type == JOKER_NONE) continue;
+        if (write != i) build->jokers[write] = build->jokers[i];
+        if (build->jokers[write].edition == EDITION_NEGATIVE) negatives++;
+        write++;
+    }
+    for (int i = write; i < MAX_JOKERS; i++) init_joker_instance(&build->jokers[i], JOKER_NONE);
+    build->joker_count = write;
+    build->joker_capacity = BASE_JOKER_SLOTS + negatives;
+}
+
+void apply_random_free_edition(PlayerBuild *build) {
+    if (build->joker_count <= 0) {
+        build->pending_editions++;
+        return;
+    }
+
+    int target = rand() % build->joker_count;
+    JokerEdition edition = roll_shop_edition(build);
+    if (edition == EDITION_NONE) edition = EDITION_FOIL;
+
+    if (build->jokers[target].edition == EDITION_NEGATIVE && edition != EDITION_NEGATIVE) build->joker_capacity--;
+    if (build->jokers[target].edition != EDITION_NEGATIVE && edition == EDITION_NEGATIVE) build->joker_capacity++;
+
+    build->jokers[target].edition = edition;
+    build->jokers[target].sell_value += joker_edition_extra_cost(edition) / 2;
+    printf("Pergunta correta: %s recebeu a marca %s gratis.\n",
+           joker_name(build->jokers[target].type), joker_edition_name(edition));
 }
 
 void print_build(const PlayerBuild *build) {
-    printf("Moedas: %d | Cupons: %d | Coringas: %d/%d | Tarots: %d/%d | Baralho: %d cartas\n",
-           build->coins, build->coupons, build->joker_count, MAX_JOKERS,
-           build->tarot_count, MAX_TAROTS, build->deck_size);
+    printf("Moedas: %d | Slots de Coringa: %d/%d | Tarots: %d/%d | Cupons liberados: %d\n",
+           build->coins, build->joker_count, build->joker_capacity, build->tarot_count,
+           build->tarot_capacity, build->coupon_tokens);
+
+    if (build->coupon_count > 0) {
+        printf("Cupons ativos:\n");
+        for (int i = 0; i < build->coupon_count; i++) {
+            printf("  %d) %s\n", i + 1, coupon_name(build->coupons[i]));
+        }
+    }
     if (build->joker_count > 0) {
         printf("Coringas ativos:\n");
         for (int i = 0; i < build->joker_count; i++) {
-            printf("  %d) %s | %s | %s\n", i + 1, joker_name(build->jokers[i].type),
-                   edition_name(build->jokers[i].edition), rarity_name(build->jokers[i].rarity));
-            printf("     %s\n", joker_description(build->jokers[i].type));
+            printf("  %d) [%s] %s\n", i + 1, joker_edition_name(build->jokers[i].edition),
+                   joker_name(build->jokers[i].type));
         }
     }
     if (build->tarot_count > 0) {
         printf("Tarots no inventario:\n");
         for (int i = 0; i < build->tarot_count; i++) {
-            printf("  %d) %s | %s\n", i + 1, tarot_name(build->tarot_inventory[i]),
-                   rarity_name(tarot_def(build->tarot_inventory[i])->rarity));
-            printf("     %s\n", tarot_description(build->tarot_inventory[i]));
+            printf("  %d) %s\n", i + 1, tarot_name(build->tarot_inventory[i]));
         }
     }
 }
 
-int try_use_tarot_inventory(PlayerBuild *build, int context_mask, Card *cards[], int card_count, TarotPhaseHook *hook) {
-    if (build->tarot_count <= 0) {
-        printf("Voce nao possui Tarot.\n");
-        return 0;
+static void make_random_shop_slot(ShopSlot *slot, const PlayerBuild *build) {
+    int joker_weight = 20;
+    int tarot_weight = 4;
+    if (build->coupon_levels[2] == 1) tarot_weight = 8;
+    else if (build->coupon_levels[2] >= 2) tarot_weight = 16;
+
+    int roll = rand() % (joker_weight + tarot_weight);
+    if (roll < joker_weight) {
+        slot->kind = SHOP_SLOT_JOKER;
+        slot->joker = random_joker();
+        slot->edition = roll_shop_edition(build);
+        slot->price = rarity_price(joker_rarity(slot->joker)) + joker_edition_extra_cost(slot->edition);
+        slot->price = shop_discounted_price(slot->price, build);
+        slot->tarot = TAROT_NONE;
+    } else {
+        slot->kind = SHOP_SLOT_TAROT;
+        slot->tarot = random_tarot();
+        slot->price = shop_discounted_price(3, build);
+        slot->joker = JOKER_NONE;
+        slot->edition = EDITION_NONE;
+    }
+}
+
+static void refresh_shop_state(ShopState *state, const PlayerBuild *build, int full_refresh) {
+    for (int i = 0; i < 2; i++) {
+        if (full_refresh || state->slots[i].kind == SHOP_SLOT_EMPTY) make_random_shop_slot(&state->slots[i], build);
+    }
+}
+
+static int add_joker_with_price(PlayerBuild *build, JokerType type, JokerEdition edition, int price) {
+    return build_add_joker_offer(build, type, edition, price);
+}
+
+static void buy_from_random_slot(PlayerBuild *build, ShopState *state, int index) {
+    if (index < 0 || index > 1) return;
+    ShopSlot *slot = &state->slots[index];
+    if (slot->kind == SHOP_SLOT_EMPTY) {
+        printf("Esse espaco da loja esta vazio.\n");
+        return;
+    }
+    if (build->coins < slot->price) {
+        printf("Moedas insuficientes.\n");
+        return;
     }
 
-    printf("\nEscolha um Tarot para usar:\n");
-    for (int i = 0; i < build->tarot_count; i++) {
-        int allowed = tarot_is_allowed(build->tarot_inventory[i], context_mask);
-        printf("%d) %s%s\n", i + 1, tarot_name(build->tarot_inventory[i]),
-               allowed ? "" : " [indisponivel agora]");
-        printf("   %s\n", tarot_description(build->tarot_inventory[i]));
+    if (slot->kind == SHOP_SLOT_JOKER) {
+        if (!add_joker_with_price(build, slot->joker, slot->edition, slot->price)) {
+            printf("Limite de coringas atingido.\n");
+            return;
+        }
+        printf("Comprado: [%s] %s\n", joker_edition_name(slot->edition), joker_name(slot->joker));
+    } else {
+        if (!build_add_tarot(build, slot->tarot)) {
+            printf("Inventario de Tarot cheio.\n");
+            return;
+        }
+        printf("Comprado: %s\n", tarot_name(slot->tarot));
     }
-    printf("0) Cancelar\n");
+
+    build->coins -= slot->price;
+    slot->kind = SHOP_SLOT_EMPTY;
+}
+
+static void buy_coupon(PlayerBuild *build, ShopState *state) {
+    if (!state->coupon_available) {
+        printf("O Cupom desta loja ja foi comprado.\n");
+        return;
+    }
+    if (build->coupon_tokens <= 0) {
+        printf("Nenhum Cupom foi liberado pelas perguntas ainda.\n");
+        return;
+    }
+    if (build->coins < 10) {
+        printf("Moedas insuficientes.\n");
+        return;
+    }
+    if (!build_add_coupon(build, state->coupon)) {
+        printf("Voce ja possui esta versao de Cupom.\n");
+        return;
+    }
+
+    build->coins -= 10;
+    build->coupon_tokens--;
+    state->coupon_available = 0;
+    printf("Comprado: %s\n", coupon_name(state->coupon));
+}
+
+static void open_pack(PlayerBuild *build, ShopState *state) {
+    if (!state->pack_available) {
+        printf("O pacote desta loja ja foi aberto.\n");
+        return;
+    }
+    if (build->coins < state->pack_cost) {
+        printf("Moedas insuficientes para pacote.\n");
+        return;
+    }
+
+    JokerType option_jokers[3];
+    TarotType option_tarots[3];
+    int is_joker[3];
+    printf("\nPacote aberto. Escolha 1 opcao:\n");
+    for (int i = 0; i < 3; i++) {
+        is_joker[i] = rand() % 2;
+        if (is_joker[i]) {
+            option_jokers[i] = random_joker();
+            printf("%d) %s\n", i + 1, joker_name(option_jokers[i]));
+        } else {
+            option_tarots[i] = random_arcana_pack_tarot();
+            printf("%d) %s\n", i + 1, tarot_name(option_tarots[i]));
+        }
+    }
+
     int choice = read_menu_choice();
-    if (choice <= 0 || choice > build->tarot_count) return 0;
+    if (choice < 1 || choice > 3) {
+        printf("Opcao invalida. Pacote cancelado.\n");
+        return;
+    }
+
+    if (is_joker[choice - 1]) {
+        if (!build_add_joker(build, option_jokers[choice - 1])) {
+            printf("Sem slot de coringa. Pacote cancelado sem custo.\n");
+            return;
+        }
+    } else if (!build_add_tarot(build, option_tarots[choice - 1])) {
+        printf("Inventario de Tarot cheio. Pacote cancelado sem custo.\n");
+        return;
+    }
+
+    build->coins -= state->pack_cost;
+    state->pack_available = 0;
+    printf("Pacote comprado.\n");
+}
+
+static void sell_joker(PlayerBuild *build) {
+    if (build->joker_count <= 0) {
+        printf("Voce nao possui coringas para vender.\n");
+        return;
+    }
+    print_build(build);
+    printf("Escolha o coringa para vender.\n");
+    int choice = read_menu_choice();
+    if (choice < 1 || choice > build->joker_count) {
+        printf("Opcao invalida.\n");
+        return;
+    }
 
     int idx = choice - 1;
-    TarotType tarot = build->tarot_inventory[idx];
-    if (!resolve_tarot(build, tarot, context_mask, cards, card_count, hook)) return 0;
+    int sell_price = build->jokers[idx].sell_value;
+    printf("Vendido: %s por %d moedas.\n", joker_name(build->jokers[idx].type), sell_price);
+    build_sell_joker(build, idx);
+}
 
-    for (int i = idx; i < build->tarot_count - 1; i++) {
-        build->tarot_inventory[i] = build->tarot_inventory[i + 1];
+static void reroll_shop(PlayerBuild *build, ShopState *state) {
+    int cost = state->reroll_cost;
+    if (build->coins < cost) {
+        printf("Moedas insuficientes para atualizar a loja.\n");
+        return;
     }
-    build->tarot_count--;
-    return 1;
+    build->coins -= cost;
+    refresh_shop_state(state, build, 1);
+    state->reroll_cost++;
+    printf("Loja atualizada.\n");
 }
 
 void run_shop(PlayerBuild *build) {
-    build->stats.shop_visits++;
-
-    OwnedJoker today_joker = roll_random_joker();
-    TarotType today_tarot = random_tarot_general();
-    int coupon_discount = build->coupons > 0 ? min_int(6, 2 + build->coupons) : 0;
-    int joker_cost = joker_def(today_joker.type)->base_price + edition_price_bonus(today_joker.edition) - coupon_discount;
-    int tarot_cost = 14 - (coupon_discount / 2);
-    int pack_joker_3_cost = 18 - coupon_discount;
-    int pack_joker_5_cost = 28 - coupon_discount;
-    int pack_joker_2of5_cost = 40 - coupon_discount;
-    int pack_tarot_3_cost = 12 - (coupon_discount / 2);
-    int pack_tarot_5_cost = 18 - (coupon_discount / 2);
-    int pack_tarot_2of5_cost = 26 - (coupon_discount / 2);
-
-    if (joker_cost < 10) joker_cost = 10;
-    if (tarot_cost < 8) tarot_cost = 8;
-    if (pack_joker_3_cost < 12) pack_joker_3_cost = 12;
-    if (pack_joker_5_cost < 18) pack_joker_5_cost = 18;
-    if (pack_joker_2of5_cost < 24) pack_joker_2of5_cost = 24;
-    if (pack_tarot_3_cost < 9) pack_tarot_3_cost = 9;
-    if (pack_tarot_5_cost < 12) pack_tarot_5_cost = 12;
-    if (pack_tarot_2of5_cost < 18) pack_tarot_2of5_cost = 18;
+    ShopState state;
+    state.coupon = random_coupon_offer(build);
+    state.coupon_available = 1;
+    state.pack_available = 1;
+    state.pack_cost = shop_discounted_price(4, build);
+    state.reroll_cost = 5;
+    for (int i = 0; i < 2; i++) state.slots[i].kind = SHOP_SLOT_EMPTY;
+    refresh_shop_state(&state, build, 1);
 
     int running = 1;
     while (running) {
         printf("\n========== LOJA ==========\n");
         print_build(build);
-        printf("1) Comprar Coringa do dia (%d moedas)\n", joker_cost);
-        print_joker_offer(&today_joker, 1);
-        printf("2) Comprar Tarot do dia (%d moedas): %s\n", tarot_cost, tarot_name(today_tarot));
-        printf("   %s\n", tarot_description(today_tarot));
-        printf("3) Pacote de Coringas 1/3 (%d moedas)\n", pack_joker_3_cost);
-        printf("4) Pacote de Coringas 1/5 (%d moedas)\n", pack_joker_5_cost);
-        printf("5) Pacote de Coringas 2/5 (%d moedas)\n", pack_joker_2of5_cost);
-        printf("6) Pacote de Tarot 1/3 (%d moedas)\n", pack_tarot_3_cost);
-        printf("7) Pacote de Tarot 1/5 (%d moedas)\n", pack_tarot_5_cost);
-        printf("8) Pacote de Tarot 2/5 (%d moedas)\n", pack_tarot_2of5_cost);
-        printf("9) Usar Tarot livre do inventario\n");
-        printf("10) Vender Coringa\n");
+
+        for (int i = 0; i < 2; i++) {
+            if (state.slots[i].kind == SHOP_SLOT_JOKER) {
+                printf("%d) Slot %d: [%s] %s (%d moedas)\n", i + 1, i + 1,
+                       joker_edition_name(state.slots[i].edition), joker_name(state.slots[i].joker),
+                       state.slots[i].price);
+            } else if (state.slots[i].kind == SHOP_SLOT_TAROT) {
+                printf("%d) Slot %d: %s (%d moedas)\n", i + 1, i + 1,
+                       tarot_name(state.slots[i].tarot), state.slots[i].price);
+            } else {
+                printf("%d) Slot %d: vazio\n", i + 1, i + 1);
+            }
+        }
+
+        if (state.pack_available) printf("3) Abrir pacote (%d moedas)\n", state.pack_cost);
+        else printf("3) Pacote esgotado\n");
+
+        if (state.coupon_available) printf("4) Comprar Cupom (%d moedas): %s\n", 10, coupon_name(state.coupon));
+        else printf("4) Cupom esgotado\n");
+
+        printf("5) Atualizar loja (%d moedas)\n", state.reroll_cost);
+        printf("6) Vender coringa\n");
         printf("0) Continuar run\n");
 
-        int choice = read_menu_choice();
-        switch (choice) {
-            case 1: buy_joker(build, today_joker, joker_cost); break;
-            case 2: buy_tarot(build, today_tarot, tarot_cost); break;
-            case 3: open_joker_pack(build, 3, 1, pack_joker_3_cost); break;
-            case 4: open_joker_pack(build, 5, 1, pack_joker_5_cost); break;
-            case 5: open_joker_pack(build, 5, 2, pack_joker_2of5_cost); break;
-            case 6: open_tarot_pack(build, 3, 1, pack_tarot_3_cost); break;
-            case 7: open_tarot_pack(build, 5, 1, pack_tarot_5_cost); break;
-            case 8: open_tarot_pack(build, 5, 2, pack_tarot_2of5_cost); break;
-            case 9: try_use_tarot_inventory(build, TAROT_CTX_ANYTIME, NULL, 0, NULL); break;
-            case 10: sell_joker(build); break;
-            case 0: running = 0; break;
-            default: printf("Opcao invalida.\n"); break;
+        switch (read_menu_choice()) {
+            case 1:
+                buy_from_random_slot(build, &state, 0);
+                break;
+            case 2:
+                buy_from_random_slot(build, &state, 1);
+                break;
+            case 3:
+                open_pack(build, &state);
+                break;
+            case 4:
+                buy_coupon(build, &state);
+                break;
+            case 5:
+                reroll_shop(build, &state);
+                break;
+            case 6:
+                sell_joker(build);
+                break;
+            case 0:
+                running = 0;
+                break;
+            default:
+                printf("Opcao invalida.\n");
+                break;
         }
     }
 }

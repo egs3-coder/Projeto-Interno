@@ -14,8 +14,8 @@ build/jogo: $(CONSOLE_SRC) | build
 
 raylib: build/jogo_raylib
 
-build/jogo_raylib: src/raylib_main.c src/cards.c | build
-	$(CC) $(CFLAGS) src/raylib_main.c src/cards.c -lraylib $(LDFLAGS) -o build/jogo_raylib
+build/jogo_raylib: src/raylib_main.c src/cards.c src/shop.c src/player_data.h src/raylib_question_bank.h | build
+	$(CC) $(CFLAGS) src/raylib_main.c src/cards.c src/shop.c -lraylib $(LDFLAGS) -o build/jogo_raylib
 
 clean:
 	rm -rf build history.txt

@@ -1,153 +1,135 @@
-<p align="center">
-  <img src="assets/metadecklogo.png/" alt="Logo do MetaDeck" width="500">
-</p>
+# Jogo PIF Capstone - Base Raylib
 
-O **MetaDeck** é um jogo de cartas estratégico em que o jogador avança por fases cada vez mais desafiadoras, usando combinações, escolhas táticas e adaptação para superar metas de pontuação. Durante a partida, cada decisão influencia diretamente o desempenho, tornando cada rodada única e dinâmica.
+Esta e a base visual em `raylib` usada para a apresentacao do jogo.
 
-A proposta do jogo é oferecer uma experiência envolvente e lúdica, em que estratégia, atenção e criatividade caminham juntas. Com uma atmosfera vibrante e desafios progressivos, o **MetaDeck** estimula o jogador a pensar antes de agir, explorar diferentes possibilidades e buscar a melhor forma de seguir avançando.
+O executavel principal desta versao e o `jogo_gui.exe`, compilado a partir de:
 
----
+```powershell
+gcc -std=c11 -Wall -Wextra -pedantic -Isrc src/raylib_main.c src/cards.c src/shop.c -lraylib -lm -o jogo_gui.exe
+```
 
-## Funcionalidade
+## O que esta pronto nesta base
 
-- **Início de Partida**
-- **Sistema de Fases**
-- **Sistema de Perguntas**
-- **BOSS**
-- **Sistema de Moeda**
-- **Sistema de Loja**
-- **Sistema de Pacotes**
-- **Coringas**
-- **Cartas de Tarot**
-- **Cupons**
-- **Recompensas de Fase**
-- **Feedback Visual**
+- Run completa com cartas, blinds, boss, loja, packs, tarot e coringas
+- Interface `raylib` integrada ao loop principal da run
+- Botao `Info tentativa` durante a fase e a loja, com abas de maos de poker, blinds e quiz
+- Baralho restante na tela da fase, com tooltip/listagem das cartas que ainda podem vir
+- Uso de Tarot direto na mao: selecione cartas, selecione o Tarot e use quando o limite estiver valido
+- Tela de perfil antes da run para:
+  - inserir o nome do jogador
+  - escolher categorias de perguntas
+  - classificar automaticamente a modalidade da run
+- Modalidades com ranking top 10:
+  - `Matematicos`
+  - `Linguisticos`
+  - `Logicos`
+  - `Programadores`
+  - `Escolarizados`
+  - `Concurseiros`
+  - `Engenheiros`
+  - `Intelectuais`
+  - `Perfil Misto`
+- Historico por jogador salvo em `run_history_raylib.txt`
+- Botao para desvincular o jogador atual e trocar de pessoa no menu
+- Banco de perguntas por categoria:
+  - `Logica Classica`
+  - `Logica Matematica`
+  - `Logica de Prog. em C`
+  - `Significados em Portugues`
+- Escalonamento das perguntas por aposta:
+  - apostas `1-2`: `Facil`
+  - apostas `3-4`: `Avancada`
+  - apostas `5-6`: `Intermediaria`
+  - apostas `7-8`: `Dificil`
+  - boss e pulo de blind: `Muito Dificil`
+- Perguntas erradas voltam na tentativa ate serem acertadas, registrando quantas tentativas foram necessarias
+- Cupons agora exigem uma blind jogada e duas perguntas corretas na aposta atual
+- Pulos de fase podem render marca, tamanho de mao, pacotes gratis, dinheiro ou atualizacoes gratis na loja
+- Assets opcionais em `assets/`, com fallback desenhado por `raylib`
+- Relatorio analitico no fim da tentativa e na tela de historico, usando funcoes recursivas para soma, minimo, maximo e soma dos quadrados
 
----
-## Relatorio
+## Como rodar na sua maquina
 
-[Documentação do Projeto](https://docs.google.com/document/d/1QuwzkYMZ4sQCR2ggyGRRT0ve8KE0VRTHym0jKqX2Nnk/edit?usp=sharing)
+### Opcao mais simples
 
----
+Use:
 
-## Backlog
+```powershell
+powershell -ExecutionPolicy Bypass -File .\rodar_raylib.ps1
+```
 
-<img src="Captura de tela 2026-05-28 195859.png" alt="Captura de tela do MetaDeck" width="600">
+Ou clique em:
 
---- 
-## Ferramentas Utilizadas
+- `rodar_raylib.bat`
 
-🔗 [Trello](https://trello.com/b/peA1EPFt/projeto-interno)  
-🎨 [Figma](https://www.figma.com/design/ni9lD5vNeYUJGzGCVwKJI0/MetaDeck?node-id=0-1&t=eL88baV89WgyTCQP-1)
+O script:
 
----
+- recompila se os fontes estiverem mais novos que o `jogo_gui.exe`
+- abre o executavel pronto no fim
 
-## Demonstração do Projeto
+### Rodando direto o executavel
 
-[🎥 Demonstração do Projeto](https://drive.google.com/file/d/15oD4ilm6bAYJCUN9YIHtGHEEcQMHdxNu/view?usp=drive_link)
+Se o `jogo_gui.exe` ja estiver presente e funcionando:
 
----
+```powershell
+.\jogo_gui.exe
+```
 
-### Diagrama de Atividade
+### Recompilando manualmente
 
-🔗 [Diagrama](https://www.figma.com/board/oRGYxgpozYA9ofm71KWhNC/Diagrama-de-atividades?node-id=0-1&t=cdALj8wPUNesLKAL-1)
+```powershell
+gcc -std=c11 -Wall -Wextra -pedantic -Isrc src/raylib_main.c src/cards.c src/shop.c -lraylib -lm -o jogo_gui.exe
+.\jogo_gui.exe
+```
 
----
+## Como compartilhar com a equipe
 
-## Issue/bug tracker
+Para quem so precisa jogar e apresentar, envie a pasta com estes arquivos:
 
-[Issue/Bug Tracker](https://github.com/egs3-coder/Projeto-Interno/issues)
+- `jogo_gui.exe`
+- `rodar_raylib.ps1`
+- `rodar_raylib.bat`
+- `src/player_data.h`
+- `src/raylib_question_bank.h`
+- `src/raylib_main.c`
 
----
+Se a outra maquina nao for recompilar, normalmente basta abrir:
 
-## Programação em Par Experimentada
+```powershell
+.\jogo_gui.exe
+```
 
-A equipe utilizou programação par a par para desenvolver, revisar e testar funcionalidades importantes do projeto. A prática ajudou na organização do código, na troca de conhecimento entre os integrantes e na identificação de erros durante o desenvolvimento.
+Se a equipe quiser recompilar, a maquina precisa ter:
 
-Durante o trabalho em pares, as atividades foram divididas da seguinte forma:
+- `gcc`
+- `raylib`
 
-- Um par atuou na lógica interna do jogo, trabalhando na estrutura das rodadas, regras principais e funcionamento das mecânicas do sistema.
-- Um par ficou responsável pela interface e experiência do jogador, ajustando telas, menus, mensagens, organização visual e apresentação das informações durante a partida.
-- Um par trabalhou na validação das funcionalidades, realizando testes manuais, verificando o comportamento esperado das mecânicas e registrando possíveis bugs ou melhorias.
-- Outro par apoiou a organização do projeto, documentação, prototipação e revisão das funcionalidades implementadas.
+## Arquivos importantes
 
-Com essa prática, enquanto um integrante escrevia ou ajustava o código, o outro acompanhava a lógica, revisava as alterações e sugeria melhorias. Isso contribuiu para um desenvolvimento mais colaborativo, com maior qualidade nas funcionalidades e melhor alinhamento entre as partes do projeto.
+- `src/raylib_main.c`: interface, fluxo da run e telas do raylib
+- `src/player_data.h`: jogador atual, modalidades, ranking e historico
+- `src/raylib_question_bank.h`: perguntas por categoria e dificuldade
+- `src/cards.c` e `src/shop.c`: mecanicas base da run
+- `run_history_raylib.txt`: historico salvo automaticamente
+- `historico.txt`: massa de teste com 100 sessoes sinteticas
+- `assets/README.md`: padrao de nomes para assets opcionais
 
----
+## Assets opcionais
 
-## Equipe
+O jogo tenta carregar imagens em `assets/` para cartas, coringas, tarots, cupons, pacotes, aprimoramentos e o personagem provocador.
 
-A equipe do **MetaDeck** foi organizada de forma colaborativa, distribuindo responsabilidades entre planejamento, prototipação, desenvolvimento, testes e apoio à documentação do projeto.
+Se algum arquivo nao existir, a GUI usa o desenho proprio em `raylib`, entao o executavel continua abrindo normalmente.
 
-<table>
-  <thead>
-    <tr>
-      <th>Foto</th>
-      <th>Integrante</th>
-      <th>Função</th>
-      <th>Descrição</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td align="center">
-        <img src="assets/ewerton.jpeg" width="100" height="100" alt="Foto de Ewerton Guilherme da Silva">
-      </td>
-      <td><strong>Ewerton Guilherme da Silva</strong></td>
-      <td><strong>Desenvolvedor Back-end</strong></td>
-      <td>Atuação no planejamento do projeto, organização das ideias principais e contribuição nas decisões relacionadas à estrutura e desenvolvimento do sistema.</td>
-    </tr>
-    <tr>
-      <td align="center">
-        <img src="assets/lauan.jpeg" width="100" height="100" alt="Foto de Lauan Gonçalves dos Santos">
-      </td>
-      <td><strong>Lauan Gonçalves dos Santos</strong></td>
-      <td><strong>Scrum Master</strong></td>
-      <td>Responsável pelo apoio à organização visual do projeto, prototipação das telas e representação dos fluxos e interfaces do jogo.</td>
-    </tr>
-    <tr>
-      <td align="center">
-        <img src="assets/davi.jpeg" width="100" height="100" alt="Foto de Davi Magno Campelo do Nascimento">
-      </td>
-      <td><strong>Davi Magno Campelo do Nascimento</strong></td>
-      <td><strong>Desenvolvedor Front-end</strong></td>
-      <td>Contribuiu com a construção das interações visíveis ao jogador, organização dos menus, mensagens e navegação do sistema.</td>
-    </tr>
-    <tr>
-      <td align="center">
-        <img src="assets/IMG-20260423-WA0142.jpg" width="100" height="100" alt="Foto de Aquiles Pereira dos Santos - adicionar depois">
-      </td>
-      <td><strong>Aquiles Pereira dos Santos</strong></td>
-      <td><strong>Testes / QA</strong></td>
-      <td>Responsável pela validação das funcionalidades, testes do sistema e verificação do comportamento esperado das mecânicas implementadas.</td>
-    </tr>
-    <tr>
-      <td align="center">
-        <img src="assets/joao.jpeg" width="100" height="100" alt="Foto de João Ricardo Alves de Brito">
-      </td>
-      <td><strong>João Ricardo Alves de Brito</strong></td>
-      <td><strong>Product Owner</strong></td>
-      <td>Atuação no apoio à lógica interna da aplicação, organização de dados, regras do sistema e funcionamento das principais mecânicas.</td>
-    </tr>
-    <tr>
-      <td align="center">
-        <img src="assets/mateus.jpeg" width="100" height="100" alt="Foto de Mateus Valerino Barros de Santana">
-      </td>
-      <td><strong>Mateus Valerino Barros de Santana</strong></td>
-      <td><strong>Desenvolvedor Front-end</strong></td>
-      <td>Contribuiu com a construção das telas, apresentação das informações ao jogador e melhoria da experiência durante a execução do jogo.</td>
-    </tr>
-    <tr>
-      <td align="center">
-        <img src="assets/lucas.jpeg" width="100" height="100" alt="Foto de Lucas Aprígio dos Santos">
-      </td>
-      <td><strong>Lucas Aprígio dos Santos</strong></td>
-      <td><strong>Desenvolvedor Back-end</strong></td>
-      <td>Apoio na implementação das funcionalidades internas do sistema, estrutura de suporte da aplicação e organização do funcionamento geral do projeto.</td>
-    </tr>
-  </tbody>
-</table>
+Consulte `assets/README.md` para os nomes esperados.
 
----
+## Fluxo recomendado para apresentar
 
-
+1. Abrir `rodar_raylib.bat`
+2. Cadastrar o jogador em `Perfil`
+3. Escolher as categorias de pergunta
+4. Jogar a run
+5. Ao terminar, mostrar:
+   - a pontuacao final
+   - a modalidade detectada
+   - a posicao no ranking
+   - o historico do jogador

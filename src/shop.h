@@ -59,7 +59,8 @@ typedef enum {
     JOKER_COSMOS_PRISM,
     JOKER_LUCKY_JIMBO,
     JOKER_FAMILIAR_WAGE,
-    JOKER_PI_CACHE
+    JOKER_PI_CACHE,
+    JOKER_RED_CARD
 } JokerType;
 
 typedef enum {
@@ -135,17 +136,28 @@ typedef struct {
 
 void build_init(PlayerBuild *build);
 const char *joker_name(JokerType type);
+const char *joker_rarity_name(JokerType type);
 const char *joker_edition_name(JokerEdition edition);
 const char *tarot_name(TarotType type);
 const char *coupon_name(CouponType type);
 void print_build(const PlayerBuild *build);
 void run_shop(PlayerBuild *build);
 JokerType random_joker(void);
+JokerType random_shop_joker(void);
+JokerType random_rare_joker(void);
+JokerType random_legendary_joker(void);
 TarotType random_tarot(void);
+TarotType random_arcana_pack_tarot(void);
 CouponType random_coupon_offer(const PlayerBuild *build);
+JokerEdition random_shop_edition(const PlayerBuild *build, int phase_number);
+int joker_base_price(JokerType type);
+int joker_edition_extra_cost(JokerEdition edition);
+int shop_discounted_price(int price, const PlayerBuild *build);
 int build_add_joker(PlayerBuild *build, JokerType type);
+int build_add_joker_offer(PlayerBuild *build, JokerType type, JokerEdition edition, int price);
 int build_add_tarot(PlayerBuild *build, TarotType type);
 int build_add_coupon(PlayerBuild *build, CouponType type);
+int build_sell_joker(PlayerBuild *build, int index);
 void compact_jokers(PlayerBuild *build);
 void apply_random_free_edition(PlayerBuild *build);
 

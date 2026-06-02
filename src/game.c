@@ -664,6 +664,9 @@ static PlayOutcome calculate_play_outcome(PlayerBuild *build, PhaseState *phase,
             case JOKER_PI_CACHE:
                 if (phase->tarot_used_this_phase) mult += 12;
                 break;
+            case JOKER_RED_CARD:
+                if (joker->value > 0) mult += joker->value;
+                break;
             case JOKER_COIN_BOSS:
             case JOKER_SIXTH_SENSE:
             default:
