@@ -289,49 +289,49 @@ void build_init(PlayerBuild *build) {
 
 const char *joker_name(JokerType type) {
     switch (type) {
-        case JOKER_FLAT: return "Joker";
-        case JOKER_PAIR: return "Jolly Joker";
-        case JOKER_TWO_PAIR: return "Spare Trousers";
-        case JOKER_THREE: return "Zany Joker";
-        case JOKER_FOUR: return "The Trio";
-        case JOKER_STRAIGHT: return "Mad Joker";
-        case JOKER_FLUSH: return "Crazy Joker";
-        case JOKER_COIN_PAIR: return "Business Card";
-        case JOKER_COIN_FLUSH: return "Golden Joker";
-        case JOKER_COIN_THREE: return "Delayed Gratification";
-        case JOKER_COIN_ROYAL: return "Reserved Parking";
-        case JOKER_COIN_LOW: return "Mail-In Rebate";
-        case JOKER_COIN_BOSS: return "Matador";
-        case JOKER_POPCORN: return "Popcorn";
-        case JOKER_ICE_CREAM: return "Ice Cream";
-        case JOKER_CAVENDISH: return "Cavendish";
-        case JOKER_COFFEE: return "Diet Cola";
-        case JOKER_LUNCHBOX: return "Turtle Bean";
-        case JOKER_MARKER: return "Flash Card";
-        case JOKER_ROYAL_KING: return "Baron";
-        case JOKER_ROYAL_QUEEN: return "Shoot the Moon";
-        case JOKER_ROYAL_JACK: return "Hit the Road";
-        case JOKER_ROYAL_COUNCIL: return "Triboulet";
-        case JOKER_THRONE: return "Photograph";
-        case JOKER_NOBLE_LINEAGE: return "Canio";
-        case JOKER_ARCANE_MINOR: return "Cartomancer";
-        case JOKER_SIXTH_SENSE: return "Sixth Sense";
-        case JOKER_OCCULT_LIBRARY: return "Fortune Teller";
-        case JOKER_RITUAL_TABLE: return "Superposition";
-        case JOKER_ECHO_ARCANO: return "Astronomer";
-        case JOKER_STENCIL: return "Joker Stencil";
-        case JOKER_GREEDY: return "Greedy Joker";
-        case JOKER_LOVELY: return "Lusty Joker";
-        case JOKER_WRATHFUL: return "Wrathful Joker";
-        case JOKER_ASTUTE: return "Gluttonous Joker";
-        case JOKER_MIRROR_QUIZ: return "Blueprint";
-        case JOKER_BOSS_SHIELD: return "Chicot";
-        case JOKER_CRYPTID_RELAY: return "Driver's License";
-        case JOKER_COSMOS_PRISM: return "Hologram";
-        case JOKER_LUCKY_JIMBO: return "Lucky Cat";
-        case JOKER_FAMILIAR_WAGE: return "Swashbuckler";
-        case JOKER_PI_CACHE: return "Satellite";
-        case JOKER_RED_CARD: return "Cartao Vermelho";
+        /* #1  */ case JOKER_FLAT:          return "Coringa";
+        /* #2  */ case JOKER_GREEDY:        return "Cor. Ganancioso";
+        /* #3  */ case JOKER_LOVELY:        return "Cor. Vigoroso";
+        /* #4  */ case JOKER_WRATHFUL:      return "Coringa Irado";
+        /* #5  */ case JOKER_ASTUTE:        return "Cor. Guloso";
+        /* #6  */ case JOKER_PAIR:          return "Coringa Alegre";
+        /* #7  */ case JOKER_THREE:         return "Coringa Bobo";
+        /* #8  */ case JOKER_STRAIGHT:      return "Coringa Maluco";
+        /* #9  */ case JOKER_FLUSH:         return "Cor. Engracado";
+        /* #10 */ case JOKER_FOUR:          return "Cor. Bizonho";
+        /* #11 */ case JOKER_ROYAL_KING:    return "Cara Assustadora";
+        /* #12 */ case JOKER_ROYAL_QUEEN:   return "Academico";
+        /* #13 */ case JOKER_SIXTH_SENSE:   return "Quatro Dedos";
+        /* #14 */ case JOKER_ARCANE_MINOR:  return "Atalho";
+        /* #15 */ case JOKER_THRONE:        return "Respingo";
+        /* #16 */ case JOKER_ROYAL_COUNCIL: return "Pareidolia";
+        /* #17 */ case JOKER_OCCULT_LIBRARY:return "Cor. Borrado";
+        /* #18 */ case JOKER_COIN_BOSS:     return "Comprovante";
+        /* #19 */ case JOKER_NOBLE_LINEAGE: return "Mimico";
+        /* #20 */ case JOKER_ROYAL_JACK:    return "Meias e Bucins";
+        /* #21 */ case JOKER_LUNCHBOX:      return "Anoitecer";
+        /* #22 */ case JOKER_COFFEE:        return "Agua com Gas";
+        /* #23 */ case JOKER_COIN_FLUSH:    return "Cor. Dourado";
+        /* #24 */ case JOKER_COIN_PAIR:     return "Cartao de Visitas";
+        /* #25 */ case JOKER_MIRROR_QUIZ:   return "Ate a Lua";
+        /* #26 */ case JOKER_STENCIL:       return "Cartao de Credito";
+        /* #27 */ case JOKER_COIN_THREE:    return "Foguete";
+        /* #28 */ case JOKER_COIN_ROYAL:    return "Estac. Reservado";
+        /* #29 */ case JOKER_COIN_LOW:      return "Banana";
+        /* #30 */ case JOKER_CAVENDISH:     return "Banana Cavendish";
+        /* #31 */ case JOKER_POPCORN:       return "Pipoca";
+        /* #32 */ case JOKER_ICE_CREAM:     return "Sorvete";
+        /* #33 */ case JOKER_LUCKY_JIMBO:   return "Cor. Verde";
+        /* #34 */ case JOKER_ECHO_ARCANO:   return "Corredor";
+        /* #35 */ case JOKER_MARKER:        return "Vidente";
+        /* #36 */ case JOKER_RITUAL_TABLE:  return "Constelacao";
+        /* #37 */ case JOKER_TWO_PAIR:      return "Calcas Extras";
+        /* #38 */ case JOKER_BOSS_SHIELD:   return "Pequeno Coringa";
+        /* #39 */ case JOKER_CRYPTID_RELAY: return "Projeto";
+        /* #40 */ case JOKER_COSMOS_PRISM:  return "Tempest. Ideias";
+        /* #41 */ case JOKER_FAMILIAR_WAGE: return "Vampiro";
+        /* #42 */ case JOKER_RED_CARD:      return "Cartao Vermelho";
+        /* #43 */ case JOKER_PI_CACHE:      return "Holograma";
         default: return "Nenhum";
     }
 }
@@ -380,14 +380,14 @@ const char *tarot_name(TarotType type) {
 
 const char *coupon_name(CouponType type) {
     switch (type) {
-        case COUPON_CLEARANCE: return "Clearance Sale";
-        case COUPON_CLEARANCE_PLUS: return "Liquidation";
-        case COUPON_GRABBER: return "Grabber";
-        case COUPON_GRABBER_PLUS: return "Nacho Tong";
-        case COUPON_ORACLE: return "Tarot Merchant";
-        case COUPON_ORACLE_PLUS: return "Tarot Tycoon";
-        case COUPON_HONE: return "Hone";
-        case COUPON_HONE_PLUS: return "Glow Up";
+        case COUPON_CLEARANCE:      return "Liquidacao";
+        case COUPON_CLEARANCE_PLUS: return "Liquidacao Total";
+        case COUPON_GRABBER:        return "Mao Longa";
+        case COUPON_GRABBER_PLUS:   return "Lingua de Nacho";
+        case COUPON_ORACLE:         return "Comerc. de Tarot";
+        case COUPON_ORACLE_PLUS:    return "Magnata do Tarot";
+        case COUPON_HONE:           return "Polimento";
+        case COUPON_HONE_PLUS:      return "Brilho Intenso";
         default: return "Cupom";
     }
 }

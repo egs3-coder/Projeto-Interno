@@ -453,49 +453,49 @@ static Rectangle card_sheet_src(int suit, int rank) {
 
 static int joker_sheet_index(JokerType joker) {
     switch (joker) {
-        case JOKER_FLAT: return 1;
-        case JOKER_PAIR: return 6;
-        case JOKER_TWO_PAIR: return 93;
-        case JOKER_THREE: return 7;
-        case JOKER_FOUR: return 127;
-        case JOKER_STRAIGHT: return 8;
-        case JOKER_FLUSH: return 9;
-        case JOKER_COIN_PAIR: return 37;
-        case JOKER_COIN_FLUSH: return 85;
-        case JOKER_COIN_THREE: return 30;
-        case JOKER_COIN_ROYAL: return 77;
-        case JOKER_COIN_LOW: return 78;
-        case JOKER_COIN_BOSS: return 124;
-        case JOKER_POPCORN: return 92;
-        case JOKER_ICE_CREAM: return 45;
-        case JOKER_CAVENDISH: return 56;
-        case JOKER_COFFEE: return 89;
-        case JOKER_LUNCHBOX: return 75;
-        case JOKER_MARKER: return 91;
-        case JOKER_ROYAL_KING: return 67;
-        case JOKER_ROYAL_QUEEN: return 135;
-        case JOKER_ROYAL_JACK: return 125;
-        case JOKER_ROYAL_COUNCIL: return 142;
-        case JOKER_THRONE: return 73;
-        case JOKER_NOBLE_LINEAGE: return 141;
-        case JOKER_ARCANE_MINOR: return 137;
-        case JOKER_SIXTH_SENSE: return 49;
-        case JOKER_OCCULT_LIBRARY: return 81;
-        case JOKER_RITUAL_TABLE: return 54;
-        case JOKER_ECHO_ARCANO: return 138;
-        case JOKER_STENCIL: return 12;
-        case JOKER_GREEDY: return 2;
-        case JOKER_LOVELY: return 3;
-        case JOKER_WRATHFUL: return 4;
-        case JOKER_ASTUTE: return 5;
-        case JOKER_MIRROR_QUIZ: return 130;
-        case JOKER_BOSS_SHIELD: return 144;
-        case JOKER_CRYPTID_RELAY: return 136;
-        case JOKER_COSMOS_PRISM: return 136;
-        case JOKER_LUCKY_JIMBO: return 86;
-        case JOKER_FAMILIAR_WAGE: return 105;
-        case JOKER_PI_CACHE: return 134;
-        case JOKER_RED_CARD: return 118;
+        case JOKER_FLAT:          return 1;   /* Coringa */
+        case JOKER_GREEDY:        return 17;  /* Cor. Ganancioso */
+        case JOKER_LOVELY:        return 18;  /* Cor. Vigoroso */
+        case JOKER_WRATHFUL:      return 19;  /* Coringa Irado */
+        case JOKER_ASTUTE:        return 20;  /* Cor. Guloso */
+        case JOKER_PAIR:          return 3;   /* Coringa Alegre */
+        case JOKER_THREE:         return 3;   /* Coringa Bobo (mesma sprite) */
+        case JOKER_STRAIGHT:      return 6;   /* Coringa Maluco */
+        case JOKER_FLUSH:         return 7;   /* Cor. Engracado */
+        case JOKER_FOUR:          return 9;   /* Cor. Bizonho */
+        case JOKER_ROYAL_KING:    return 33;  /* Cara Assustadora */
+        case JOKER_ROYAL_QUEEN:   return 64;  /* Academico */
+        case JOKER_SIXTH_SENSE:   return 67;  /* Quatro Dedos */
+        case JOKER_ARCANE_MINOR:  return 124; /* Atalho */
+        case JOKER_THRONE:        return 107; /* Respingo */
+        case JOKER_ROYAL_COUNCIL: return 37;  /* Pareidolia */
+        case JOKER_OCCULT_LIBRARY:return 65;  /* Cor. Borrado */
+        case JOKER_COIN_BOSS:     return 70;  /* Comprovante */
+        case JOKER_NOBLE_LINEAGE: return 15;  /* Mimico */
+        case JOKER_ROYAL_JACK:    return 14;  /* Meias e Bucins */
+        case JOKER_LUNCHBOX:      return 75;  /* Anoitecer */
+        case JOKER_COFFEE:        return 154; /* Agua com Gas */
+        case JOKER_COIN_FLUSH:    return 30;  /* Cor. Dourado */
+        case JOKER_COIN_PAIR:     return 42;  /* Cartao de Visitas */
+        case JOKER_MIRROR_QUIZ:   return 139; /* Ate a Lua */
+        case JOKER_STENCIL:       return 16;  /* Cartao de Credito */
+        case JOKER_COIN_THREE:    return 129; /* Foguete */
+        case JOKER_COIN_ROYAL:    return 137; /* Estac. Reservado */
+        case JOKER_COIN_LOW:      return 68;  /* Banana */
+        case JOKER_CAVENDISH:     return 116; /* Banana Cavendish */
+        case JOKER_POPCORN:       return 152; /* Pipoca */
+        case JOKER_ICE_CREAM:     return 105; /* Sorvete */
+        case JOKER_LUCKY_JIMBO:   return 113; /* Cor. Verde */
+        case JOKER_ECHO_ARCANO:   return 104; /* Corredor */
+        case JOKER_MARKER:        return 58;  /* Vidente */
+        case JOKER_RITUAL_TABLE:  return 110; /* Constelacao */
+        case JOKER_TWO_PAIR:      return 155; /* Calcas Extras */
+        case JOKER_BOSS_SHIELD:   return 122; /* Pequeno Coringa */
+        case JOKER_CRYPTID_RELAY: return 31;  /* Projeto */
+        case JOKER_COSMOS_PRISM:  return 78;  /* Tempest. Ideias */
+        case JOKER_FAMILIAR_WAGE: return 25;  /* Gabarito */
+        case JOKER_RED_CARD:      return 118; /* Cartao Vermelho */
+        case JOKER_PI_CACHE:      return 103; /* Questao de Prova */
         default: return 0;
     }
 }
@@ -544,14 +544,14 @@ static Rectangle tarot_sheet_src(TarotType tarot) {
 
 static int coupon_sheet_index(CouponType coupon) {
     switch (coupon) {
-        case COUPON_CLEARANCE: return 4;
-        case COUPON_CLEARANCE_PLUS: return 13;
-        case COUPON_GRABBER: return 6;
-        case COUPON_GRABBER_PLUS: return 15;
-        case COUPON_ORACLE: return 23;
-        case COUPON_ORACLE_PLUS: return 32;
-        case COUPON_HONE: return 5;
-        case COUPON_HONE_PLUS: return 14;
+        case COUPON_CLEARANCE:      return 4;   /* Liquidacao */
+        case COUPON_CLEARANCE_PLUS: return 13;  /* Liquidacao Total */
+        case COUPON_GRABBER:        return 6;   /* Mao Longa */
+        case COUPON_GRABBER_PLUS:   return 15;  /* Lingua de Nacho */
+        case COUPON_ORACLE:         return 2;   /* Comerc. de Tarot */
+        case COUPON_ORACLE_PLUS:    return 11;  /* Magnata do Tarot */
+        case COUPON_HONE:           return 5;   /* Polimento */
+        case COUPON_HONE_PLUS:      return 14;  /* Brilho Intenso */
         default: return 0;
     }
 }
@@ -982,49 +982,49 @@ static const char *enhancement_desc(CardEnhancement enhancement) {
 
 static const char *joker_desc(JokerType type) {
     switch (type) {
-        case JOKER_FLAT: return "O coringa basico do baralho: soma chips fixos em toda jogada e funciona em qualquer build.";
-        case JOKER_PAIR: return "Versao MVP do Jolly Joker: quando a mao fecha Par, libera um pacote confiavel de chips.";
-        case JOKER_TWO_PAIR: return "Inspirado em Spare Trousers: duas duplas garantem mult extra e estabilizam maos medianas.";
-        case JOKER_THREE: return "Equivalente ao Zany Joker: trincas passam a valer bem mais chips do que o normal.";
-        case JOKER_FOUR: return "Carta explosiva de fim de build: quando o gatilho pesado entra, o mult final dispara.";
-        case JOKER_STRAIGHT: return "A cara do Mad Joker: sequencias recebem mult extra e ficam mais valiosas de perseguir.";
-        case JOKER_FLUSH: return "A cara do Crazy Joker: flushes viram uma fonte direta de chips robustos.";
-        case JOKER_COIN_PAIR: return "Um Business Card adaptado: pares bem encaixados ainda colocam moedas no bolso.";
-        case JOKER_COIN_FLUSH: return "Versao economica de Golden Joker focada em flush: alem de pontuar, tambem gera caixa.";
-        case JOKER_COIN_THREE: return "Trincas eficientes ainda convertem consistencia em dinheiro extra.";
-        case JOKER_COIN_ROYAL: return "Parecido com Reserved Parking: figuras pontuadas podem transformar realeza em renda.";
-        case JOKER_COIN_LOW: return "Um rebate simplificado: cartas baixas e humildes devolvem moedas ao jogador.";
-        case JOKER_COIN_BOSS: return "Pensado para boss blind: encarar chefe com ele ativo rende pagamento adicional.";
-        case JOKER_POPCORN: return "Comeca absurdamente forte, mas vai perdendo impacto a cada mao ate acabar.";
-        case JOKER_ICE_CREAM: return "Empilha muitos chips no inicio e derrete aos poucos conforme a rodada avanca.";
-        case JOKER_CAVENDISH: return "Mult temporario poderoso com risco de sumir ao final da fase.";
-        case JOKER_COFFEE: return "Um impulsionador economico simples: cada jogada rende dinheiro direto.";
-        case JOKER_LUNCHBOX: return "Parecido com Turtle Bean na ideia de conforto imediato: a primeira mao da fase vem mais recheada.";
-        case JOKER_MARKER: return "Premia runs que acertam a parte de quiz, convertendo respostas certas em valor de combate.";
-        case JOKER_ROYAL_KING: return "Baron enxuto: Reis pontuados convertem sua presenca em muitos chips.";
-        case JOKER_ROYAL_QUEEN: return "Shoot the Moon adaptado: cada Rainha relevante empurra o mult para cima.";
-        case JOKER_ROYAL_JACK: return "Hit the Road em versao leve: Valetes mantem uma presenca economica oportunista.";
-        case JOKER_ROYAL_COUNCIL: return "Inspirado em Triboulet: reunir a corte multiplica o valor final da jogada.";
-        case JOKER_THRONE: return "Quando Rei e Rainha aparecem juntos, este Coringa transforma a mesa em bonus de nobreza.";
-        case JOKER_NOBLE_LINEAGE: return "Lendario ofensivo: maos inteiras de figuras recebem um multiplicador final enorme.";
-        case JOKER_ARCANE_MINOR: return "Cartomancer enxuto: quanto mais Tarots voce guarda, mais mult passivo entra na conta.";
-        case JOKER_SIXTH_SENSE: return "Sexto Senso classico: ao atingir o limiar de descarte, ele puxa mais um Tarot para a run.";
-        case JOKER_OCCULT_LIBRARY: return "Fortune Teller adaptado: o acervo de Tarots vira mult estavel para jogadas futuras.";
-        case JOKER_RITUAL_TABLE: return "Superposition ritualistico: usar Tarots durante a fase injeta chips extras na proxima explosao.";
-        case JOKER_ECHO_ARCANO: return "Astronomer em tom arcano: o ultimo Tarot usado continua ecoando na mao seguinte.";
-        case JOKER_STENCIL: return "Joker Stencil fiel ao conceito: slots vazios de Coringa aumentam o multiplicador final.";
-        case JOKER_GREEDY: return "Greedy Joker: cartas de Ouros recebem mult adicional sempre que entram na conta.";
-        case JOKER_LOVELY: return "Lusty Joker: cartas de Copas tornam a mao mais charmosa e mais multiplicada.";
-        case JOKER_WRATHFUL: return "Wrathful Joker: Espadas entram agressivas, convertendo presenca em chips extras.";
-        case JOKER_ASTUTE: return "Gluttonous Joker adaptado: Paus devolvem chips extras quando sustentam a jogada.";
-        case JOKER_MIRROR_QUIZ: return "Blueprint de prova: quando a fase intelectual encaixa, o mult final cresce bastante.";
-        case JOKER_BOSS_SHIELD: return "Chicot simplificado: reduz a crueldade do chefe e ainda devolve multiplicador no confronto.";
-        case JOKER_CRYPTID_RELAY: return "Driver's License em clima cripto: builds com muitas marcas especiais convertem isso em xmult.";
-        case JOKER_COSMOS_PRISM: return "Hologram adaptado: cartas muito melhoradas reforcam o multiplicador final do baralho.";
-        case JOKER_LUCKY_JIMBO: return "Lucky Cat simplificado: sempre que Sorte ativa, este Coringa cresce junto no xmult.";
-        case JOKER_FAMILIAR_WAGE: return "Swashbuckler economico: pares e trincas tambem trazem moedas no contracheque.";
-        case JOKER_PI_CACHE: return "Satellite arcano: usar consumiveis alimenta um mult extra estavel para a build.";
-        case JOKER_RED_CARD: return "Comeca com +0 Mult. Sempre que voce ignora um pacote aberto, ganha +3 Mult permanente.";
+        case JOKER_FLAT:          return "+4 Mult.";
+        case JOKER_GREEDY:        return "Cada carta de Ouros pontuada concede +3 Mult.";
+        case JOKER_LOVELY:        return "Cada carta de Copas pontuada concede +3 Mult.";
+        case JOKER_WRATHFUL:      return "Cada carta de Espadas pontuada concede +3 Mult.";
+        case JOKER_ASTUTE:        return "Cada carta de Paus pontuada concede +3 Mult.";
+        case JOKER_PAIR:          return "Se a mao jogada for Par: +8 Mult.";
+        case JOKER_THREE:         return "Se a mao jogada for Three of a Kind: +12 Mult.";
+        case JOKER_STRAIGHT:      return "Se a mao jogada for Straight: +10 Mult.";
+        case JOKER_FLUSH:         return "Se a mao jogada for Flush: +12 Mult.";
+        case JOKER_FOUR:          return "Se a mao jogada for Full House: +10 Mult.";
+        case JOKER_ROYAL_KING:    return "Cada carta de figura pontuada recebe +30 Chips.";
+        case JOKER_ROYAL_QUEEN:   return "Cada As pontuado recebe +20 Chips e +4 Mult.";
+        case JOKER_SIXTH_SENSE:   return "Straights e Flushes precisam de apenas 4 cartas.";
+        case JOKER_ARCANE_MINOR:  return "Sequencias podem ter lacunas de ate 1 valor\n(ex: 4-5-7-8-9 conta como Straight).";
+        case JOKER_THRONE:        return "Todas as cartas jogadas pontuam, mesmo fora\nda combinacao principal.";
+        case JOKER_ROYAL_COUNCIL: return "Todas as cartas do deck passam a ser\nconsideradas cartas de figura.";
+        case JOKER_OCCULT_LIBRARY:return "Espadas e Paus sao tratados como o mesmo naipe.\nCopas e Ouros tambem.";
+        case JOKER_COIN_BOSS:     return "A primeira carta pontuada e ativada mais 2 vezes.";
+        case JOKER_NOBLE_LINEAGE: return "Reativa todos os efeitos das cartas mantidas na mao.";
+        case JOKER_ROYAL_JACK:    return "Todas as cartas de figura pontuadas sao\nativadas uma segunda vez.";
+        case JOKER_LUNCHBOX:      return "Se for a ultima mao da rodada, todas as cartas\npontuadas sao ativadas novamente.";
+        case JOKER_COFFEE:        return "Todas as cartas pontuadas sao ativadas novamente\ndurante as proximas 10 rodadas.";
+        case JOKER_COIN_FLUSH:    return "Ganha $4 ao final da rodada.";
+        case JOKER_COIN_PAIR:     return "Cartas de figura tem 50% de chance de dar $2\nao pontuar.";
+        case JOKER_MIRROR_QUIZ:   return "Juros maximos aumentam em +$1.";
+        case JOKER_STENCIL:       return "O dinheiro pode chegar ate -$20.";
+        case JOKER_COIN_THREE:    return "Ganha $1 ao final de cada rodada.\nSobe +$1 por cada Boss Blind derrotado.";
+        case JOKER_COIN_ROYAL:    return "Cartas de figura mantidas na mao tem 50%\nde chance de gerar $1.";
+        case JOKER_COIN_LOW:      return "+15 Mult (1 em 6 de chance de ser destruida\nao final da rodada).";
+        case JOKER_CAVENDISH:     return "x3 Mult (1 em 1000 de chance de ser destruida\nao final da rodada).";
+        case JOKER_POPCORN:       return "x2 Mult (perde 0,04x Mult ao final de cada rodada).";
+        case JOKER_ICE_CREAM:     return "+100 Chips (perde 5 Chips ao final de cada rodada).";
+        case JOKER_LUCKY_JIMBO:   return "Ganha +1 Mult ao final de cada rodada\nsem usar descartes.";
+        case JOKER_ECHO_ARCANO:   return "Se a mao jogada for Straight: ganha\n+15 Chips permanentemente.";
+        case JOKER_MARKER:        return "Ganha +1 Mult permanente sempre que um\nTarot e usado na tentativa.";
+        case JOKER_RITUAL_TABLE:  return "Ganha +0,1x Mult permanente ao jogar\na mao mais jogada.";
+        case JOKER_TWO_PAIR:      return "Se a mao jogada for Two Pair: ganha\n+2 Mult permanentemente.";
+        case JOKER_BOSS_SHIELD:   return "Ganha +8 Chips permanentes sempre que\num 2 pontua.";
+        case JOKER_CRYPTID_RELAY: return "Copia exatamente o efeito do Coringa\nimediatamente a direita.";
+        case JOKER_COSMOS_PRISM:  return "Copia exatamente o efeito do Coringa\nmais a esquerda.";
+        case JOKER_FAMILIAR_WAGE: return "Ganha 0,25x Mult ao acertar uma pergunta\ndo quiz.";
+        case JOKER_RED_CARD:      return "A cada pacote ignorado ganha +3 Mult\n(comeca com 0).";
+        case JOKER_PI_CACHE:      return "Acertar a pergunta do boss garante\n2X Mult na rodada.";
         default: return "Coringa de suporte.";
     }
 }
@@ -1095,14 +1095,14 @@ static const char *tarot_desc(TarotType type) {
 
 static const char *coupon_desc(CouponType type) {
     switch (type) {
-        case COUPON_CLEARANCE: return "Clearance Sale: todas as compras da loja ficam 25% mais baratas, incluindo pacotes.";
-        case COUPON_CLEARANCE_PLUS: return "Liquidation: o desconto permanente sobe para 50% e acelera builds caras.";
-        case COUPON_GRABBER: return "Grabber: concede +1 mao por fase, aumentando consistencia e margem de erro.";
-        case COUPON_GRABBER_PLUS: return "Nacho Tong: sobe ainda mais o numero de maos por fase para runs longas.";
-        case COUPON_ORACLE: return "Tarot Merchant: aumenta o espaco de consumiveis e a frequencia de Tarots na loja.";
-        case COUPON_ORACLE_PLUS: return "Tarot Tycoon: amplia ainda mais a economia arcana e gera mais oportunidades.";
-        case COUPON_HONE: return "Hone: melhora a chance de Coringas aparecerem com marcas especiais na loja.";
-        case COUPON_HONE_PLUS: return "Glow Up: reforca bastante as edicoes, puxando mais Holo, Poli e Negative.";
+        case COUPON_CLEARANCE:      return "Todos os itens da loja custam 25% menos.";
+        case COUPON_CLEARANCE_PLUS: return "Todos os itens da loja custam 50% menos.";
+        case COUPON_GRABBER:        return "+1 mao por rodada.";
+        case COUPON_GRABBER_PLUS:   return "+1 mao adicional por rodada.";
+        case COUPON_ORACLE:         return "Dobro de chance de aparecerem Tarots na loja.";
+        case COUPON_ORACLE_PLUS:    return "Quadruplo de chance de aparecerem Tarots na loja.";
+        case COUPON_HONE:           return "Dobro de chance de encontrar cartas com edicoes.";
+        case COUPON_HONE_PLUS:      return "Quadruplo de chance de encontrar cartas com edicoes.";
         default: return "Cupom permanente.";
     }
 }
@@ -4015,31 +4015,42 @@ static void update_card_anims(AppState *app) {
 }
 
 static void handle_play_input(AppState *app) {
+    int i;
+    /* Hover scan forward (tooltip for last card under cursor) */
     app->hovered_card = -1;
-    for (int i = 0; i < app->hand_count; i++) {
+    for (i = 0; i < app->hand_count; i++) {
         Rectangle box = card_rect(i, app->hand_count, app->select_anim[i], app->hover_anim[i]);
         if (hover(box)) {
             app->hovered_card = i;
             set_tooltip(app, "%s de %s\n%s", rank_name(app->hand[i].rank), suit_name(app->hand[i].suit), enhancement_desc(app->hand[i].enhancement));
-            if (clicked(box)) {
-                int selected = count_selected_cards(app);
-                if (app->selected[i] || selected < MAX_PLAY) app->selected[i] = !app->selected[i];
-            }
+        }
+    }
+    /* Click scan reverse: topmost (last-drawn) card wins, break prevents double-fire */
+    for (i = app->hand_count - 1; i >= 0; i--) {
+        Rectangle box = card_rect(i, app->hand_count, app->select_anim[i], app->hover_anim[i]);
+        if (hover(box) && IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
+            int sel = count_selected_cards(app);
+            if (app->selected[i] || sel < MAX_PLAY) app->selected[i] = !app->selected[i];
+            break;
         }
     }
     update_card_anims(app);
 
-    for (int i = 0; i < app->build.joker_count; i++) {
-        Rectangle box = joker_rect(i);
-        if (hover(box)) set_tooltip(app, "%s\n%s\nEdicao: %s\nRaridade: %s", joker_name(app->build.jokers[i].type), joker_desc(app->build.jokers[i].type), gui_edition_name(app->build.jokers[i].edition), joker_rarity_name(app->build.jokers[i].type));
-        if (clicked(box)) app->selected_joker_index = i;
+    /* Jokers: use hit-rect so overlapping sprites share clean hitboxes */
+    for (i = 0; i < app->build.joker_count; i++) {
+        Rectangle box = joker_hit_rect_for_count(i, app->build.joker_count, app->selected_joker_index);
+        if (hover(box)) set_tooltip(app, "%s\n%s\nEdicao: %s\nRaridade: %s",
+            joker_name(app->build.jokers[i].type),
+            joker_desc(app->build.jokers[i].type),
+            gui_edition_name(app->build.jokers[i].edition),
+            joker_rarity_name(app->build.jokers[i].type));
+        if (hover(box) && IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
+            app->selected_joker_index = i;
     }
-    for (int i = 0; i < app->build.tarot_count; i++) {
+    for (i = 0; i < app->build.tarot_count; i++) {
         Rectangle box = tarot_rect(i);
         if (hover(box)) set_tooltip(app, "%s\n%s", tarot_display_name(app->build.tarot_inventory[i]), tarot_desc(app->build.tarot_inventory[i]));
-        if (clicked(box)) {
-            app->selected_tarot_index = i;
-        }
+        if (clicked(box)) app->selected_tarot_index = i;
     }
 
     if (clicked(Rf(678, 748, 220, 62))) play_selected_cards(app);
@@ -4048,7 +4059,8 @@ static void handle_play_input(AppState *app) {
     if (clicked(Rf(920, 818, 170, 40))) sort_hand(app, 1);
     if (clicked(Rf(1110, 748, 220, 62))) discard_selected_cards(app);
     if (clicked(Rf(60, 718, 94, 108))) open_run_info(app, SCREEN_PLAY);
-    if (clicked(Rf(266, 718, 94, 108))) app->screen = SCREEN_TITLE;
+    /* Back to main menu — checked last so nothing above can shadow it */
+    if (clicked(Rf(266, 718, 94, 108))) { app->screen = SCREEN_TITLE; return; }
 }
 
 static void draw_play_screen(AppState *app) {
@@ -4063,7 +4075,7 @@ static void draw_play_screen(AppState *app) {
     DrawText(TextFormat("%d/%d", app->build.joker_count, app->build.joker_capacity), 436, 218, 24, Fade(WHITE, 0.82f));
     DrawText(TextFormat("%d/%d", app->build.tarot_count, app->build.tarot_capacity), 1460, 218, 24, Fade(WHITE, 0.82f));
 
-    for (int i = 0; i < app->build.joker_count; i++) draw_inventory_joker(&app->build.jokers[i], scale_rect_center(joker_rect(i), pulse_scale(&app->joker_pulses[i], 0.08f)), app->selected_joker_index == i);
+    for (int i = 0; i < app->build.joker_count; i++) draw_inventory_joker(&app->build.jokers[i], scale_rect_center(joker_rect_for_count(i, app->build.joker_count, app->selected_joker_index), pulse_scale(&app->joker_pulses[i], 0.08f)), app->selected_joker_index == i);
     for (int i = 0; i < app->build.tarot_count; i++) draw_tarot_visual(app->build.tarot_inventory[i], tarot_rect(i), app->selected_tarot_index == i);
     for (int i = 0; i < app->hand_count; i++) {
         Rectangle box = card_rect(i, app->hand_count, app->select_anim[i], app->hover_anim[i]);
@@ -4179,9 +4191,9 @@ static void handle_shop_input(AppState *app) {
     }
 
     for (int i = 0; i < app->build.joker_count; i++) {
-        Rectangle box = joker_rect(i);
+        Rectangle box = joker_hit_rect_for_count(i, app->build.joker_count, app->selected_joker_index);
         if (hover(box)) set_tooltip(app, "%s\n%s\nEdicao: %s\nRaridade: %s", joker_name(app->build.jokers[i].type), joker_desc(app->build.jokers[i].type), gui_edition_name(app->build.jokers[i].edition), joker_rarity_name(app->build.jokers[i].type));
-        if (clicked(box)) app->selected_joker_index = i;
+        if (hover(box) && IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) app->selected_joker_index = i;
     }
     for (int i = 0; i < app->build.tarot_count; i++) {
         Rectangle box = tarot_rect(i);
