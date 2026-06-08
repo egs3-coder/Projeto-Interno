@@ -1,10 +1,21 @@
 # User Stories
 
-- Como jogador, quero cadastrar meu nome antes da tentativa para salvar meu desempenho.
-- Como jogador, quero escolher categorias de perguntas para jogar na modalidade que combina comigo.
-- Como jogador iniciante em poker, quero ver a descricao de cada mao para entender por que pontuei.
-- Como jogador, quero consultar as perguntas respondidas na tentativa para saber onde errei.
-- Como jogador, quero ver o baralho restante para planejar melhor minhas jogadas.
-- Como jogador, quero aplicar Tarots sem sair da tela principal para manter o ritmo da run.
-- Como jogador, quero receber provocacoes e dicas do personagem para deixar a experiencia mais marcante.
-- Como equipe, queremos rankings e historico por jogador para apresentar um relatorio analitico funcional.
+## Jogador
+
+- Como jogador, quero configurar meu nome e categorias de perguntas para que a run registre minha modalidade.
+- Como jogador, quero jogar fases com cartas de poker para tentar bater a meta de pontos da blind.
+- Como jogador, quero responder quizzes entre fases para ganhar moedas, evitar debuffs e melhorar minha run.
+- Como jogador, quero consultar historico e ranking para comparar meu desempenho com partidas anteriores.
+- Como jogador iniciante em poker, quero ver explicacoes das maos para entender quais combinacoes devo buscar.
+
+## Professor/Avaliador
+
+- Como avaliador, quero abrir o projeto em outra maquina para verificar a entrega sem depender da maquina original.
+- Como avaliador, quero consultar README, plano de testes e historico com varias partidas para validar completude.
+- Como avaliador, quero identificar os principais arquivos C e headers para entender a organizacao tecnica.
+
+## Desenvolvedor
+
+- Como desenvolvedor, quero separar logica em `.c` e `.h` para manter o codigo navegavel.
+- Como desenvolvedor, quero preservar versoes antigas e backups para recuperar o executavel funcional.
+- Como desenvolvedor, quero ter um historico de testes para validar ranking, sessoes e persistencia.
