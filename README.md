@@ -25,9 +25,9 @@ A proposta do jogo é oferecer uma experiência envolvente e lúdica, em que est
 
 ---
 
-## Relatório
+## Manual do Jogo
 
-[Documentação do Projeto](https://docs.google.com/document/d/1QuwzkYMZ4sQCR2ggyGRRT0ve8KE0VRTHym0jKqX2Nnk/edit?usp=sharing)
+[🎮📖 Manual do Jogo](https://lauannoysu.github.io/manual-metadeck/)
 
 ---
 
