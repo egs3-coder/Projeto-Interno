@@ -37,10 +37,20 @@ A proposta do jogo é oferecer uma experiência envolvente e lúdica, em que est
 
 ---
 
+## Quadro do Trello
+
+[🧩 Trello](https://trello.com/b/peA1EPFt/projeto-interno)  
+
+--- 
 ## Ferramentas Utilizadas
 
- [🛠️ Trello](https://trello.com/b/peA1EPFt/projeto-interno)  
+🧩 Trello
 
+🌐 HTML
+
+🎨 CSS
+
+⚙️ JavaScript
 ---
 
 ## Demonstração do Projeto
