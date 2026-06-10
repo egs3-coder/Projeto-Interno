@@ -39,7 +39,7 @@ A proposta do jogo é oferecer uma experiência envolvente e lúdica, em que est
 
 ## Ferramentas Utilizadas
 
-🔗 [Trello](https://trello.com/b/peA1EPFt/projeto-interno)  
+ [🛠️ Trello](https://trello.com/b/peA1EPFt/projeto-interno)  
 
 ---
 
@@ -51,13 +51,13 @@ A proposta do jogo é oferecer uma experiência envolvente e lúdica, em que est
 
 ## Diagrama de Atividade
 
-🔗 [Diagrama](https://www.figma.com/board/oRGYxgpozYA9ofm71KWhNC/Diagrama-de-atividades?node-id=0-1&t=cdALj8wPUNesLKAL-1)
+ [🗺️ Diagrama](https://www.figma.com/board/oRGYxgpozYA9ofm71KWhNC/Diagrama-de-atividades?node-id=0-1&t=cdALj8wPUNesLKAL-1)
 
 ---
 
 ## Issue/Bug Tracker
 
-[Issue/Bug Tracker](https://github.com/egs3-coder/Projeto-Interno/issues)
+[🐞 Issue/Bug Tracker](https://github.com/egs3-coder/Projeto-Interno/issues)
 
 ---
 
@@ -102,7 +102,7 @@ Dessa forma, a programação em par não foi utilizada apenas como uma divisão 
 
 ## Fotos do Processo Par a Par 
 
-[Par a Par](https://drive.google.com/file/d/15oD4ilm6bAYJCUN9YIHtGHEEcQMHdxNu/view?usp=drive_link)
+[📸 Par a Par](https://drive.google.com/file/d/15oD4ilm6bAYJCUN9YIHtGHEEcQMHdxNu/view?usp=drive_link)
 
 ---
 
