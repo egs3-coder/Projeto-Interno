@@ -40,7 +40,6 @@ A proposta do jogo é oferecer uma experiência envolvente e lúdica, em que est
 ## Ferramentas Utilizadas
 
 🔗 [Trello](https://trello.com/b/peA1EPFt/projeto-interno)  
-🎨 [Figma](https://www.figma.com/design/ni9lD5vNeYUJGzGCVwKJI0/MetaDeck?node-id=0-1&t=eL88baV89WgyTCQP-1)
 
 ---
 
@@ -50,7 +49,7 @@ A proposta do jogo é oferecer uma experiência envolvente e lúdica, em que est
 
 ---
 
-### Diagrama de Atividade
+## Diagrama de Atividade
 
 🔗 [Diagrama](https://www.figma.com/board/oRGYxgpozYA9ofm71KWhNC/Diagrama-de-atividades?node-id=0-1&t=cdALj8wPUNesLKAL-1)
 
@@ -100,6 +99,10 @@ Além disso, o integrante **Aquiles Pereira dos Santos** está em período de al
 Essa organização permitiu que o projeto continuasse avançando mesmo com limitações de horário entre os integrantes. As tarefas que exigiam maior integração, como lógica do sistema, interface, testes e definição das regras principais, foram priorizadas para trabalho em par. Já atividades mais específicas, de menor dependência ou relacionadas à função individual de cada membro, foram desenvolvidas separadamente e depois revisadas pela equipe.
 
 Dessa forma, a programação em par não foi utilizada apenas como uma divisão fixa de duplas, mas como uma estratégia de colaboração aplicada nos momentos mais importantes do projeto. Isso ajudou a melhorar a qualidade das entregas, reduzir erros, facilitar a comunicação entre os membros e garantir que o conhecimento sobre o sistema fosse compartilhado entre mais de uma pessoa.
+
+## Fotos do Processo Par a Par 
+
+[Par a Par](https://drive.google.com/file/d/15oD4ilm6bAYJCUN9YIHtGHEEcQMHdxNu/view?usp=drive_link)
 
 ---
 
