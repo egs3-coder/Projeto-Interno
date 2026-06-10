@@ -88,21 +88,23 @@ Como o projeto envolveu diferentes responsabilidades, a colaboração entre pare
 
 ## Justificativa para a organização do trabalho
 
-A equipe possui **7 integrantes**, com diferentes funções dentro do projeto, incluindo Product Owner, Scrum Master, desenvolvedores back-end, desenvolvedores front-end e responsável por testes/QA. Por esse motivo, nem todas as atividades foram realizadas exclusivamente em par durante todo o desenvolvimento.
+A equipe possui 7 integrantes, com diferentes funções dentro do projeto, incluindo Product Owner, Scrum Master, desenvolvedores back-end, desenvolvedores front-end e responsável por testes/QA. Por esse motivo, nem todas as atividades foram realizadas exclusivamente em par durante todo o desenvolvimento, já que cada integrante também possuía responsabilidades específicas dentro da organização do projeto.
 
-A programação em par foi aplicada nos momentos em que havia maior necessidade de **revisão, alinhamento técnico, integração de ideias e validação das funcionalidades**. Também foi necessário considerar a realidade de disponibilidade dos membros da equipe, já que alguns integrantes trabalham, fazem estágio ou possuem outras responsabilidades acadêmicas e pessoais.
+A programação em par foi aplicada principalmente nos momentos em que havia maior necessidade de revisão, alinhamento técnico, integração de ideias e validação das funcionalidades do jogo. Na maior parte das vezes, quando a equipe precisava analisar problemas, corrigir erros ou tomar decisões importantes sobre o funcionamento do sistema, os integrantes se reuniam em sala de aula, quase sempre com a maioria do grupo presente. Isso facilitou bastante o processo, pois permitiu que todos acompanhassem as dificuldades encontradas, opinassem sobre possíveis soluções e ajudassem na validação das decisões tomadas.
 
-Essas diferenças de rotina dificultaram a realização de encontros presenciais frequentes com todos os integrantes ao mesmo tempo. Dessa forma, a equipe precisou organizar o desenvolvimento de maneira flexível, combinando encontros presenciais, reuniões remotas e divisão de tarefas individuais.
+Esses encontros presenciais foram importantes para melhorar a comunicação entre os membros e acelerar a resolução dos problemas do jogo, principalmente em partes relacionadas à lógica, interface, testes, regras do sistema e integração das funcionalidades. Com a presença da maioria da equipe, foi possível discutir os problemas de forma mais direta, compartilhar ideias e revisar o que estava sendo desenvolvido.
 
-Além disso, o integrante **Aquiles Pereira dos Santos** está em período de alistamento militar, o que impactou sua disponibilidade para participar presencialmente em alguns momentos. Mesmo assim, ele contribuiu com o projeto principalmente por meio de encontros remotos, auxiliando nos testes, na validação das funcionalidades e na verificação do comportamento esperado do sistema.
+Além dos encontros presenciais, também ocorreram alguns momentos de programação em par, nos quais dois integrantes trabalharam juntos em determinadas partes do projeto, alternando entre quem desenvolvia e quem acompanhava, revisava ou sugeria melhorias. Essa prática ajudou a reduzir erros, melhorar a organização do código e garantir que mais de uma pessoa compreendesse partes importantes do sistema.
 
-Essa organização permitiu que o projeto continuasse avançando mesmo com limitações de horário entre os integrantes. As tarefas que exigiam maior integração, como lógica do sistema, interface, testes e definição das regras principais, foram priorizadas para trabalho em par. Já atividades mais específicas, de menor dependência ou relacionadas à função individual de cada membro, foram desenvolvidas separadamente e depois revisadas pela equipe.
+Quando não era possível reunir todos presencialmente, a equipe utilizava o WhatsApp para trocar informações, tirar dúvidas, enviar atualizações, combinar tarefas e discutir ajustes necessários. Essa comunicação foi mais prática para a realidade do grupo do que abrir reuniões pelo Meet com frequência, pois permitiu que os integrantes respondessem conforme sua disponibilidade e mantivessem o andamento do projeto mesmo fora dos horários presenciais.
 
-Dessa forma, a programação em par não foi utilizada apenas como uma divisão fixa de duplas, mas como uma estratégia de colaboração aplicada nos momentos mais importantes do projeto. Isso ajudou a melhorar a qualidade das entregas, reduzir erros, facilitar a comunicação entre os membros e garantir que o conhecimento sobre o sistema fosse compartilhado entre mais de uma pessoa.
+Dessa forma, a programação em par não foi utilizada apenas como uma divisão fixa de duplas, mas como uma estratégia de colaboração aplicada nos momentos mais importantes do desenvolvimento. A combinação entre encontros em sala, momentos par a par e comunicação pelo WhatsApp ajudou a melhorar a qualidade das entregas, facilitar a resolução de problemas, reduzir erros e garantir que o conhecimento sobre o sistema fosse compartilhado entre os integrantes da equipe.
+
+---
 
 ## Fotos do Processo Par a Par 
 
-[📸 Par a Par](https://drive.google.com/file/d/15oD4ilm6bAYJCUN9YIHtGHEEcQMHdxNu/view?usp=drive_link)
+[📸 Par a Par](https://drive.google.com/drive/folders/1xUZnOHY5zDmLfqT6EI7P3UUF10MiQUGF?usp=drive_link)
 
 ---
 
