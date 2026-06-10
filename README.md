@@ -112,8 +112,8 @@ Também percebemos que a comunicação entre os integrantes é essencial para qu
 Outro aprendizado importante foi entender que o trabalho em equipe não depende apenas de todos estarem presentes ao mesmo tempo. Mesmo com limitações de horário, estágios, trabalho, compromissos pessoais e participação remota de alguns integrantes, foi possível manter a colaboração por meio de revisões, testes, troca de ideias e acompanhamento das funcionalidades desenvolvidas.
 
 A programação em par contribuiu para que o projeto tivesse uma construção mais segura, pois as funcionalidades passaram por mais de uma análise antes de serem consideradas finalizadas. Isso fortaleceu a integração entre front-end, back-end, testes e organização geral do sistema, além de permitir que os integrantes compreendessem melhor o funcionamento completo do jogo.
-```
 
+---
 
 ## Equipe
 
