@@ -64,258 +64,56 @@ A proposta do jogo é oferecer uma experiência envolvente e lúdica, em que est
 
 ## Programação em Par Experimentada
 
-### Relato de Programação Par a Par — MetaDeck
+Durante o desenvolvimento do projeto, a equipe utilizou momentos de **programação em par** como estratégia para melhorar a organização das ideias, revisar decisões técnicas e aumentar a qualidade das funcionalidades implementadas no jogo.
 
-### Visão Geral
+Essa prática foi aplicada principalmente nas etapas que exigiam maior alinhamento entre **lógica do sistema, interface, regras do jogo, testes e organização geral do projeto**. Em alguns momentos, dois integrantes trabalharam juntos em uma mesma funcionalidade, alternando entre quem conduzia a implementação e quem acompanhava, revisava, testava ou sugeria melhorias.
 
-Durante o desenvolvimento do **MetaDeck**, a equipe utilizou a prática de **programação par a par**, em que os integrantes trabalharam em duplas ou em ligação direta com outras funções do time. Essa organização ajudou no desenvolvimento das funcionalidades, na validação das telas, nos testes e na documentação do projeto.
+Com isso, foi possível reduzir erros, melhorar a compreensão do código e garantir que mais de uma pessoa entendesse o funcionamento das principais partes do sistema. Além da implementação, a programação em par também contribuiu para a tomada de decisões sobre a estrutura do projeto, a organização das telas, a validação das mecânicas do jogo e a integração entre front-end e back-end.
 
-### Resumo da Programação Par a Par
-
-| Par | Integrantes | Área principal | Principais entregas |
-| :--- | :--- | :--- | :--- |
-| Par 1 | Ewerton e Lucas | Back-end | Partida, fases, perguntas, Boss, moedas, cartas especiais e recompensas |
-| Par 2 | Mateus e Davi | Front-end | Menu, perfil, partida, loja, coleção, perguntas, ranking, histórico e telas finais |
-| Par 3 | Lauan e Aquiles | Gestão e QA | Organização, acompanhamento, testes, validação de fluxo e identificação de melhorias |
-| Produto | João Ricardo com os pares | Product Owner | Validação da proposta, experiência do jogador e priorização das funcionalidades |
-
-### Par 1 — Back-end
-
-| Integrantes | Área de atuação |
-| :--- | :--- |
-| Ewerton Guilherme da Silva e Lucas Aprígio dos Santos | Lógica da partida, perguntas, fases, Boss e cartas especiais |
-
-#### Atuação do par
-
-Ewerton e Lucas atuaram juntos na construção da lógica principal do jogo.  
-Ewerton ficou mais responsável pela parte de **início de partida, sistema de fases, pontuação, moedas e recompensas de fase**. Lucas atuou mais diretamente no **sistema de perguntas, Boss, coringas, cartas de tarot, cupons e integração dos efeitos especiais com a partida**.
-
-A atuação em par foi importante porque as funcionalidades dependiam uma da outra. Por exemplo, as perguntas e o Boss interferem diretamente no andamento da run, enquanto o sistema de moedas e recompensas influencia a loja e a compra de cartas especiais.
-
-#### Funcionalidadess relacionadas
-
-| Funcionalidade | Responsável principal |
-| :--- | :--- |
-| Início de Partida | Ewerton |
-| Sistema de Fases | Ewerton |
-| Sistema de Moeda | Ewerton |
-| Recompensas de Fase | Ewerton |
-| Sistema de Perguntas | Lucas |
-| BOSS | Lucas |
-| Coringas | Lucas |
-| Cartas de Tarot | Lucas |
-| Cupons | Lucas |
-
-#### Telas relacionadas
-
-<p align="center">
-  <img src="UH1.jpeg" width="380" alt="Menu principal">
-</p>
-
-<p align="center">
-  <img src="UH2.jpeg" width="380" alt="Seleção de desafio">
-</p>
-
-<p align="center">
-  <img src="UH5.jpeg" width="380" alt="Tela principal da partida">
-</p>
-
-<p align="center">
-  <img src="UH3.jpeg" width="380" alt="Pergunta de fase">
-</p>
-
-<p align="center">
-  <img src="BOSS.jpeg" width="380" alt="Pergunta do Boss">
-</p>
-
-<p align="center">
-  <img src="UH11.jpeg" width="380" alt="Recompensa da fase">
-</p>
+Como o projeto envolveu diferentes responsabilidades, a colaboração entre pares permitiu que cada integrante contribuísse dentro da sua função, mas também compreendesse melhor o trabalho desenvolvido pelos demais membros da equipe.
 
 ---
 
-### Par 2 — Front-end
+## Funcionalidades e contribuições por par
 
-| Integrantes | Área de atuação |
-| :--- | :--- |
-| Mateus Valerino Barros de Santana e Davi Magno Campelo do Nascimento | Interface, telas, feedback visual, loja, coleção e telas finais |
-
-#### Atuação do par
-
-Mateus e Davi atuaram juntos no desenvolvimento visual do jogo.  
-Mateus trabalhou principalmente nas telas principais, como **menu inicial, perfil, seleção de desafio, tela da partida, sistema de fases, sistema de moeda e recompensas**.
-
-Davi ficou mais focado nas telas complementares e estratégicas, como **loja, pacotes, coleção, perguntas, Boss, ranking, histórico, run concluída e fim de jogo**.
-
-A dupla precisou manter uma identidade visual parecida em todas as telas, organizando botões, painéis, textos, cartas, mensagens e informações da run.
-
-#### Funcionalidadess relacionadas
-
-| Funcionalidade | Responsável principal |
-| :--- | :--- |
-| Interface do Início de Partida | Mateus |
-| Interface do Sistema de Fases | Mateus |
-| Interface do Sistema de Moeda | Mateus |
-| Recompensas de Fase | Mateus |
-| Sistema de Loja | Davi |
-| Sistema de Pacotes | Davi |
-| Interface dos Coringas | Davi |
-| Interface das Cartas de Tarot | Davi |
-| Interface dos Cupons | Davi |
-| Feedback Visual | Mateus e Davi |
-| Telas finais | Davi |
-
-#### Telas relacionadas
-
-<p align="center">
-  <img src="UH1.1.jpeg" width="380" alt="Perfil da run">
-</p>
-
-<p align="center">
-  <img src="UH6.jpeg" width="380" alt="Loja">
-</p>
-
-<p align="center">
-  <img src="UH7.png" width="380" alt="Coleção com navegação">
-</p>
-
-<p align="center">
-  <img src="UH8.jpeg" width="380" alt="Coleção de coringas">
-</p>
-
-<p align="center">
-  <img src="UH9.png" width="380" alt="Coleção de tarots">
-</p>
-
-<p align="center">
-  <img src="UH10.png" width="380" alt="Coleção de cupons">
-</p>
-
-<p align="center">
-  <img src="UH12.jpeg" width="380" alt="Run concluída">
-</p>
-
-<p align="center">
-  <img src="UH12.2.jpeg" width="380" alt="Fim de jogo">
-</p>
+| Par | Área de atuação | Funcionalidades executadas |
+|---|---|---|
+| **Ewerton Guilherme da Silva e Lucas Aprígio dos Santos** | Back-end e estrutura interna | Atuaram em conjunto na organização da lógica interna do sistema, definição da estrutura de suporte do projeto e planejamento das principais funcionalidades. Esse par contribuiu para o funcionamento da base do jogo, pensando em como os dados seriam organizados, como as regras seriam aplicadas e como o sistema deveria responder às ações do jogador. A colaboração entre os dois ajudou a manter uma estrutura mais consistente e facilitou a integração das funcionalidades internas com as demais partes do projeto. |
+| **Lauan Gonçalves dos Santos e Davi Magno Campelo do Nascimento** | Prototipação, interface e navegação | Trabalharam em conjunto na organização visual do projeto, na prototipação das telas e na construção das interações visíveis ao jogador. Lauan contribuiu com o apoio à organização visual, representação dos fluxos e estrutura das interfaces, enquanto Davi colaborou na construção dos menus, mensagens e navegação do sistema. Esse par foi importante para tornar a experiência do usuário mais clara, organizada e compreensível durante a execução do jogo. |
+| **Mateus Valerino Barros de Santana e Davi Magno Campelo do Nascimento** | Front-end e experiência do jogador | Atuaram na construção das telas, apresentação das informações e melhoria da experiência do jogador. A programação em par nessa etapa ajudou a revisar o posicionamento dos elementos, a clareza das mensagens exibidas e a navegação entre as partes do jogo. A colaboração entre os dois permitiu que a interface ficasse mais alinhada com a proposta do projeto, evitando telas confusas, informações mal distribuídas ou interações pouco intuitivas. |
+| **João Ricardo Alves de Brito e Ewerton Guilherme da Silva** | Regras do sistema, dados e mecânicas principais | Trabalharam no apoio à lógica interna da aplicação, organização dos dados e definição das regras do sistema. João Ricardo, como Product Owner, contribuiu com a visão do funcionamento das principais mecânicas e com a organização das necessidades do projeto. Ewerton apoiou a parte técnica e estrutural dessas decisões. Esse par foi essencial para alinhar o que o jogo precisava fazer com a forma como essas regras seriam implementadas no sistema. |
+| **Aquiles Pereira dos Santos e Lucas Aprígio dos Santos** | Testes, validação e comportamento esperado | Atuaram na verificação das funcionalidades implementadas, testando se o sistema estava funcionando conforme o esperado. Aquiles contribuiu com a validação das mecânicas, identificação de possíveis falhas e conferência do comportamento das funcionalidades. Lucas apoiou na análise das funcionalidades internas e nos ajustes necessários. Esse par ajudou a garantir que o jogo não apenas estivesse implementado, mas também apresentasse um funcionamento coerente durante os testes. |
+| **Aquiles Pereira dos Santos e Mateus Valerino Barros de Santana** | Testes de interface e usabilidade | Colaboraram na validação das telas e da experiência visual do jogador. Enquanto Mateus atuou na construção e melhoria da interface, Aquiles realizou testes para verificar se as informações estavam sendo exibidas corretamente e se as interações funcionavam como esperado. Essa colaboração foi importante para identificar ajustes de usabilidade, organização visual e possíveis problemas durante a execução do jogo. |
 
 ---
 
-### Par 3 — Gestão e Testes
+## Justificativa para a organização do trabalho
 
-| Integrantes | Área de atuação |
-| :--- | :--- |
-| Lauan Gonçalves dos Santos e Aquiles Pereira dos Santos | Organização, acompanhamento, testes e validação das funcionalidades |
+A equipe possui **7 integrantes**, com diferentes funções dentro do projeto, incluindo Product Owner, Scrum Master, desenvolvedores back-end, desenvolvedores front-end e responsável por testes/QA. Por esse motivo, nem todas as atividades foram realizadas exclusivamente em par durante todo o desenvolvimento.
 
-#### Atuação do par
+A programação em par foi aplicada nos momentos em que havia maior necessidade de **revisão, alinhamento técnico, integração de ideias e validação das funcionalidades**. Também foi necessário considerar a realidade de disponibilidade dos membros da equipe, já que alguns integrantes trabalham, fazem estágio ou possuem outras responsabilidades acadêmicas e pessoais.
 
-Lauan e Aquiles atuaram em conjunto na parte de organização e validação do projeto.  
-Lauan, como **Scrum Master**, acompanhou as entregas, organizou as tarefas, ajudou na divisão das atividades e auxiliou na preparação das issues e documentação do GitHub.
+Essas diferenças de rotina dificultaram a realização de encontros presenciais frequentes com todos os integrantes ao mesmo tempo. Dessa forma, a equipe precisou organizar o desenvolvimento de maneira flexível, combinando encontros presenciais, reuniões remotas e divisão de tarefas individuais.
 
-Aquiles, como **Testes / QA**, validou as funcionalidades implementadas, testando fluxo de telas, botões, mensagens, perguntas, loja, cartas especiais, recompensas e telas finais.
+Além disso, o integrante **Aquiles Pereira dos Santos** está em período de alistamento militar, o que impactou sua disponibilidade para participar presencialmente em alguns momentos. Mesmo assim, ele contribuiu com o projeto principalmente por meio de encontros remotos, auxiliando nos testes, na validação das funcionalidades e na verificação do comportamento esperado do sistema.
 
-Essa dupla foi importante para verificar se o jogo estava funcionando corretamente e se as telas estavam compreensíveis para o jogador.
+Essa organização permitiu que o projeto continuasse avançando mesmo com limitações de horário entre os integrantes. As tarefas que exigiam maior integração, como lógica do sistema, interface, testes e definição das regras principais, foram priorizadas para trabalho em par. Já atividades mais específicas, de menor dependência ou relacionadas à função individual de cada membro, foram desenvolvidas separadamente e depois revisadas pela equipe.
 
-#### Funcionalidadess acompanhadas e testadas
-
-| Funcionalidade | Tipo de validação |
-| :--- | :--- |
-| Início de Partida | Fluxo inicial e vínculo de jogador |
-| Sistema de Fases | Avanço entre fases e metas |
-| Sistema de Perguntas | Acertos, erros e alternativas |
-| BOSS | Pergunta especial e penalidades |
-| Sistema de Moeda | Ganho e uso das moedas |
-| Sistema de Loja | Compra e atualização de itens |
-| Sistema de Pacotes | Exibição e compra |
-| Coringas | Visualização e efeitos |
-| Cartas de Tarot | Visualização e uso |
-| Cupons | Liberação e exibição |
-| Recompensas de Fase | Cálculo e tela de pagamento |
-| Feedback Visual | Mensagens, telas finais e avisos |
-
-#### Telas analisadas
-
-<p align="center">
-  <img src="UH1.jpeg" width="380" alt="Menu principal">
-</p>
-
-<p align="center">
-  <img src="UH2.jpeg" width="380" alt="Seleção de desafio">
-</p>
-
-<p align="center">
-  <img src="UH3.jpeg" width="380" alt="Pergunta de fase">
-</p>
-
-<p align="center">
-  <img src="UH6.jpeg" width="380" alt="Loja">
-</p>
-
-<p align="center">
-  <img src="UH12.1.jpeg" width="380" alt="Histórico por jogador">
-</p>
-
-<p align="center">
-  <img src="UH12.3.jpeg" width="380" alt="Ranking por modalidade">
-</p>
+Dessa forma, a programação em par não foi utilizada apenas como uma divisão fixa de duplas, mas como uma estratégia de colaboração aplicada nos momentos mais importantes do projeto. Isso ajudou a melhorar a qualidade das entregas, reduzir erros, facilitar a comunicação entre os membros e garantir que o conhecimento sobre o sistema fosse compartilhado entre mais de uma pessoa.
 
 ---
 
-### Product Owner — Validação com os pares
+## O que aprendemos com essa prática
 
-| Integrante | Área de atuação |
-| :--- | :--- |
-| João Ricardo Alves de Brito | Validação do produto e experiência do jogador |
+A experiência com programação em par mostrou que o trabalho colaborativo ajuda bastante na identificação de problemas e na melhoria da qualidade do projeto. Quando duas pessoas analisam a mesma funcionalidade, fica mais fácil perceber erros de lógica, falhas na interface, problemas de organização ou comportamentos inesperados durante a execução do sistema.
 
-#### Atuação com os pares
+Também percebemos que a comunicação entre os integrantes é essencial para que o projeto avance de forma organizada. Como a equipe possui membros com rotinas diferentes, foi necessário planejar melhor os momentos de reunião, dividir responsabilidades e utilizar encontros remotos quando não era possível reunir todos presencialmente.
 
-João Ricardo atuou em ligação com todos os pares da equipe.  
-Como **Product Owner**, ele validou se as funcionalidades faziam sentido dentro da proposta do jogo e se o MetaDeck mantinha sua ideia principal: unir **cartas, estratégia e perguntas educacionais**.
+Outro aprendizado importante foi entender que o trabalho em equipe não depende apenas de todos estarem presentes ao mesmo tempo. Mesmo com limitações de horário, estágios, trabalho, compromissos pessoais e participação remota de alguns integrantes, foi possível manter a colaboração por meio de revisões, testes, troca de ideias e acompanhamento das funcionalidades desenvolvidas.
 
-Com o par de back-end, João acompanhou a lógica de fases, perguntas, Boss, moedas e cartas especiais.  
-Com o par de front-end, validou se as telas estavam claras e se o jogador conseguia entender as informações apresentadas.  
-Com o par de gestão e QA, acompanhou os testes e ajudou a priorizar melhorias.
+A programação em par contribuiu para que o projeto tivesse uma construção mais segura, pois as funcionalidades passaram por mais de uma análise antes de serem consideradas finalizadas. Isso fortaleceu a integração entre front-end, back-end, testes e organização geral do sistema, além de permitir que os integrantes compreendessem melhor o funcionamento completo do jogo.
+```
 
-#### Funcionalidadess validadas
-
-| Funcionalidade | Validação realizada |
-| :--- | :--- |
-| Início de Partida | Clareza do menu e fluxo inicial |
-| Sistema de Fases | Progressão da run |
-| Sistema de Perguntas | Relação com o objetivo educacional |
-| BOSS | Dificuldade e desafio especial |
-| Sistema de Moeda | Uso estratégico na loja |
-| Sistema de Loja | Utilidade dos itens |
-| Sistema de Pacotes | Vantagem para a run |
-| Coringas | Estratégia e efeito na partida |
-| Cartas de Tarot | Efeito especial e clareza |
-| Cupons | Benefícios e progressão |
-| Recompensas de Fase | Entendimento do jogador |
-| Feedback Visual | Clareza das mensagens e telas finais |
-
-#### Telas validadas
-
-<p align="center">
-  <img src="UH1.jpeg" width="380" alt="Menu principal">
-</p>
-
-<p align="center">
-  <img src="UH1.1.jpeg" width="380" alt="Perfil da run">
-</p>
-
-<p align="center">
-  <img src="UH4.png" width="380" alt="Blind chefe">
-</p>
-
-<p align="center">
-  <img src="UH12.jpeg" width="380" alt="Run concluída">
-</p>
-
-<p align="center">
-  <img src="UH12.2.jpeg" width="380" alt="Fim de jogo">
-</p>
-
----
 
 ## Equipe
 
