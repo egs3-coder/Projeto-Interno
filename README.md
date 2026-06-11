@@ -519,6 +519,24 @@ A programação em par contribuiu para que o projeto tivesse uma construção ma
 
 ---
 
+## Lições Aprendidas
+
+Durante o desenvolvimento do **MetaDeck**, a equipe aprendeu que organização e comunicação são essenciais para manter o projeto alinhado.
+
+Também percebemos que a **programação em par** ajudou a melhorar a qualidade do código, reduzir erros e compartilhar conhecimento entre os integrantes.
+
+Principais aprendizados:
+
+- Comunicação constante evita retrabalho;
+- Programação em par melhora a qualidade das entregas;
+- Testar durante o desenvolvimento evita problemas no final;
+- O uso do Trello ajudou na organização das tarefas;
+- O Figma facilitou a visualização das telas;
+- O Product Owner ajudou a manter o foco no escopo;
+- Controlar bem o escopo foi essencial para concluir o projeto.
+
+---
+
 ## Equipe
 
 A equipe do **MetaDeck** foi organizada de forma colaborativa, distribuindo responsabilidades entre planejamento, prototipação, desenvolvimento, testes e apoio à documentação do projeto.
