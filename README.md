@@ -52,6 +52,7 @@ A proposta do jogo é oferecer uma experiência envolvente e lúdica, em que est
 
 ⚙️ JavaScript
 
+💻 Linguagem C
 ---
 
 ## Demonstração do Projeto
